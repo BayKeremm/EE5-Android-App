@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -29,6 +31,7 @@ public class SettingsFragment extends Fragment {
     private TextView textLightLevelControl;
     private Switch switchWatering;
     private Switch switchLightLevelControl;
+    private StringBuilder mqttMessage = new StringBuilder("00");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,32 +44,44 @@ public class SettingsFragment extends Fragment {
         switchWatering = (Switch) view.findViewById(R.id.switchWatering);
         switchLightLevelControl = (Switch) view.findViewById(R.id.switchLightLevelControl);
 
+        mqttConnectAndSubscribe();
+
+
         switchWatering.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked==true){
-                    mqttConnect("WaterON");
+                    // Water on
+                    changeMqttMessage(1, '1');
                 } else {
-                    mqttConnect("WaterOFF");
+                    // Water off
+                    changeMqttMessage(1, '0');
                 }
+                mqttConnectAndPublish(mqttMessage.toString());
             }
         });
         switchLightLevelControl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked==true){
-                    mqttConnect("LightON");
+                    // Light on
+                    changeMqttMessage(0, '1');
                 } else {
-                    mqttConnect("LightOFF");
+                    // Light off
+                    changeMqttMessage(0, '0');
                 }
+                mqttConnectAndPublish(mqttMessage.toString());
             }
         });
 
         return view;
     }
 
-    // from https://www.hivemq.com/blog/mqtt-client-library-enyclopedia-paho-android-service/
-    public void mqttConnect(String message){
+    public void changeMqttMessage(int index, char status){
+        mqttMessage.setCharAt(index, status);
+    }
+
+    public void mqttConnectAndPublish(String message){
         String clientId = MqttClient.generateClientId();
         MqttAndroidClient client =
                 new MqttAndroidClient(getContext(), "tcp://broker.hivemq.com:1883",
@@ -94,8 +109,36 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    public void mqttConnectAndSubscribe(){
+        String clientId = MqttClient.generateClientId();
+        MqttAndroidClient client =
+                new MqttAndroidClient(getContext(), "tcp://broker.hivemq.com:1883",
+                        clientId);
+        Log.d(TAG, "starts try");
+        try {
+            IMqttToken token = client.connect();
+            token.setActionCallback(new IMqttActionListener() {
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    // We are connected
+                    Log.d(TAG, "onSuccess");
+                    mqttSubscribe(client);
+                }
+
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    // Something went wrong e.g. connection timeout or firewall problems.
+                    Log.d(TAG, "onFailure");
+
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void mqttPublish(MqttAndroidClient client, String messageString){
-        String topic = "michiel";
+        String topic = "/EE5iot15/commands";
         String payload = messageString;
         byte[] encodedPayload = new byte[0];
         try {
@@ -107,4 +150,39 @@ public class SettingsFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
+    public void mqttSubscribe(MqttAndroidClient client) {
+        String topic = "/EE5iot15/warnings";
+        int qos = 1;
+        try {
+            client.subscribe(topic, qos);
+            client.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) {
+
+                }
+
+                @Override
+                public void messageArrived(String topic, MqttMessage message) throws Exception {
+                    textAutomations.setText(new String(message.getPayload()));
+                }
+
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken token) {
+
+                }
+            });
+
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+    //Override methods from MqttCallback interface
+    //@Override
+    public void messageArrived(String topic, MqttMessage message) throws Exception {
+        System.out.println("message is : "+message);
+    }
+
+
+
 }
