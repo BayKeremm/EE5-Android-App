@@ -12,22 +12,33 @@
         android:layout_height="match_parent">
 
 
+        <Button
+            android:id="@+id/wifiBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Connect with device"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/textAutomations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="20dp"
             android:text="Automations"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/wifiBtn" />
 
         <TextView
             android:id="@+id/textWatering"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="40dp"
             android:text="Watering"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -38,17 +49,27 @@
             android:id="@+id/switchWatering"
             android:layout_width="70dp"
             android:layout_height="68dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textWatering" />
 
         <TextView
+            android:id="@+id/textWateringAutomationState"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_marginTop="18dp"
+            android:text="Off"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/switchWatering"
+            app:layout_constraintTop_toBottomOf="@+id/textWatering" />
+
+        <TextView
             android:id="@+id/textLightLevelControl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="10dp"
             android:text="Light Level Control"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -59,11 +80,37 @@
             android:id="@+id/switchLightLevelControl"
             android:layout_width="54dp"
             android:layout_height="55dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textLightLevelControl" />
+
+        <TextView
+            android:id="@+id/textLightAutomationState"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_marginTop="18dp"
+            android:text="Manual"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/switchLightLevelControl"
+            app:layout_constraintTop_toBottomOf="@+id/textLightLevelControl" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/lightLevelControlSlider"
+            android:layout_width="220dp"
+            android:layout_height="55dp"
+            android:valueFrom="0.0"
+            android:valueTo="100.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/switchLightLevelControl"
+            app:haloColor="@color/colorAccent"
+            app:thumbColor="@color/colorPrimaryDark"
+            app:trackColor="@color/colorAccent"/>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

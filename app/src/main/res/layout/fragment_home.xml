@@ -66,7 +66,7 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center_horizontal"
-                android:text="Water"
+                android:text="Moisture"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"

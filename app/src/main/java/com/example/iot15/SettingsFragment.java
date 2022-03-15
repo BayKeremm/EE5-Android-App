@@ -1,16 +1,21 @@
 package com.example.iot15;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import com.google.android.material.slider.Slider;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -32,6 +37,10 @@ public class SettingsFragment extends Fragment {
     private Switch switchWatering;
     private Switch switchLightLevelControl;
     private StringBuilder mqttMessage = new StringBuilder("00");
+    private Button wifiBtn;
+    private Slider lightLevelControlSlider;
+    private TextView textLightAutomationState;
+    private TextView textWateringAutomationState;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,9 +52,16 @@ public class SettingsFragment extends Fragment {
         textLightLevelControl = (TextView) view.findViewById(R.id.textLightLevelControl);
         switchWatering = (Switch) view.findViewById(R.id.switchWatering);
         switchLightLevelControl = (Switch) view.findViewById(R.id.switchLightLevelControl);
+        wifiBtn = (Button) view.findViewById(R.id.wifiBtn);
+        lightLevelControlSlider = (Slider) view.findViewById(R.id.lightLevelControlSlider);
+        textLightAutomationState = (TextView) view.findViewById(R.id.textLightAutomationState);
+        textWateringAutomationState = (TextView) view.findViewById(R.id.textWateringAutomationState);
+
+        wifiBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), EspTouchActivity.class)));
 
         mqttConnectAndSubscribe();
 
+        lightLevelControlSlider.addOnChangeListener((slider, value, fromUser) -> mqttConnectAndPublish("/EE5iot15/lightlevel","" + value));
 
         switchWatering.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -53,11 +69,13 @@ public class SettingsFragment extends Fragment {
                 if(isChecked==true){
                     // Water on
                     changeMqttMessage(1, '1');
+                    textWateringAutomationState.setText("On");
                 } else {
                     // Water off
                     changeMqttMessage(1, '0');
+                    textWateringAutomationState.setText("Off");
                 }
-                mqttConnectAndPublish(mqttMessage.toString());
+                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
             }
         });
         switchLightLevelControl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -66,11 +84,15 @@ public class SettingsFragment extends Fragment {
                 if(isChecked==true){
                     // Light on
                     changeMqttMessage(0, '1');
+                    lightLevelControlSlider.setVisibility(View.GONE);
+                    textLightAutomationState.setText("Automatic");
                 } else {
-                    // Light off
+                    // Light off, aka manual
                     changeMqttMessage(0, '0');
+                    lightLevelControlSlider.setVisibility(View.VISIBLE);
+                    textLightAutomationState.setText("Manual");
                 }
-                mqttConnectAndPublish(mqttMessage.toString());
+                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
             }
         });
 
@@ -81,7 +103,7 @@ public class SettingsFragment extends Fragment {
         mqttMessage.setCharAt(index, status);
     }
 
-    public void mqttConnectAndPublish(String message){
+    public void mqttConnectAndPublish(String topic, String message){
         String clientId = MqttClient.generateClientId();
         MqttAndroidClient client =
                 new MqttAndroidClient(getContext(), "tcp://broker.hivemq.com:1883",
@@ -93,7 +115,7 @@ public class SettingsFragment extends Fragment {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     // We are connected
-                    mqttPublish(client, message);
+                    mqttPublish(client, topic, message);
                     Log.d(TAG, "onSuccess");
                 }
 
@@ -137,8 +159,7 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    public void mqttPublish(MqttAndroidClient client, String messageString){
-        String topic = "/EE5iot15/commands";
+    public void mqttPublish(MqttAndroidClient client, String topic, String messageString){
         String payload = messageString;
         byte[] encodedPayload = new byte[0];
         try {
@@ -152,10 +173,10 @@ public class SettingsFragment extends Fragment {
     }
 
     public void mqttSubscribe(MqttAndroidClient client) {
-        String topic = "/EE5iot15/warnings";
         int qos = 1;
         try {
-            client.subscribe(topic, qos);
+            client.subscribe("/EE5iot15/warnings", qos);
+            client.subscribe("/EE5iot15/commands",qos);
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
@@ -164,7 +185,19 @@ public class SettingsFragment extends Fragment {
 
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    textAutomations.setText(new String(message.getPayload()));
+                    if(topic.compareTo("/EE5iot15/warnings") == 0){
+                        // show warnings somewhere
+                    }
+                    else if(topic.compareTo("/EE5iot15/commands") == 0){
+                        String response = new String(message.getPayload());
+                        mqttMessage = new StringBuilder(response);
+                        if(response.charAt(0) == '1'){
+                            switchLightLevelControl.setChecked(true);
+                        }
+                        if(response.charAt(1) == '1'){
+                            switchWatering.setChecked(true);
+                        }
+                    }
                 }
 
                 @Override
