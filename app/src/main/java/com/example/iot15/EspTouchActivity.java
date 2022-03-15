@@ -17,16 +17,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 
+import com.example.iot15.EspTouchActivityAbs;
+import com.example.iot15.EspTouchApp;
+import com.espressif.iot.esptouch.EsptouchTask;
+import com.espressif.iot.esptouch.IEsptouchResult;
+import com.espressif.iot.esptouch.IEsptouchTask;
+import com.espressif.iot.esptouch.util.ByteUtil;
+import com.espressif.iot.esptouch.util.TouchNetUtil;
 import com.google.android.material.textfield.TextInputEditText;
-
-import esptouch.EsptouchTask;
-import esptouch.IEsptouchResult;
-import esptouch.IEsptouchTask;
-import esptouch.util.ByteUtil;
-import esptouch.util.TouchNetUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -53,6 +53,7 @@ public class EspTouchActivity extends EspTouchActivityAbs {
     private TextInputEditText deviceCountEdit;
     private RadioGroup packageModeGroup;
     private TextView testResult;
+
 
     private String mSsid;
     private byte[] mSsidBytes;
@@ -86,17 +87,27 @@ public class EspTouchActivity extends EspTouchActivityAbs {
         packageModeGroup = findViewById(R.id.packageModeGroup);
         testResult = findViewById(R.id.testResult);
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
             requestPermissions(permissions, REQUEST_PERMISSION);
         }
 
-        LifecycleOwner lifecycleOwner = this;
-        EspTouchApp.getInstance().observeBroadcast(lifecycleOwner, broadcast -> {
-            Log.d(TAG, "onCreate: Broadcast=" + broadcast);
-            onWifiChanged();
-        });
+
+        Observer<String> observer = new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                Log.d(TAG, "onCreate: Broadcast=" );
+                onWifiChanged();
+            }
+        };
+
+        EspTouchApp.getInstance().observeBroadcast(this, observer);
+
+//        EspTouchApp.getInstance().observeBroadcast(this, broadcast -> {
+//            Log.d(TAG, "onCreate: Broadcast=" + broadcast);
+//            onWifiChanged();
+//        });
+
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

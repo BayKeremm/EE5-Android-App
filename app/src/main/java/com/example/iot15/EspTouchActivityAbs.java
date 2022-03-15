@@ -20,7 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.location.LocationManagerCompat;
 
-import esptouch.provision.TouchNetUtil;
+import com.espressif.iot.esptouch2.provision.TouchNetUtil;
 
 import java.net.InetAddress;
 
