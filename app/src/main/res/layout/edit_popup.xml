@@ -56,7 +56,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textChangeImage" />
+        app:layout_constraintTop_toBottomOf="@+id/textChangeImage"
+        app:strokeColor="@color/white" />
 
     <Button
         android:id="@+id/cancelEditBtn"
