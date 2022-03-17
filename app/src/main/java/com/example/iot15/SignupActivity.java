@@ -72,8 +72,7 @@ public class SignupActivity extends AppCompatActivity {
 
             signUpSQL(username, password);
 
-            Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
-            // Here you can call you API
+            //Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -83,6 +82,7 @@ public class SignupActivity extends AppCompatActivity {
         String url="https://studev.groept.be/api/a21iot15/sign_up_user/" + username + "/" + password;
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             try {
+                    System.out.println(url);
                     startActivity(new Intent(this, LoginActivity.class));
                 }
             catch (Exception e){

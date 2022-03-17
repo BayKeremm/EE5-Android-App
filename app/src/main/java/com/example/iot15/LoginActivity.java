@@ -77,10 +77,13 @@ public class LoginActivity extends AppCompatActivity {
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray responseJSON = new JSONArray(response);
+                System.out.println("\n" + responseJSON + "\n");
                 // compare passwords
-                if(responseJSON.getJSONObject(0).getString("username").compareTo(password) == 0){
-                    // move to next screen
-                    startActivity(new Intent(this, MainActivity.class));
+                if(responseJSON.getJSONObject(0).getString("password").compareTo(password) == 0){
+                    // move to next screen and pass on username
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    intent.putExtra("username", responseJSON.getJSONObject(0).getString("username"));
+                    startActivity(intent);
                 }
             }
             catch (Exception e){

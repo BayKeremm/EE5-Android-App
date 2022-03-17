@@ -11,6 +11,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
+    // retrieve username from Login activity
+    //public String username = getIntent().getStringExtra("username");
+
     private BottomNavigationView bottomNavigationView;
 
     @Override
