@@ -20,10 +20,11 @@
         <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/app/IoT15-EE5-plant/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
         <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/app/IoT15-EE5-plant/app/src/main/res/menu/bottom_menu.xml" value="0.1" />
         <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/app/IoT15-EE5-plant/app/src/main/res/menu/edit_icon.xml" value="0.20555555555555555" />
+        <entry key="app/src/main/res/layout/edit_popup.xml" value="0.19610507246376813" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
