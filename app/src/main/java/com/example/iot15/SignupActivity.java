@@ -35,8 +35,6 @@ public class SignupActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.et_password);
         etRepeatPassword = findViewById(R.id.et_repeat_password);
 
-        // To show back button in actionbar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     // Checking if the input in form is valid

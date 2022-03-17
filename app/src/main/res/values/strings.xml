@@ -29,4 +29,30 @@
     <string name="esptouch1_configure_result_failed_port">Create EspTouch task failed, the EspTouch port could be used by other thread</string>
     <string name="esptouch1_configure_result_success">EspTouch 完成</string>
     <string name="esptouch1_configure_result_success_item">BSSID = %1$s, InetAddress = %2$s</string>
+    <string name="account_login">Account Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="connect_with_device">Connect with device</string>
+    <string name="automations">Automations</string>
+    <string name="watering">Watering</string>
+    <string name="off">Off</string>
+    <string name="manual">Manual</string>
+    <string name="light_level_control">Light Level Control</string>
+    <string name="settings">Settings</string>
+    <string name="name">Name:</string>
+    <string name="change_image">Change Image</string>
+    <string name="plant_type">Plant Type:</string>
+    <string name="cancel">Cancel</string>
+    <string name="apply">Apply</string>
+    <string name="my_plant">My Plant</string>
+    <string name="moisture">Moisture</string>
+    <string name="temperature">Temperature</string>
+    <string name="light_level">Light Level</string>
+    <string name="last_modified">Last Modified:</string>
+    <string name="create_an_account">Create an Account</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="_1">1</string>
 </resources>

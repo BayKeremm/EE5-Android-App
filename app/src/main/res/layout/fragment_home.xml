@@ -25,7 +25,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="48dp"
-                    android:text="My Plant"
+                    android:text="@string/my_plant"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +52,7 @@
             android:layout_height="80dp"
             android:layout_below="@id/relativeChild1"
             android:layout_centerHorizontal="true"
+            tools:ignore="ImageContrastCheck"
             tools:srcCompat="@drawable/ic_pizza" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,7 +67,7 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="16dp"
                 android:gravity="center_horizontal"
-                android:text="Moisture"
+                android:text="@string/moisture"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +96,7 @@
 
             <TextView
                 android:id="@+id/textTemperature"
-                android:text="Temperature"
+                android:text="@string/temperature"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -128,7 +129,7 @@
 
             <TextView
                 android:id="@+id/textLight"
-                android:text="Light Level"
+                android:text="@string/light_level"
                 android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
@@ -160,7 +161,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="35dp"
             android:layout_marginEnd="8dp"
-            android:text="Last Modified:" />
+            android:text="@string/last_modified" />
 
     </RelativeLayout>
 
