@@ -17,20 +17,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IoT15">
-        <activity android:name=".EspTouchActivity"></activity>
-        <activity android:name=".EspTouchActivityAbs"></activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".SignupActivity"></activity>
+        <activity
+            android:name=".AndroidListViewActivity"
+            android:exported="false" />
+        <activity android:name=".EspTouchActivity" />
+        <activity android:name=".EspTouchActivityAbs" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SignupActivity" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name="org.eclipse.paho.android.service.MqttService" >
-        </service>
+
+        <service android:name="org.eclipse.paho.android.service.MqttService"></service>
     </application>
 
 </manifest>
