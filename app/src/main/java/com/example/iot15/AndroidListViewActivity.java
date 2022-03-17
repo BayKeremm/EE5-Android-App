@@ -26,9 +26,8 @@ public class AndroidListViewActivity extends ListActivity {
 
         // listening to single list item on click
         lv.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id)
+            {
                 // selected item
                 String product = ((TextView) view).getText().toString();
 
