@@ -47,8 +47,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textName" />
 
-    <TextView
-        android:id="@+id/textPlantType"
+    <Button
+        android:id="@+id/plantTypeBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
@@ -67,7 +67,7 @@
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textPlantType" />
+        app:layout_constraintTop_toBottomOf="@+id/plantTypeBtn" />
 
     <Button
         android:id="@+id/applyEditBtn"
@@ -78,18 +78,8 @@
         android:text="@string/apply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textPlantType" />
+        app:layout_constraintTop_toBottomOf="@+id/plantTypeBtn" />
 
-    <ExpandableListView
-        android:id="@+id/expandableList"
-        android:layout_width="200dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="56dp"
-        android:text="Plant Type:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textChangeImage" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

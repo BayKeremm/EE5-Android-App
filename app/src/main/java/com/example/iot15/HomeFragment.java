@@ -1,6 +1,7 @@
 package com.example.iot15;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private Button cancelEditBtn, applyEditBtn;
+    private Button plantTypeBtn;
 
     private List<SensorData> sensorDataList =new ArrayList<>();
 
@@ -85,6 +87,7 @@ public class HomeFragment extends Fragment {
 
         cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
         applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
+        plantTypeBtn = (Button) editDialogView.findViewById(R.id.plantTypeBtn);
 
         dialogBuilder.setView(editDialogView);
         dialog = dialogBuilder.create();
@@ -104,7 +107,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
+        plantTypeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AndroidListViewActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
