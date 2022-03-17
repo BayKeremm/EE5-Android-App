@@ -105,6 +105,8 @@ public class HomeFragment extends Fragment {
         });
     }
 
+
+
     private void addToArray(String response){
         try {
             JSONArray jsonArray = new JSONArray(response);
