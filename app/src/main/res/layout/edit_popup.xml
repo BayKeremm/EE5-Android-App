@@ -80,5 +80,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textPlantType" />
 
+    <ExpandableListView
+        android:id="@+id/expandableList"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="56dp"
+        android:text="Plant Type:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textChangeImage" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
