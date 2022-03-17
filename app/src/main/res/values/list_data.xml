@@ -2,14 +2,6 @@
 <resources>
     <string-array name="plant_types">
         <item>Bromelia</item>
-        <item></item>
-        <item>Adobe Dreamweaver</item>
-        <item>Adobe Edge</item>
-        <item>Adobe Fireworks</item>
-        <item>Adobe Flash</item>
-        <item>Adobe Photoshop</item>
-        <item>Adobe Premiere</item>
-        <item>Adobe Reader</item>
-        <item>Adobe Illustrator</item>
+        <item>Pineapple plant</item>
     </string-array>
 </resources>
