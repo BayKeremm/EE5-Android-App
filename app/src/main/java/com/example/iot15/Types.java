@@ -213,4 +213,5 @@ public class Types extends Fragment {
         plant_types.add("Aloë Vera");
 
         listDataChild.put(listDataHeader.get(0), plant_types); // Header, Child data
+    }
 }
