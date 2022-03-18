@@ -123,6 +123,33 @@ public class Types extends Fragment {
         //doe iets met list
         prepareListData();
         listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
+        //expListView = (ExpandableListView) findViewById(R.id.plantTypeList);
+        //nog dingen tussen expListView
+
+        expListView.setOnGroupExpandListener(new OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getContext(),
+                        listDataHeader.get(groupPosition) + " Expanded",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Listview on child click listener
+        expListView.setOnChildClickListener(new OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
+                // TODO Auto-generated method stub
+                Toast.makeText(getContext(),listDataHeader.get(groupPosition)+ " : "+
+                        listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition),
+                        Toast.LENGTH_SHORT)
+                        .show();
+                return false;
+            }
+        });
+
 
     }
 
