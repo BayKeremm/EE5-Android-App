@@ -18,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IoT15">
         <activity
+            android:name=".Types"
+            android:exported="false" />
+        <activity
+            android:name=".Plants"
+            android:exported="false" />
+        <activity
             android:name=".AndroidListViewActivity"
             android:exported="false" />
         <activity android:name=".EspTouchActivity" />
@@ -34,7 +40,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="org.eclipse.paho.android.service.MqttService"></service>
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
 </manifest>

@@ -26,8 +26,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import android.app.Activity;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.Toast;
 
-public class HomeFragment extends Fragment {
+public class Types extends Fragment {
     public static final String TAG = "HomeFragment";
 
 
@@ -47,13 +55,18 @@ public class HomeFragment extends Fragment {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private Button cancelEditBtn, applyEditBtn;
-    private Button plantTypeBtn;
+    private TextView plantTypeList;
 
     private List<SensorData> sensorDataList =new ArrayList<>();
 
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         textWater = (TextView) view.findViewById(R.id.textWater);
@@ -83,11 +96,11 @@ public class HomeFragment extends Fragment {
 
     public void createEditDialog(){
         dialogBuilder = new AlertDialog.Builder(getActivity());
-        final View editDialogView = getLayoutInflater().inflate(R.layout.edit_popup, null);
+        final View editDialogView = getLayoutInflater().inflate(R.layout.finnn, null);
 
         cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
         applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
-        plantTypeBtn = (Button) editDialogView.findViewById(R.id.plantTypeBtn);
+        plantTypeList = (TextView) editDialogView.findViewById(R.id.plantTypeList);
 
         dialogBuilder.setView(editDialogView);
         dialog = dialogBuilder.create();
@@ -107,13 +120,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        plantTypeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(), Types.class);
-                startActivity(intent);
-            }
-        });
+        //doe iets met list
+        prepareListData();
+        listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
+
     }
 
 
@@ -131,10 +141,10 @@ public class HomeFragment extends Fragment {
                 System.out.println(sensorData.toString());
                 sensorDataList.add(sensorData);
             }
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void addRecentData(){
@@ -187,4 +197,20 @@ public class HomeFragment extends Fragment {
 
         queue.add(stringRequest);
     }
+
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+
+        // Adding child data
+        listDataHeader.add("Plant type");
+
+        // Adding child data
+        List<String> plant_types = new ArrayList<String>();
+        plant_types.add("Bromelia");
+        plant_types.add("Pineapple Plant");
+        plant_types.add("Cactus");
+        plant_types.add("Aloë Vera");
+
+        listDataChild.put(listDataHeader.get(0), plant_types); // Header, Child data
 }
