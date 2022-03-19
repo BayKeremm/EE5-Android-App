@@ -40,12 +40,25 @@
         android:id="@+id/textChangeImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="44dp"
         android:text="@string/change_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textName" />
+
+    <ExpandableListView
+        android:id="@+id/plant_types"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textName" />
+        app:layout_constraintTop_toBottomOf="@+id/textChangeImage"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:textSize="17dp"
+        android:textColor="#f9f93d" />
 
     <TextView
         android:id="@+id/plantTypeList"
@@ -64,24 +77,25 @@
         android:id="@+id/cancelEditBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
+        android:layout_marginStart="56dp"
         android:layout_marginBottom="52dp"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plantTypeList" />
+        app:layout_constraintTop_toBottomOf="@+id/plantTypeList"
+        app:layout_constraintVertical_bias="0.713" />
 
     <Button
         android:id="@+id/applyEditBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="72dp"
         android:layout_marginBottom="52dp"
         android:text="@string/apply"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plantTypeList" />
-
+        app:layout_constraintTop_toBottomOf="@+id/plantTypeList"
+        app:layout_constraintVertical_bias="0.713" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

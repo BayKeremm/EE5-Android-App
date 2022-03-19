@@ -56,6 +56,7 @@ public class Types extends Fragment {
     private AlertDialog dialog;
     private Button cancelEditBtn, applyEditBtn;
     private TextView plantTypeList;
+    private ExpandableListView plantTypes;
 
     private List<SensorData> sensorDataList =new ArrayList<>();
 
@@ -101,6 +102,7 @@ public class Types extends Fragment {
         cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
         applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
         plantTypeList = (TextView) editDialogView.findViewById(R.id.plantTypeList);
+        plantTypes = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
 
         dialogBuilder.setView(editDialogView);
         dialog = dialogBuilder.create();
@@ -120,37 +122,31 @@ public class Types extends Fragment {
             }
         });
 
-        //doe iets met list
+
+        expListView = plantTypes;
         prepareListData();
         listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
-        //expListView = (ExpandableListView) findViewById(R.id.plantTypeList);
-        //nog dingen tussen expListView
+        expListView.setAdapter(listAdapter);
 
         expListView.setOnGroupExpandListener(new OnGroupExpandListener() {
-
             @Override
-            public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getContext(),
-                        listDataHeader.get(groupPosition) + " Expanded",
-                        Toast.LENGTH_SHORT).show();
-            }
+            public void onGroupExpand(int groupPosition) {}
+        });
+
+        expListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {}
         });
 
         // Listview on child click listener
         expListView.setOnChildClickListener(new OnChildClickListener() {
-
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
                 // TODO Auto-generated method stub
-                Toast.makeText(getContext(),listDataHeader.get(groupPosition)+ " : "+
-                        listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition),
-                        Toast.LENGTH_SHORT)
-                        .show();
+                //hier schrijven wat er moet gebeuren als dat child gekozen word
                 return false;
             }
         });
-
-
     }
 
 
