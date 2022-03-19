@@ -97,11 +97,10 @@ public class HomeFragment extends Fragment {
 
     public void createEditDialog(){
         dialogBuilder = new AlertDialog.Builder(getActivity());
-        final View editDialogView = getLayoutInflater().inflate(R.layout.finnn, null);
+        final View editDialogView = getLayoutInflater().inflate(R.layout.edit_popup, null);
 
         cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
         applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
-        //plantTypeList = (TextView) editDialogView.findViewById(R.id.plantTypeList);
         plantTypes = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
 
         dialogBuilder.setView(editDialogView);
@@ -144,11 +143,11 @@ public class HomeFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
                 // TODO Auto-generated method stub
                 //hier schrijven wat er moet gebeuren als dat child gekozen word
+                expListView.collapseGroup(groupPosition);
                 return false;
             }
         });
     }
-
 
 
     private void addToArray(String response){
