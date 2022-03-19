@@ -101,7 +101,7 @@ public class HomeFragment extends Fragment {
 
         cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
         applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
-        plantTypeList = (TextView) editDialogView.findViewById(R.id.plantTypeList);
+        //plantTypeList = (TextView) editDialogView.findViewById(R.id.plantTypeList);
         plantTypes = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
 
         dialogBuilder.setView(editDialogView);
