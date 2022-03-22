@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment {
 
         plantName = (TextView) view.findViewById(R.id.plantName);
         editButton = (ImageButton) view.findViewById(R.id.editButton);
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
