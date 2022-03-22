@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
     private TextView plantTypeList;
     private ExpandableListView plantTypes;
     private TextView chosenType;
-    private String type = "test";
+    private String type;
 
     private List<SensorData> sensorDataList =new ArrayList<>();
 
@@ -86,6 +86,10 @@ public class HomeFragment extends Fragment {
         chosenType = (TextView) view.findViewById(R.id.chosenType);
         plantName = (TextView) view.findViewById(R.id.plantName);
         editButton = (ImageButton) view.findViewById(R.id.editButton);
+        double BromeliaValues[] = new double[]{1.8,1.5,2.2}; //moisture, temperature, LDR
+        double PineappleValues[] = new double[]{1.9,1.5,2.2};
+        double CactusValues[] = new double[]{2.2,2.5,2.8};
+        double AloëVeraValues[] = new double[]{2.1,1.8,2.2};
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,11 +152,11 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
                 // TODO Auto-generated method stub
-                //hier schrijven wat er moet gebeuren als dat child gekozen word
-                plantTypes.setVisibility(View.INVISIBLE);
+                //chosenType.setText("here database info");
                 type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
                 chosenType.setText("Type : " + type);
-                chosenType.setVisibility(View.VISIBLE);
+                checkValues(type);
+                //send data to database
                 expListView.collapseGroup(groupPosition);
                 return false;
             }
@@ -235,15 +239,23 @@ public class HomeFragment extends Fragment {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        listDataHeader.add("Plant type");
+        listDataHeader.add("Change plant type");
 
         // Adding child data
         List<String> plant_types = new ArrayList<String>();
         plant_types.add("Bromelia");
-        plant_types.add("Pineapple Plant");
+        plant_types.add("Pineapple");
         plant_types.add("Cactus");
-        plant_types.add("Aloë Vera");
+        plant_types.add("AloëVera");
 
         listDataChild.put(listDataHeader.get(0), plant_types); // Header, Child data
+    }
+
+    private void checkValues(String plantName){
+        String arrayname = plantName + "Values";
+        //check moisture level, when it's > that value, it should be watered
+        /*if(sensorvaluemoisture > arrayname[0]) {
+
+        }*/
     }
 }
