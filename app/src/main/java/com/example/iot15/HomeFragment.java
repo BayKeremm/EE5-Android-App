@@ -147,6 +147,7 @@ public class HomeFragment extends Fragment {
                 //hier schrijven wat er moet gebeuren als dat child gekozen word
                 /*chosenType = "Plant type : "; //naam van planttype veranderen
                 prepareListData(); */
+                plantTypes.setVisibility(View.INVISIBLE);
                 expListView.collapseGroup(groupPosition);
                 return false;
             }
