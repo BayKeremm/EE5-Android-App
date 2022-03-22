@@ -155,7 +155,6 @@ public class HomeFragment extends Fragment {
                 //chosenType.setText("here database info");
                 type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
                 chosenType.setText("Type : " + type);
-                checkValues(type);
                 //send data to database
                 expListView.collapseGroup(groupPosition);
                 return false;
@@ -249,13 +248,5 @@ public class HomeFragment extends Fragment {
         plant_types.add("AloëVera");
 
         listDataChild.put(listDataHeader.get(0), plant_types); // Header, Child data
-    }
-
-    private void checkValues(String plantName){
-        String arrayname = plantName + "Values";
-        //check moisture level, when it's > that value, it should be watered
-        /*if(sensorvaluemoisture > arrayname[0]) {
-
-        }*/
     }
 }
