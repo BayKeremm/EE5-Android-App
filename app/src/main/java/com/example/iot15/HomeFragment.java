@@ -57,6 +57,7 @@ public class HomeFragment extends Fragment {
     private Button cancelEditBtn, applyEditBtn;
     private TextView plantTypeList;
     private ExpandableListView plantTypes;
+    private String chosenType;
 
     private List<SensorData> sensorDataList =new ArrayList<>();
 
@@ -144,6 +145,8 @@ public class HomeFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
                 // TODO Auto-generated method stub
                 //hier schrijven wat er moet gebeuren als dat child gekozen word
+                /*chosenType = "Plant type : "; //naam van planttype veranderen
+                prepareListData(); */
                 expListView.collapseGroup(groupPosition);
                 return false;
             }
@@ -226,7 +229,8 @@ public class HomeFragment extends Fragment {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        listDataHeader.add("Plant type");
+        chosenType = "Plant type";
+        listDataHeader.add(chosenType);
 
         // Adding child data
         List<String> plant_types = new ArrayList<String>();
