@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
+import com.example.iot15.ExpandableListAdapter;
 
 public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
@@ -57,7 +59,8 @@ public class HomeFragment extends Fragment {
     private Button cancelEditBtn, applyEditBtn;
     private TextView plantTypeList;
     private ExpandableListView plantTypes;
-    private String chosenType;
+    private TextView chosenType;
+    private String type;
 
     private List<SensorData> sensorDataList =new ArrayList<>();
 
@@ -80,9 +83,13 @@ public class HomeFragment extends Fragment {
         textLight = (TextView) view.findViewById(R.id.textLight);
         progressLight = (ProgressBar) view.findViewById(R.id.progressLight);
         progressLight.setProgress(lightProgressValue);
-
+        chosenType = (TextView) view.findViewById(R.id.chosenType);
         plantName = (TextView) view.findViewById(R.id.plantName);
         editButton = (ImageButton) view.findViewById(R.id.editButton);
+        double BromeliaValues[] = new double[]{1.8,1.5,2.2}; //moisture, temperature, LDR
+        double PineappleValues[] = new double[]{1.9,1.5,2.2};
+        double CactusValues[] = new double[]{2.2,2.5,2.8};
+        double AloëVeraValues[] = new double[]{2.1,1.8,2.2};
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +111,7 @@ public class HomeFragment extends Fragment {
         cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
         applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
         plantTypes = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
+        chosenType = (TextView) editDialogView.findViewById(R.id.chosenType);
 
         dialogBuilder.setView(editDialogView);
         dialog = dialogBuilder.create();
@@ -144,9 +152,10 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
                 // TODO Auto-generated method stub
-                //hier schrijven wat er moet gebeuren als dat child gekozen word
-                /*chosenType = "Plant type : "; //naam van planttype veranderen
-                prepareListData(); */
+                //chosenType.setText("here database info");
+                type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                chosenType.setText("Type : " + type);
+                //send data to database
                 expListView.collapseGroup(groupPosition);
                 return false;
             }
@@ -229,15 +238,14 @@ public class HomeFragment extends Fragment {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        chosenType = "Plant type";
-        listDataHeader.add(chosenType);
+        listDataHeader.add("Change plant type");
 
         // Adding child data
         List<String> plant_types = new ArrayList<String>();
         plant_types.add("Bromelia");
-        plant_types.add("Pineapple Plant");
+        plant_types.add("Pineapple");
         plant_types.add("Cactus");
-        plant_types.add("Aloë Vera");
+        plant_types.add("AloëVera");
 
         listDataChild.put(listDataHeader.get(0), plant_types); // Header, Child data
     }
