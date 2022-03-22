@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
+import com.example.iot15.ExpandableListAdapter;
 
 public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
@@ -58,7 +60,7 @@ public class HomeFragment extends Fragment {
     private TextView plantTypeList;
     private ExpandableListView plantTypes;
     private TextView chosenType;
-    private String type = "testest";
+    private String type = "test";
 
     private List<SensorData> sensorDataList =new ArrayList<>();
 
@@ -82,7 +84,6 @@ public class HomeFragment extends Fragment {
         progressLight = (ProgressBar) view.findViewById(R.id.progressLight);
         progressLight.setProgress(lightProgressValue);
         chosenType = (TextView) view.findViewById(R.id.chosenType);
-
         plantName = (TextView) view.findViewById(R.id.plantName);
         editButton = (ImageButton) view.findViewById(R.id.editButton);
 
@@ -106,6 +107,7 @@ public class HomeFragment extends Fragment {
         cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
         applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
         plantTypes = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
+        chosenType = (TextView) editDialogView.findViewById(R.id.chosenType);
 
         dialogBuilder.setView(editDialogView);
         dialog = dialogBuilder.create();
@@ -148,8 +150,9 @@ public class HomeFragment extends Fragment {
                 // TODO Auto-generated method stub
                 //hier schrijven wat er moet gebeuren als dat child gekozen word
                 plantTypes.setVisibility(View.INVISIBLE);
-                //chosenType.setText(type);
-                //chosenType.setVisibility(View.VISIBLE);
+                type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                chosenType.setText("Type : " + type);
+                chosenType.setVisibility(View.VISIBLE);
                 expListView.collapseGroup(groupPosition);
                 return false;
             }
