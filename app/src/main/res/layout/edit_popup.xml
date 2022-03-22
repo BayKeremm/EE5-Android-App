@@ -61,7 +61,6 @@
         android:textColor="#f9f93d" />
 
 
-
     <Button
         android:id="@+id/cancelEditBtn"
         android:layout_width="wrap_content"
@@ -85,6 +84,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/plant_types"
         app:layout_constraintVertical_bias="0.713" />
+
+    <TextView
+        android:id="@+id/chosenType"
+        android:text="type"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textChangeImage"
+        tools:layout_editor_absoluteX="173dp"
+        tools:layout_editor_absoluteY="237dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

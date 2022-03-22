@@ -57,7 +57,8 @@ public class HomeFragment extends Fragment {
     private Button cancelEditBtn, applyEditBtn;
     private TextView plantTypeList;
     private ExpandableListView plantTypes;
-    private String chosenType;
+    private TextView chosenType;
+    private String type = "testest";
 
     private List<SensorData> sensorDataList =new ArrayList<>();
 
@@ -80,6 +81,7 @@ public class HomeFragment extends Fragment {
         textLight = (TextView) view.findViewById(R.id.textLight);
         progressLight = (ProgressBar) view.findViewById(R.id.progressLight);
         progressLight.setProgress(lightProgressValue);
+        chosenType = (TextView) view.findViewById(R.id.chosenType);
 
         plantName = (TextView) view.findViewById(R.id.plantName);
         editButton = (ImageButton) view.findViewById(R.id.editButton);
@@ -145,9 +147,9 @@ public class HomeFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
                 // TODO Auto-generated method stub
                 //hier schrijven wat er moet gebeuren als dat child gekozen word
-                /*chosenType = "Plant type : "; //naam van planttype veranderen
-                prepareListData(); */
                 plantTypes.setVisibility(View.INVISIBLE);
+                //chosenType.setText(type);
+                //chosenType.setVisibility(View.VISIBLE);
                 expListView.collapseGroup(groupPosition);
                 return false;
             }
@@ -230,8 +232,7 @@ public class HomeFragment extends Fragment {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        chosenType = "Plant type";
-        listDataHeader.add(chosenType);
+        listDataHeader.add("Plant type");
 
         // Adding child data
         List<String> plant_types = new ArrayList<String>();
