@@ -8,12 +8,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground">
 
         <LinearLayout
+            android:id="@+id/relativeChild1"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:id="@+id/relativeChild1"
             android:orientation="horizontal">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -96,11 +97,11 @@
 
             <TextView
                 android:id="@+id/textTemperature"
-                android:text="@string/temperature"
-                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:text="@string/temperature"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -121,19 +122,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeChild4"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:id="@+id/relativeChild4"
             android:layout_below="@id/relativeChild3"
             android:layout_centerHorizontal="true">
 
             <TextView
                 android:id="@+id/textLight"
-                android:text="@string/light_level"
-                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_marginTop="16dp"
+                android:gravity="center_horizontal"
+                android:text="@string/light_level"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
