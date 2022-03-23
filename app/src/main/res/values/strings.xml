@@ -41,7 +41,6 @@
     <string name="off">Off</string>
     <string name="manual">Manual</string>
     <string name="light_level_control">Light Level Control</string>
-    <string name="settings">Settings</string>
     <string name="name">Name:</string>
     <string name="change_image">Change Image</string>
     <string name="plant_type">Plant Type:</string>
@@ -56,4 +55,8 @@
     <string name="repeat_password">Repeat Password</string>
     <string name="_1">1</string>
     <string name="don_t_have_an_account_yet">Don\'t have an account yet?</string>
+    <string name="back">back</string>
+    <string name="type_here">type here</string>
+    <string name="type">Type:</string>
+    <string name="add_plant">Add Plant</string>
 </resources>

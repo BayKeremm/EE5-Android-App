@@ -30,7 +30,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="TextContrastCheck" />
 
                 <ImageButton
                     android:id="@+id/editButton"
@@ -72,7 +73,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextContrastCheck" />
 
             <ProgressBar
                 android:id="@+id/progressWater"
@@ -105,7 +107,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextContrastCheck" />
 
             <ProgressBar
                 android:id="@+id/progressTemperature"
@@ -138,7 +141,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextContrastCheck" />
 
             <ProgressBar
                 android:id="@+id/progressLight"
@@ -162,7 +166,8 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="35dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/last_modified" />
+            android:text="@string/last_modified"
+            tools:ignore="TextContrastCheck" />
 
     </RelativeLayout>
 

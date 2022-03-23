@@ -40,44 +40,50 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:paddingBottom="10dp"
                 android:textColorHint="#808080"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.7">
+                app:layout_constraintWidth_percent="0.7"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp">
 
                 <EditText
                     android:id="@+id/et_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#BCFFFFFF"
+                    android:autofillHints=""
+                    android:background="@drawable/rounded_corners_input"
                     android:gravity="center"
                     android:hint="@string/username"
                     android:inputType="textNoSuggestions"
                     android:padding="10dp"
                     android:textColor="#000000"
-                    android:textSize="21sp" />
+                    android:textSize="21sp"
+                    tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:textColorHint="#808080"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_username"
-                app:layout_constraintWidth_percent="0.7">
+                app:layout_constraintWidth_percent="0.7"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp">
 
                 <EditText
                     android:id="@+id/et_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#BCFFFFFF"
+                    android:autofillHints=""
+                    android:background="@drawable/rounded_corners_input"
                     android:gravity="center"
                     android:hint="@string/password"
                     android:inputType="textPassword"
@@ -92,9 +98,9 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="30dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/rounded_corners_button"
                 android:elevation="2dp"
-                android:onClick="performSignUp"
+                android:onClick="goFragmentHomeTEST"
                 android:text="@string/login"
                 android:textAllCaps="true"
                 android:textSize="21sp"
@@ -132,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:onClick="goToSignup"
+                    android:onClick="goSignup"
                     android:text="@string/sign_up"
                     android:textAllCaps="false"
                     android:textColor="@color/colorPrimary"

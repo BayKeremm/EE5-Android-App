@@ -85,6 +85,7 @@ public class SignupActivity extends AppCompatActivity {
             try {
                     System.out.println(url);
                     startActivity(new Intent(this, LoginActivity.class));
+                    overridePendingTransition(0, 0);
                 }
             catch (Exception e){
                 e.printStackTrace();
@@ -94,5 +95,11 @@ public class SignupActivity extends AppCompatActivity {
 
         queue.add(stringRequest);
 
+    }
+
+    public void goLoginScreen(View v) {
+        Intent goToLoginScreen = new Intent(this, LoginActivity.class);
+        startActivity(goToLoginScreen);
+        overridePendingTransition(0, 0);
     }
 }

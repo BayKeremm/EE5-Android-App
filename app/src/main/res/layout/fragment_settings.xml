@@ -34,7 +34,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wifiBtn" />
+            app:layout_constraintTop_toBottomOf="@+id/wifiBtn"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/textWatering"
@@ -45,7 +46,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textAutomations" />
+            app:layout_constraintTop_toBottomOf="@+id/textAutomations"
+            tools:ignore="TextContrastCheck" />
 
         <Switch
             android:id="@+id/switchWatering"
@@ -65,7 +67,8 @@
             android:text="@string/off"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/switchWatering"
-            app:layout_constraintTop_toBottomOf="@+id/textWatering" />
+            app:layout_constraintTop_toBottomOf="@+id/textWatering"
+            tools:ignore="TextContrastCheck" />
 
         <TextView
             android:id="@+id/textLightLevelControl"
@@ -76,7 +79,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchWatering" />
+            app:layout_constraintTop_toBottomOf="@+id/switchWatering"
+            tools:ignore="TextContrastCheck" />
 
         <Switch
             android:id="@+id/switchLightLevelControl"
@@ -96,7 +100,8 @@
             android:text="@string/manual"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/switchLightLevelControl"
-            app:layout_constraintTop_toBottomOf="@+id/textLightLevelControl" />
+            app:layout_constraintTop_toBottomOf="@+id/textLightLevelControl"
+            tools:ignore="TextContrastCheck" />
 
         <com.google.android.material.slider.Slider
             android:id="@+id/lightLevelControlSlider"

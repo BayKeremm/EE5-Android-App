@@ -67,26 +67,28 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void goToSignup(View v) {
+    public void goSignup(View v) {
         // Open your SignUp Activity if the user wants to signup
-        Intent intent = new Intent(this, SignupActivity.class);
-        startActivity(intent);
+        Intent goToSignup = new Intent(this, SignupActivity.class);
+        startActivity(goToSignup);
+        overridePendingTransition(0, 0);
     }
 
     private void checkPassword(String username, String password) {
         RequestQueue queue= Volley.newRequestQueue(this);
         String url="https://studev.groept.be/api/a21iot15/retrieve_by_username/" + username;
         System.out.println(url);
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray responseJSON = new JSONArray(response);
                 System.out.println("\n" + responseJSON + "\n");
                 // compare passwords
                 if(responseJSON.getJSONObject(0).getString("password").compareTo(password) == 0){
                     // move to next screen and pass on username
-                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                    intent.putExtra("username", responseJSON.getJSONObject(0).getString("username"));
-                    startActivity(intent);
+                    Intent goToFragmentHome = new Intent(getBaseContext(), MainActivity.class);
+                    goToFragmentHome.putExtra("username", responseJSON.getJSONObject(0).getString("username"));
+                    startActivity(goToFragmentHome);
+                    overridePendingTransition(0, 0);
                 }
             }
             catch (Exception e){
@@ -96,5 +98,11 @@ public class LoginActivity extends AppCompatActivity {
         }, error -> System.out.println("error"));
 
         queue.add(stringRequest);
+    }
+
+    public void goFragmentHomeTEST(View v) {
+        Intent goToFragmentHomeTEST = new Intent(this, MainActivity.class);
+        startActivity(goToFragmentHomeTEST);
+        overridePendingTransition(0, 0);
     }
 }
