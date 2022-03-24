@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.espressif.esptouch.android;
 
 import android.Manifest;
 import android.content.pm.PackageInfo;

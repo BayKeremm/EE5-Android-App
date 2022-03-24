@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.espressif.esptouch.android.v1;
 
 import android.Manifest;
 import android.content.Context;
@@ -8,26 +8,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.lifecycle.Observer;
 
-import com.example.iot15.EspTouchActivityAbs;
-import com.example.iot15.EspTouchApp;
+import com.espressif.esptouch.android.EspTouchActivityAbs;
+import com.espressif.esptouch.android.EspTouchApp;
+import com.espressif.esptouch.android.R;
+import com.espressif.esptouch.android.databinding.ActivityEsptouchBinding;
 import com.espressif.iot.esptouch.EsptouchTask;
 import com.espressif.iot.esptouch.IEsptouchResult;
 import com.espressif.iot.esptouch.IEsptouchTask;
 import com.espressif.iot.esptouch.util.ByteUtil;
 import com.espressif.iot.esptouch.util.TouchNetUtil;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -41,20 +36,7 @@ public class EspTouchActivity extends EspTouchActivityAbs {
 
     private EsptouchAsyncTask4 mTask;
 
-    private Button confirmBtn;
-    private Button cancelButton;
-    private ConstraintLayout content;
-    private ConstraintLayout progressView;
-    private TextView apSsidLabel;
-    private TextView apSsidText;
-    private TextView apBssidLabel;
-    private TextView apBssidText;
-    private TextInputEditText apPasswordEdit;
-    private TextView messageView;
-    private TextInputEditText deviceCountEdit;
-    private RadioGroup packageModeGroup;
-    private TextView testResult;
-
+    private ActivityEsptouchBinding mBinding;
 
     private String mSsid;
     private byte[] mSsidBytes;
@@ -63,54 +45,26 @@ public class EspTouchActivity extends EspTouchActivityAbs {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_esptouch);
+        mBinding = ActivityEsptouchBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
+        mBinding.confirmBtn.setOnClickListener(v -> executeEsptouch());
 
-        confirmBtn = findViewById(R.id.confirmBtn);
-        confirmBtn.setOnClickListener(v -> executeEsptouch());
-
-        cancelButton = findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener(v -> {
+        mBinding.cancelButton.setOnClickListener(v -> {
             showProgress(false);
             if (mTask != null) {
                 mTask.cancelEsptouch();
             }
         });
 
-        content = findViewById(R.id.content);
-        progressView = findViewById(R.id.progressView);
-        apSsidLabel = findViewById(R.id.apSsidLabel);
-        apSsidText = findViewById(R.id.apSsidText);
-        apBssidLabel = findViewById(R.id.apBssidLabel);
-        apBssidText = findViewById(R.id.apBssidText);
-        apPasswordEdit = findViewById(R.id.apPasswordEdit);
-        messageView = findViewById(R.id.messageView);
-        deviceCountEdit = findViewById(R.id.deviceCountEdit);
-        packageModeGroup = findViewById(R.id.packageModeGroup);
-        testResult = findViewById(R.id.testResult);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
             requestPermissions(permissions, REQUEST_PERMISSION);
         }
 
-
-        Observer<String> observer = new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                Log.d(TAG, "onCreate: Broadcast=" );
-                onWifiChanged();
-            }
-        };
-
-        EspTouchApp.getInstance().observeBroadcast(this, observer);
-
-//        EspTouchApp.getInstance().observeBroadcast(this, broadcast -> {
-//            Log.d(TAG, "onCreate: Broadcast=" + broadcast);
-//            onWifiChanged();
-//        });
-
+        EspTouchApp.getInstance().observeBroadcast(this, broadcast -> {
+            Log.d(TAG, "onCreate: Broadcast=" + broadcast);
+            onWifiChanged();
+        });
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -140,11 +94,11 @@ public class EspTouchActivity extends EspTouchActivityAbs {
 
     private void showProgress(boolean show) {
         if (show) {
-            content.setVisibility(View.INVISIBLE);
-            progressView.setVisibility(View.VISIBLE);
+            mBinding.content.setVisibility(View.INVISIBLE);
+            mBinding.progressView.setVisibility(View.VISIBLE);
         } else {
-            content.setVisibility(View.VISIBLE);
-            progressView.setVisibility(View.GONE);
+            mBinding.content.setVisibility(View.VISIBLE);
+            mBinding.progressView.setVisibility(View.GONE);
         }
     }
 
@@ -192,21 +146,21 @@ public class EspTouchActivity extends EspTouchActivityAbs {
             }
         }
 
-        apSsidText.setText(mSsid);
-        apBssidText.setText(mBssid);
-        messageView.setText(message);
-        confirmBtn.setEnabled(confirmEnable);
+        mBinding.apSsidText.setText(mSsid);
+        mBinding.apBssidText.setText(mBssid);
+        mBinding.messageView.setText(message);
+        mBinding.confirmBtn.setEnabled(confirmEnable);
     }
 
     private void executeEsptouch() {
         byte[] ssid = mSsidBytes == null ? ByteUtil.getBytesByString(this.mSsid)
                 : mSsidBytes;
-        CharSequence pwdStr = apPasswordEdit.getText();
+        CharSequence pwdStr = mBinding.apPasswordEdit.getText();
         byte[] password = pwdStr == null ? null : ByteUtil.getBytesByString(pwdStr.toString());
         byte[] bssid = TouchNetUtil.parseBssid2bytes(this.mBssid);
-        CharSequence devCountStr = deviceCountEdit.getText();
+        CharSequence devCountStr = mBinding.deviceCountEdit.getText();
         byte[] deviceCount = devCountStr == null ? new byte[0] : devCountStr.toString().getBytes();
-        byte[] broadcast = {(byte) (packageModeGroup.getCheckedRadioButtonId() == R.id.packageBroadcast
+        byte[] broadcast = {(byte) (mBinding.packageModeGroup.getCheckedRadioButtonId() == R.id.packageBroadcast
                 ? 1 : 0)};
 
         if (mTask != null) {
@@ -244,7 +198,7 @@ public class EspTouchActivity extends EspTouchActivityAbs {
         @Override
         protected void onPreExecute() {
             EspTouchActivity activity = mActivity.get();
-            activity.testResult.setText("");
+            activity.mBinding.testResult.setText("");
             activity.showProgress(true);
         }
 
@@ -257,7 +211,7 @@ public class EspTouchActivity extends EspTouchActivityAbs {
                 String text = result.getBssid() + " is connected to the wifi";
                 Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
 
-                activity.testResult.append(String.format(
+                activity.mBinding.testResult.append(String.format(
                         Locale.ENGLISH,
                         "%s,%s\n",
                         result.getInetAddress().getHostAddress(),
