@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COURSE_LOCATION" />
+<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -17,11 +20,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IoT15">
-        <activity
-            android:name=".Types"
-            android:exported="false" />
-        <activity android:name=".EspTouchActivity" />
-        <activity android:name=".EspTouchActivityAbs" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SignupActivity" />
         <activity
@@ -33,7 +31,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".EspTouchActivity"
+            android:exported="true"
+            android:label="@string/esptouch1_title"
+            android:screenOrientation="portrait" />
         <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
