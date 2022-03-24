@@ -33,6 +33,7 @@
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/activity_esptouch.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/activity_main.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/edit_popup.xml" value="0.266015625" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_connect.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_home.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_settings.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/list_group.xml" value="0.3546875" />
@@ -41,12 +42,12 @@
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/sign_up_screen.xml" value="0.3546875" />
         <entry key="app/src/main/res/layout/edit_popup.xml" value="0.165" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/login_screen.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/login_screen.xml" value="0.12825994014536127" />
         <entry key="app/src/main/res/layout/sign_up_screen.xml" value="0.12825994014536127" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
