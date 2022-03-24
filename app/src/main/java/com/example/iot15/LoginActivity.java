@@ -15,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
@@ -76,23 +77,22 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkPassword(String username, String password) {
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url="https://studev.groept.be/api/a21iot15/retrieve_by_username/" + username;
+        String url="https://a21iot15.studev.groept.be/index.php/api/login/" + username+ "/" +password;
         System.out.println(url);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             try {
                 JSONArray responseJSON = new JSONArray(response);
-                System.out.println("\n" + responseJSON + "\n");
-                // compare passwords
-                if(responseJSON.getJSONObject(0).getString("password").compareTo(password) == 0){
-                    // move to next screen and pass on username
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+                if(e.toString().contains("token")){
                     Intent goToFragmentHome = new Intent(getBaseContext(), MainActivity.class);
-                    goToFragmentHome.putExtra("username", responseJSON.getJSONObject(0).getString("username"));
                     startActivity(goToFragmentHome);
                     overridePendingTransition(0, 0);
                 }
-            }
-            catch (Exception e){
-                e.printStackTrace();
+                else if(e.toString().contains("Declined")) {
+                    Toast.makeText(getApplicationContext(),"Not allowed", Toast.LENGTH_SHORT).show();
+                }
             }
 
         }, error -> System.out.println("error"));
