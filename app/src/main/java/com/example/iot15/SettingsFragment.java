@@ -36,7 +36,7 @@ public class SettingsFragment extends Fragment {
     private TextView textLightLevelControl;
     private Switch switchWatering;
     private Switch switchLightLevelControl;
-    private StringBuilder mqttMessage = new StringBuilder("00");
+    private StringBuilder mqttMessage = new StringBuilder("0099");
     private Button wifiBtn;
     private Slider lightLevelControlSlider;
     private TextView textLightAutomationState;
@@ -61,7 +61,7 @@ public class SettingsFragment extends Fragment {
 
         mqttConnectAndSubscribe();
 
-        lightLevelControlSlider.addOnChangeListener((slider, value, fromUser) -> mqttConnectAndPublish("/EE5iot15/lightlevel","" + value));
+        lightLevelControlSlider.addOnChangeListener((slider, value, fromUser) -> temporarySliderFunction(value));
 
         switchWatering.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -75,7 +75,7 @@ public class SettingsFragment extends Fragment {
                     changeMqttMessage(1, '0');
                     textWateringAutomationState.setText("Off");
                 }
-                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
+                mqttConnectAndPublish("/EE5iot15/commands/slider", mqttMessage.toString());
             }
         });
         switchLightLevelControl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -92,12 +92,19 @@ public class SettingsFragment extends Fragment {
                     lightLevelControlSlider.setVisibility(View.VISIBLE);
                     textLightAutomationState.setText("Manual");
                 }
-                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
+                mqttConnectAndPublish("/EE5iot15/commands/slider", mqttMessage.toString());
             }
         });
 
         return view;
     }
+
+    public void temporarySliderFunction(float value){
+        StringBuilder valueString = new StringBuilder(String.valueOf(value));
+        changeMqttMessage(2, valueString.charAt(0));
+        changeMqttMessage(3, valueString.charAt(1));
+        mqttConnectAndPublish("/EE5iot15/commands/slider", mqttMessage.toString());
+    };
 
     public void changeMqttMessage(int index, char status){
         mqttMessage.setCharAt(index, status);
@@ -176,7 +183,7 @@ public class SettingsFragment extends Fragment {
         int qos = 1;
         try {
             client.subscribe("/EE5iot15/warnings", qos);
-            client.subscribe("/EE5iot15/commands",qos);
+            client.subscribe("/EE5iot15/commands/slider",qos);
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
@@ -188,7 +195,7 @@ public class SettingsFragment extends Fragment {
                     if(topic.compareTo("/EE5iot15/warnings") == 0){
                         // show warnings somewhere
                     }
-                    else if(topic.compareTo("/EE5iot15/commands") == 0){
+                    else if(topic.compareTo("/EE5iot15/commands/slider") == 0){
                         String response = new String(message.getPayload());
                         mqttMessage = new StringBuilder(response);
                         if(response.charAt(0) == '1'){
