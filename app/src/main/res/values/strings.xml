@@ -47,9 +47,7 @@
     <string name="cancel">Cancel</string>
     <string name="apply">Apply</string>
     <string name="my_plant">My Plant</string>
-    <string name="moisture">Moisture</string>
     <string name="temperature">Temperature</string>
-    <string name="light_level">Light Level</string>
     <string name="last_modified">Last Modified:</string>
     <string name="create_an_account">Create an Account</string>
     <string name="repeat_password">Repeat Password</string>
@@ -59,4 +57,10 @@
     <string name="type_here">type here</string>
     <string name="type">Type:</string>
     <string name="add_plant">Add Plant</string>
+    <string name="select_picture">SELECT PICTURE</string>
+    <string name="plant_image">plant_image</string>
+    <string name="edit_plant">edit_plant</string>
+    <string name="plant_picture">plant_picture</string>
+    <string name="light">Light</string>
+    <string name="water">Water</string>
 </resources>
