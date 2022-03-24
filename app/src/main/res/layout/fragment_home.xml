@@ -8,8 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background3">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeChild5"
@@ -22,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:text="@string/my_plant"
-                android:textColor="#000"
+                android:textColor="#403F3F"
                 android:textSize="26sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +69,7 @@
                 android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:text="@string/water"
-                android:textColor="#000"
+                android:textColor="#403F3F"
                 android:textSize="21sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -124,7 +123,7 @@
                 android:layout_marginTop="30dp"
                 android:gravity="center_horizontal"
                 android:text="@string/temperature"
-                android:textColor="#000"
+                android:textColor="#403F3F"
                 android:textSize="21sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -208,7 +207,7 @@
                 android:layout_marginTop="30dp"
                 android:gravity="center_horizontal"
                 android:text="@string/light"
-                android:textColor="#000"
+                android:textColor="#403F3F"
                 android:textSize="21sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -228,7 +227,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="35dp"
             android:text="@string/last_modified"
-            android:textColor="@color/black"
+            android:textColor="#403F3F"
             android:textSize="15sp"
             android:textStyle="bold"
             tools:ignore="TextContrastCheck" />
