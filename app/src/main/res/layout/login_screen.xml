@@ -98,7 +98,7 @@
                 android:layout_marginTop="30dp"
                 android:background="@drawable/rounded_corners_button"
                 android:elevation="2dp"
-                android:onClick="performSignUp"
+                android:onClick="performLogin"
                 android:text="@string/login"
                 android:textAllCaps="true"
                 android:textSize="21sp"
