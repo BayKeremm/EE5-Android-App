@@ -1,20 +1,17 @@
 package com.example.iot15;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONArray;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -80,8 +77,8 @@ public class SignupActivity extends AppCompatActivity {
 
     public void signUpSQL(String username, String password){
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url="https://studev.groept.be/api/a21iot15/sign_up_user/" + username + "/" + password;
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+        String url="https://a21iot15.studev.groept.be/index.php/api/register/" + username + "/" + password;
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             try {
                     System.out.println(url);
                     startActivity(new Intent(this, LoginActivity.class));

@@ -1,13 +1,13 @@
 package com.example.iot15;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,7 +16,6 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -54,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // Hook Click Event
 
-    public void performSignUp (View v) {
+    public void performLogin(View v) {
         if (validateInput()) {
 
             // Input is valid, here send data to your server
