@@ -1,9 +1,11 @@
 package com.example.iot15;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -31,51 +33,90 @@ import java.io.UnsupportedEncodingException;
 public class SettingsFragment extends Fragment {
     public static final String TAG = "SettingsFragment";
 
-    private TextView textAutomations;
+    private TextView textAutomationState;
     private TextView textWatering;
     private TextView textLightLevelControl;
+    private Switch switchAutomation;
     private Switch switchWatering;
     private Switch switchLightLevelControl;
-    private StringBuilder mqttMessage = new StringBuilder("0099");
+    private StringBuilder mqttMessage = new StringBuilder("00000");
     private Button wifiBtn;
     private Slider lightLevelControlSlider;
     private TextView textLightAutomationState;
     private TextView textWateringAutomationState;
+    private ConstraintLayout manualModeContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        textAutomations = (TextView) view.findViewById(R.id.textAutomations);
         textWatering = (TextView) view.findViewById(R.id.textWatering);
         textLightLevelControl = (TextView) view.findViewById(R.id.textLightLevelControl);
+        switchAutomation = (Switch) view.findViewById(R.id.switchAutomation);
         switchWatering = (Switch) view.findViewById(R.id.switchWatering);
         switchLightLevelControl = (Switch) view.findViewById(R.id.switchLightLevelControl);
         wifiBtn = (Button) view.findViewById(R.id.wifiBtn);
-        lightLevelControlSlider = (Slider) view.findViewById(R.id.lightLevelControlSlider);
-        textLightAutomationState = (TextView) view.findViewById(R.id.textLightAutomationState);
+        textAutomationState = (TextView) view.findViewById(R.id.textAutomationState);
         textWateringAutomationState = (TextView) view.findViewById(R.id.textWateringAutomationState);
+        textLightAutomationState = (TextView) view.findViewById(R.id.textLightAutomationState);
+        lightLevelControlSlider = (Slider) view.findViewById(R.id.lightLevelControlSlider);
+        manualModeContainer = (ConstraintLayout) view.findViewById(R.id.manualModeContainer);
 
         wifiBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), EspTouchActivity.class)));
 
         mqttConnectAndSubscribe();
 
-        lightLevelControlSlider.addOnChangeListener((slider, value, fromUser) -> temporarySliderFunction(value));
+        //lightLevelControlSlider.addOnChangeListener((slider, value, fromUser) -> temporarySliderFunction(value));
 
+        lightLevelControlSlider.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
+            @Override
+            @SuppressLint("RestrictedApi")
+            public void onStartTrackingTouch(@NonNull Slider slider) {
+                // nothing has to be done when
+            }
+
+            @Override
+            @SuppressLint("RestrictedApi")
+            public void onStopTrackingTouch(@NonNull Slider slider) {
+                // only when slider is released, the mqtt message will be sent. Otherwise there are
+                // too many messages at once.
+                temporarySliderFunction(slider.getValue());
+            }
+        });
+
+        switchAutomation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked==true){
+                    // Manual mode
+                    changeMqttMessage(0, '1');
+                    textAutomationState.setText("Manual");
+                    manualModeContainer.setAlpha(1.0F);
+                    switchWatering.setEnabled(true);
+                    switchLightLevelControl.setEnabled(true);
+                } else {
+                    // Automatic mode
+                    changeMqttMessage(0, '0');
+                    textAutomationState.setText("Automatic");
+                    fadeManualScreen();
+                }
+                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
+            }
+        });
         switchWatering.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked==true){
                     // Water on
-                    changeMqttMessage(1, '1');
+                    changeMqttMessage(2, '1');
                     textWateringAutomationState.setText("On");
                 } else {
                     // Water off
-                    changeMqttMessage(1, '0');
+                    changeMqttMessage(2, '0');
                     textWateringAutomationState.setText("Off");
                 }
-                mqttConnectAndPublish("/EE5iot15/commands/slider", mqttMessage.toString());
+                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
             }
         });
         switchLightLevelControl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -83,27 +124,41 @@ public class SettingsFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked==true){
                     // Light on
-                    changeMqttMessage(0, '1');
-                    lightLevelControlSlider.setVisibility(View.GONE);
-                    textLightAutomationState.setText("Automatic");
+                    changeMqttMessage(1, '1');
+                    lightLevelControlSlider.setVisibility(View.VISIBLE);
+                    textLightAutomationState.setText("On");
                 } else {
                     // Light off, aka manual
-                    changeMqttMessage(0, '0');
-                    lightLevelControlSlider.setVisibility(View.VISIBLE);
-                    textLightAutomationState.setText("Manual");
+                    changeMqttMessage(1, '0');
+                    lightLevelControlSlider.setVisibility(View.GONE);
+                    textLightAutomationState.setText("Off");
                 }
-                mqttConnectAndPublish("/EE5iot15/commands/slider", mqttMessage.toString());
+                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
             }
         });
 
         return view;
     }
 
+    public void fadeManualScreen(){
+        manualModeContainer.setAlpha(0.5F);
+        switchWatering.setChecked(false);
+        switchWatering.setEnabled(false);
+        switchLightLevelControl.setChecked(false);
+        lightLevelControlSlider.setVisibility(View.GONE);
+        switchLightLevelControl.setEnabled(false);
+    }
+
     public void temporarySliderFunction(float value){
         StringBuilder valueString = new StringBuilder(String.valueOf(value));
-        changeMqttMessage(2, valueString.charAt(0));
-        changeMqttMessage(3, valueString.charAt(1));
-        mqttConnectAndPublish("/EE5iot15/commands/slider", mqttMessage.toString());
+        if(value<10){
+            changeMqttMessage(3, valueString.charAt(0));
+            changeMqttMessage(4, '0');
+        } else {
+            changeMqttMessage(3, valueString.charAt(0));
+            changeMqttMessage(4, valueString.charAt(1));
+        }
+        mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
     };
 
     public void changeMqttMessage(int index, char status){
@@ -183,7 +238,7 @@ public class SettingsFragment extends Fragment {
         int qos = 1;
         try {
             client.subscribe("/EE5iot15/warnings", qos);
-            client.subscribe("/EE5iot15/commands/slider",qos);
+            client.subscribe("/EE5iot15/commands",qos);
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
@@ -195,15 +250,26 @@ public class SettingsFragment extends Fragment {
                     if(topic.compareTo("/EE5iot15/warnings") == 0){
                         // show warnings somewhere
                     }
-                    else if(topic.compareTo("/EE5iot15/commands/slider") == 0){
+                    else if(topic.compareTo("/EE5iot15/commands") == 0){
                         String response = new String(message.getPayload());
                         mqttMessage = new StringBuilder(response);
-                        if(response.charAt(0) == '1'){
-                            switchLightLevelControl.setChecked(true);
+                        if(response.charAt(0) == '0'){
+                            fadeManualScreen();
+                        } else{
+                            switchAutomation.setChecked(true);
                         }
                         if(response.charAt(1) == '1'){
+                            switchLightLevelControl.setChecked(true);
+                        } else {
+                            lightLevelControlSlider.setVisibility(View.GONE);
+                        }
+                        if(response.charAt(2) == '1'){
                             switchWatering.setChecked(true);
                         }
+                        System.out.println(Integer.valueOf(mqttMessage.substring(3,5)));
+                        lightLevelControlSlider.setValue(Integer.valueOf(mqttMessage.substring(3,5)));
+                        // once last state of app is fetched, subscribing to this topic is no longer necessary
+                    client.unsubscribe("/EE5iot15/commands");
                     }
                 }
 
@@ -217,12 +283,4 @@ public class SettingsFragment extends Fragment {
             e.printStackTrace();
         }
     }
-    //Override methods from MqttCallback interface
-    //@Override
-    public void messageArrived(String topic, MqttMessage message) throws Exception {
-        System.out.println("message is : "+message);
-    }
-
-
-
 }

@@ -16,7 +16,7 @@
             android:id="@+id/wifiBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="136dp"
+            android:layout_marginTop="20dp"
             android:padding="12dp"
             android:text="@string/connect_with_device"
             android:textSize="21sp"
@@ -24,97 +24,115 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textAutomations"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/automations"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/wifiBtn"
-            tools:ignore="TextContrastCheck" />
-
-        <TextView
-            android:id="@+id/textWatering"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="@string/watering"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textAutomations"
-            tools:ignore="TextContrastCheck" />
-
         <Switch
-            android:id="@+id/switchWatering"
+            android:id="@+id/switchAutomation"
             android:layout_width="70dp"
             android:layout_height="68dp"
             android:layout_marginTop="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textWatering" />
+            app:layout_constraintTop_toBottomOf="@+id/wifiBtn" />
 
         <TextView
-            android:id="@+id/textWateringAutomationState"
+            android:id="@+id/textAutomationState"
             android:layout_width="wrap_content"
             android:layout_height="55dp"
             android:layout_marginTop="18dp"
-            android:text="@string/off"
+            android:text="@string/automatic"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/switchWatering"
-            app:layout_constraintTop_toBottomOf="@+id/textWatering"
+            app:layout_constraintStart_toEndOf="@+id/switchAutomation"
+            app:layout_constraintTop_toBottomOf="@+id/wifiBtn"
             tools:ignore="TextContrastCheck" />
 
-        <TextView
-            android:id="@+id/textLightLevelControl"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/light_level_control"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchWatering"
-            tools:ignore="TextContrastCheck" />
+            android:id="@+id/manualModeContainer"
+            app:layout_constraintTop_toBottomOf="@+id/switchAutomation">
 
-        <Switch
-            android:id="@+id/switchLightLevelControl"
-            android:layout_width="54dp"
-            android:layout_height="55dp"
-            android:layout_marginTop="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textLightLevelControl" />
+            <TextView
+                android:id="@+id/textWatering"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/watering"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TextContrastCheck" />
 
-        <TextView
-            android:id="@+id/textLightAutomationState"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/manual"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/switchLightLevelControl"
-            app:layout_constraintTop_toBottomOf="@+id/textLightLevelControl"
-            tools:ignore="TextContrastCheck" />
+            <Switch
+                android:id="@+id/switchWatering"
+                android:layout_width="70dp"
+                android:layout_height="68dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textWatering" />
 
-        <com.google.android.material.slider.Slider
-            android:id="@+id/lightLevelControlSlider"
-            android:layout_width="220dp"
-            android:layout_height="55dp"
-            android:valueFrom="0.0"
-            android:valueTo="100.0"
-            app:haloColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchLightLevelControl"
-            app:thumbColor="@color/colorPrimaryDark"
-            app:trackColor="@color/colorAccent" />
+            <TextView
+                android:id="@+id/textWateringAutomationState"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/switchWatering"
+                app:layout_constraintTop_toBottomOf="@+id/textWatering"
+                tools:ignore="TextContrastCheck" />
+
+            <TextView
+                android:id="@+id/textLightLevelControl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/light_level_control"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switchWatering"
+                tools:ignore="TextContrastCheck" />
+
+            <Switch
+                android:id="@+id/switchLightLevelControl"
+                android:layout_width="54dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textLightLevelControl" />
+
+            <TextView
+                android:id="@+id/textLightAutomationState"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/switchLightLevelControl"
+                app:layout_constraintTop_toBottomOf="@+id/textLightLevelControl"
+                tools:ignore="TextContrastCheck" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/lightLevelControlSlider"
+                android:layout_width="220dp"
+                android:layout_height="55dp"
+                android:valueFrom="0.0"
+                android:valueTo="100.0"
+                app:haloColor="@color/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/switchLightLevelControl"
+                app:thumbColor="@color/colorPrimaryDark"
+                app:trackColor="@color/colorAccent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
