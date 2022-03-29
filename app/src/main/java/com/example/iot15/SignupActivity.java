@@ -81,7 +81,8 @@ public class SignupActivity extends AppCompatActivity {
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             try {
                     System.out.println(url);
-                    startActivity(new Intent(this, LoginActivity.class));
+                    Intent goToLoginScreen = new Intent(this, LoginActivity.class);
+                    startActivity(goToLoginScreen);
                     overridePendingTransition(0, 0);
                 }
             catch (Exception e){

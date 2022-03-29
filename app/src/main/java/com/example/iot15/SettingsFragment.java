@@ -17,6 +17,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.slider.Slider;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -63,7 +65,11 @@ public class SettingsFragment extends Fragment {
         lightLevelControlSlider = (Slider) view.findViewById(R.id.lightLevelControlSlider);
         manualModeContainer = (ConstraintLayout) view.findViewById(R.id.manualModeContainer);
 
-        wifiBtn.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), EspTouchActivity.class)));
+        wifiBtn.setOnClickListener((view1) -> {
+            Intent goToEspTouch = new Intent(getActivity(), EspTouchActivity.class);
+            startActivity(goToEspTouch);
+            //overridePendingTransition(0, 0);
+        });
 
         mqttConnectAndSubscribe();
 
