@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_esptouch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,10 +16,13 @@
             android:id="@+id/apSsidLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:singleLine="true"
             android:text="@string/esptouch1_ssid_title"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorAccent"
+            android:textColor="#403F3F"
+            android:textSize="21sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,6 +33,7 @@
             android:layout_marginStart="4dp"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#403F3F"
             app:layout_constraintBaseline_toBaselineOf="@id/apSsidLabel"
             app:layout_constraintStart_toEndOf="@id/apSsidLabel"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,11 +42,13 @@
             android:id="@+id/apBssidLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:singleLine="true"
             android:text="@string/esptouch1_bssid_title"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorAccent"
+            android:textColor="#403F3F"
+            android:textSize="21sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/apSsidLabel" />
 
@@ -52,6 +59,7 @@
             android:layout_marginStart="4dp"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#403F3F"
             app:layout_constraintBaseline_toBaselineOf="@id/apBssidLabel"
             app:layout_constraintStart_toEndOf="@id/apBssidLabel"
             app:layout_constraintTop_toTopOf="@id/apBssidLabel" />
@@ -61,8 +69,11 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:hint="@string/esptouch1_password_title"
+            app:boxBackgroundColor="#BCFFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/apBssidLabel"
             app:passwordToggleEnabled="true">
 
@@ -71,7 +82,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#403F3F"
+                android:textSize="21sp"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -79,8 +93,11 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:hint="@string/esptouch1_device_count_title"
+            app:boxBackgroundColor="#BCFFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/apPasswordLayout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -88,15 +105,20 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@string/_1" />
+                android:text="@string/_1"
+                android:textColor="#403F3F"
+                android:textSize="21sp"
+                tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup
             android:id="@+id/packageModeGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/deviceCountLayout">
 
             <RadioButton
@@ -104,14 +126,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="@string/esptouch1_package_broadcast" />
+                android:text="@string/esptouch1_package_broadcast"
+                android:textColor="#403F3F"
+                android:textSize="21sp"
+                android:textStyle="bold" />
 
             <RadioButton
                 android:id="@+id/packageMulticast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@string/esptouch1_package_multicast" />
+                android:text="@string/esptouch1_package_multicast"
+                android:textColor="#403F3F"
+                android:textSize="21sp"
+                android:textStyle="bold" />
         </RadioGroup>
 
         <TextView
@@ -120,15 +148,23 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:textColor="@android:color/holo_red_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/packageModeGroup"
             app:layout_goneMarginStart="4dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/confirmBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/rounded_corners_button"
             android:text="@string/esptouch1_confirm"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:textSize="21sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/messageView"
+            app:layout_constraintWidth_percent="0.7" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

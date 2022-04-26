@@ -37,12 +37,10 @@
     <string name="sign_up">Sign Up</string>
     <string name="connect_with_device">Connect with device</string>
     <string name="automations">Automations</string>
-    <string name="watering">Watering</string>
     <string name="off">Off</string>
     <string name="on">On</string>
     <string name="manual">Manual</string>
     <string name="automatic">Automatic</string>
-    <string name="light_level_control">Light Level Control</string>
     <string name="name">Name:</string>
     <string name="change_image">Change Image</string>
     <string name="plant_type">Plant Type:</string>
