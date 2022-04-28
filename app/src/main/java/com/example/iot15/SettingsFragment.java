@@ -58,10 +58,10 @@ public class SettingsFragment extends Fragment {
         lightLevelControlSlider = (Slider) view.findViewById(R.id.lightLevelControlSlider);
         manualModeContainer = (ConstraintLayout) view.findViewById(R.id.manualModeContainer);
 
-        wifiBtn.setOnClickListener((view1) -> {
+        wifiBtn.setOnClickListener(v -> {
             Intent goToEspTouch = new Intent(getActivity(), EspTouchActivity.class);
             startActivity(goToEspTouch);
-            //overridePendingTransition(0, 0);
+            requireActivity().overridePendingTransition(0, 0);
         });
 
         mqttConnectAndSubscribe();

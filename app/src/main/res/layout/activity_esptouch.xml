@@ -5,7 +5,7 @@
     android:id="@+id/activity_esptouch"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="25dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content"
@@ -125,6 +125,7 @@
                 android:id="@+id/packageBroadcast"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/colorPrimary"
                 android:checked="true"
                 android:text="@string/esptouch1_package_broadcast"
                 android:textColor="#403F3F"
@@ -136,6 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:buttonTint="@color/colorPrimary"
                 android:text="@string/esptouch1_package_multicast"
                 android:textColor="#403F3F"
                 android:textSize="21sp"
@@ -155,16 +157,29 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/confirmBtn"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="25dp"
             android:background="@drawable/rounded_corners_button"
             android:text="@string/esptouch1_confirm"
             android:textSize="21sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/messageView" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:background="@drawable/rounded_corners_button"
+            android:onClick="goFragmentHome"
+            android:text="@string/cancel"
+            android:textSize="21sp"
+            app:layout_constraintBottom_toBottomOf="@+id/confirmBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/messageView"
-            app:layout_constraintWidth_percent="0.7" />
+            app:layout_constraintTop_toTopOf="@+id/confirmBtn"
+            tools:ignore="DuplicateSpeakableTextCheck" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -186,17 +201,20 @@
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:indeterminateTint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/cancel_button"
+            android:id="@+id/cancelBtn2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_corners_button"
             android:text="@android:string/cancel"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/progressBar" />
