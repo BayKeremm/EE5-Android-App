@@ -10,7 +10,9 @@
         <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/androidapp/EE5-Android-App/app/src/main/res/layout/fragment_connect.xml" value="0.2391304347826087" />
         <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/androidapp/EE5-Android-App/app/src/main/res/layout/fragment_home.xml" value="0.2391304347826087" />
         <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/androidapp/EE5-Android-App/app/src/main/res/layout/fragment_settings.xml" value="0.2391304347826087" />
-        <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/androidapp/EE5-Android-App/app/src/main/res/layout/login_screen.xml" value="0.18645833333333334" />
+        <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/androidapp/EE5-Android-App/app/src/main/res/layout/list_group.xml" value="0.2368659420289855" />
+        <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/androidapp/EE5-Android-App/app/src/main/res/layout/list_item.xml" value="0.2368659420289855" />
+        <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/androidapp/EE5-Android-App/app/src/main/res/layout/login_screen.xml" value="0.2368659420289855" />
         <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/androidapp/EE5-Android-App/app/src/main/res/layout/sign_up_screen.xml" value="0.18645833333333334" />
         <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/androidapp/EE5-Android-App/app/src/main/res/menu/bottom_menu.xml" value="0.259375" />
         <entry key="..\:/Documenten/KUL/Jaar 3 Sem 2/EE5/app/IoT15-EE5-plant/app/src/main/res/drawable/edit_icon.xml" value="0.2495" />
@@ -24,31 +26,38 @@
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.356" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.356" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/ic_baseline_wifi_24.xml" value="0.356" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/ic_graphs.xml" value="0.356" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.356" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/ic_settings.xml" value="0.356" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/rounded_corners.xml" value="0.356" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/rounded_corners_button.xml" value="0.356" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/rounded_corners_input.xml" value="0.356" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/rounded_corners_input_esptouch.xml" value="0.356" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/sensor_data_bar_back.xml" value="0.356" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/activity_esptouch.xml" value="0.3546875" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/activity_main.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/edit_popup.xml" value="0.3546875" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_connect.xml" value="0.3546875" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_graph.xml" value="0.3546875" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_graphs.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_home.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_settings.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/list_group.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/list_item.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/login_screen.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/sign_up_screen.xml" value="0.3546875" />
-        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.138" />
-        <entry key="app/src/main/res/layout/activity_esptouch.xml" value="0.1" />
+        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/menu/bottom_menu.xml" value="0.3546875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_select_plant.xml" value="0.2190872192382813" />
         <entry key="app/src/main/res/layout/edit_popup.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.12858428955078127" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/login_screen.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/login_screen.xml" value="0.12825994014536127" />
         <entry key="app/src/main/res/layout/sign_up_screen.xml" value="0.12825994014536127" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
