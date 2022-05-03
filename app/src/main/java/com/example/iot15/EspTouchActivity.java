@@ -2,6 +2,7 @@ package com.example.iot15;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,9 +20,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.example.iot15.EspTouchActivityAbs;
-import com.example.iot15.EspTouchApp;
-import com.example.iot15.R;
 import com.espressif.iot.esptouch.EsptouchTask;
 import com.espressif.iot.esptouch.IEsptouchResult;
 import com.espressif.iot.esptouch.IEsptouchTask;
@@ -42,7 +40,7 @@ public class EspTouchActivity extends EspTouchActivityAbs {
     private EsptouchAsyncTask4 mTask;
 
     private Button confirmBtn;
-    private Button cancelButton;
+    private Button cancelButton2;
     private ConstraintLayout content;
     private ConstraintLayout progressView;
     private TextView apSsidLabel;
@@ -70,8 +68,8 @@ public class EspTouchActivity extends EspTouchActivityAbs {
         confirmBtn = findViewById(R.id.confirmBtn);
         confirmBtn.setOnClickListener(v -> executeEsptouch());
 
-        cancelButton = findViewById(R.id.cancel_button);
-        cancelButton.setOnClickListener(v -> {
+        cancelButton2 = findViewById(R.id.cancelBtn2);
+        cancelButton2.setOnClickListener(v -> {
             showProgress(false);
             if (mTask != null) {
                 mTask.cancelEsptouch();
@@ -318,5 +316,11 @@ public class EspTouchActivity extends EspTouchActivityAbs {
                     .show();
             mResultDialog.setCanceledOnTouchOutside(false);
         }
+    }
+
+    public void goFragmentHome(View v) {
+        Intent goToFragmentHome = new Intent(this, MainActivity.class);
+        startActivity(goToFragmentHome);
+        overridePendingTransition(0, 0);
     }
 }

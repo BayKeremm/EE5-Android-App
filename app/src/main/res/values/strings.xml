@@ -3,10 +3,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="esptouch_message_permission">APP require Location permission to get Wi-Fi information. \nClick to request permission</string>
-    <string name="esptouch_message_location">Please turn on GPS to get Wi-Fi information.</string>
+    <string name="esptouch_message_permission">App requires Location permission to get Wi-Fi information. \nClick to request permission</string>
+    <string name="esptouch_message_location">Please turn on Location to get Wi-Fi information.</string>
     <string name="esptouch_message_wifi_connection">Please connect Wi-Fi first.</string>
-    <string name="esptouch_message_wifi_frequency">Current Wi-Fi connection is 5G, but the device just support 2.4G.</string>
+    <string name="esptouch_message_wifi_frequency">Current Wi-Fi connection is 5GHz, but the device only supports 2.4GHz.</string>
 
     <string name="menu_item_about">About App</string>
     <string name="about_app_version">App Version: %s</string>
@@ -20,14 +20,14 @@
     <string name="esptouch1_package_broadcast">Broadcast</string>
     <string name="esptouch1_package_multicast">Multicast</string>
     <string name="esptouch1_confirm">Confirm</string>
-    <string name="esptouch1_wifi_5g_message">Device don\'t support 5G Wi-Fi, please make sure the currently connected Wi-Fi is 2.4G, or you can try multicast</string>
+    <string name="esptouch1_wifi_5g_message">Device doesn\'t support 5GHz Wi-Fi, please make sure the currently connected Wi-Fi is 2.4GHz, or you can try multicast</string>
     <string name="esptouch1_location_permission_title">⚠️Warning</string>
     <string name="esptouch1_location_permission_message">On Android M or higher version, App can\'t get Wi-Fi connection information if you forbid Location permission.</string>
-    <string name="esptouch1_configuring_message">Esptouch is configuring, please wait for a moment…</string>
+    <string name="esptouch1_configuring_message">Esptouch is configuring, please wait…</string>
     <string name="esptouch1_configure_wifi_change_message">Wi-Fi disconnected or changed</string>
-    <string name="esptouch1_configure_result_failed">EspTouch failed</string>
-    <string name="esptouch1_configure_result_failed_port">Create EspTouch task failed, the EspTouch port could be used by other thread</string>
-    <string name="esptouch1_configure_result_success">EspTouch 完成</string>
+    <string name="esptouch1_configure_result_failed">EspTouch failed, device restarting…</string>
+    <string name="esptouch1_configure_result_failed_port">Create EspTouch task failed, the EspTouch port may be in use by another thread</string>
+    <string name="esptouch1_configure_result_success">EspTouch success</string>
     <string name="esptouch1_configure_result_success_item">BSSID = %1$s, InetAddress = %2$s</string>
     <string name="account_login">Account Login</string>
     <string name="password">Password</string>
@@ -37,12 +37,10 @@
     <string name="sign_up">Sign Up</string>
     <string name="connect_with_device">Connect with device</string>
     <string name="automations">Automations</string>
-    <string name="watering">Watering</string>
     <string name="off">Off</string>
     <string name="on">On</string>
     <string name="manual">Manual</string>
     <string name="automatic">Automatic</string>
-    <string name="light_level_control">Light Level Control</string>
     <string name="name">Name:</string>
     <string name="change_image">Change Image</string>
     <string name="plant_type">Plant Type:</string>

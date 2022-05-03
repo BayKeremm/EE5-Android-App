@@ -3,11 +3,6 @@ package com.example.iot15;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +12,10 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.example.iot15.classes.Plant;
-import com.example.iot15.classes.User;
 import com.google.android.material.slider.Slider;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -37,9 +32,6 @@ import java.io.UnsupportedEncodingException;
 public class SettingsFragment extends Fragment {
     public static final String TAG = "SettingsFragment";
 
-    User user;
-    Plant plant;
-
     private TextView textAutomationState;
     private TextView textWatering;
     private TextView textLightLevelControl;
@@ -49,8 +41,6 @@ public class SettingsFragment extends Fragment {
     private StringBuilder mqttMessage = new StringBuilder("00000");
     private Button wifiBtn;
     private Slider lightLevelControlSlider;
-    private TextView textLightAutomationState;
-    private TextView textWateringAutomationState;
     private ConstraintLayout manualModeContainer;
 
     @Override
@@ -65,22 +55,13 @@ public class SettingsFragment extends Fragment {
         switchLightLevelControl = (Switch) view.findViewById(R.id.switchLightLevelControl);
         wifiBtn = (Button) view.findViewById(R.id.wifiBtn);
         textAutomationState = (TextView) view.findViewById(R.id.textAutomationState);
-        textWateringAutomationState = (TextView) view.findViewById(R.id.textWateringAutomationState);
-        textLightAutomationState = (TextView) view.findViewById(R.id.textLightAutomationState);
         lightLevelControlSlider = (Slider) view.findViewById(R.id.lightLevelControlSlider);
         manualModeContainer = (ConstraintLayout) view.findViewById(R.id.manualModeContainer);
 
-        // get User and Plant from mainactivity
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            plant = (Plant) bundle.getSerializable("PLANT");
-            user = (User) bundle.getSerializable("USER");
-        }
-
-        wifiBtn.setOnClickListener((view1) -> {
+        wifiBtn.setOnClickListener(v -> {
             Intent goToEspTouch = new Intent(getActivity(), EspTouchActivity.class);
             startActivity(goToEspTouch);
-            //overridePendingTransition(0, 0);
+            requireActivity().overridePendingTransition(0, 0);
         });
 
         mqttConnectAndSubscribe();
@@ -125,14 +106,12 @@ public class SettingsFragment extends Fragment {
         switchWatering.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked==true){
+                if(isChecked){
                     // Water on
                     changeMqttMessage(2, '1');
-                    textWateringAutomationState.setText("On");
                 } else {
                     // Water off
                     changeMqttMessage(2, '0');
-                    textWateringAutomationState.setText("Off");
                 }
                 mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
             }
@@ -140,16 +119,14 @@ public class SettingsFragment extends Fragment {
         switchLightLevelControl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked==true){
+                if(isChecked){
                     // Light on
                     changeMqttMessage(1, '1');
                     lightLevelControlSlider.setVisibility(View.VISIBLE);
-                    textLightAutomationState.setText("On");
                 } else {
                     // Light off, aka manual
                     changeMqttMessage(1, '0');
                     lightLevelControlSlider.setVisibility(View.GONE);
-                    textLightAutomationState.setText("Off");
                 }
                 mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
             }
