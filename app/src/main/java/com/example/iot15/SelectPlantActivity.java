@@ -27,6 +27,7 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     ListView listView;
     List<Plant> listPlants;
+    List<String>listNamePlants;
     ArrayAdapter adapter;
 
     @Override
@@ -40,6 +41,7 @@ public class SelectPlantActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.plant_listview);
         listPlants = new ArrayList<>();
+        listNamePlants = new ArrayList<>();
         retrievePlants();
 
         adapter = new ArrayAdapter(SelectPlantActivity.this, android.R.layout.simple_list_item_1, listPlants);
@@ -80,6 +82,7 @@ public class SelectPlantActivity extends AppCompatActivity {
                 plant.setPlantName(tempObject.getString("nickName"));
                 plant.setImgBlob(tempObject.getString("img"));
                 listPlants.add(plant);
+                listNamePlants.add(plant.getPlantName());
                 System.out.println(plant);
             }
         }
