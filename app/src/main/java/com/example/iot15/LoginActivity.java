@@ -2,6 +2,7 @@ package com.example.iot15;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -13,11 +14,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iot15.classes.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private User user;
 
     EditText etUsername, etPassword;
 
@@ -80,18 +85,17 @@ public class LoginActivity extends AppCompatActivity {
         System.out.println(url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             try {
-                JSONArray responseJSON = new JSONArray(response);
+                JSONObject responseJSON = new JSONObject(response);
+                if(responseJSON.getString("token") != null){
+                    Intent goSelectPlantActivity = new Intent(getApplicationContext(), SelectPlantActivity.class);
+                    user = new User(responseJSON.getInt("userId"), username, responseJSON.getString("token"));
+                    goSelectPlantActivity.putExtra("USER", user);
+                    startActivity(goSelectPlantActivity);
+                    overridePendingTransition(0, 0);
+                }
             }
             catch (JSONException e) {
                 e.printStackTrace();
-                if(e.toString().contains("token")){
-                    Intent goToFragmentHome = new Intent(getBaseContext(), MainActivity.class);
-                    startActivity(goToFragmentHome);
-                    overridePendingTransition(0, 0);
-                }
-                else if(e.toString().contains("Declined")) {
-                    Toast.makeText(getApplicationContext(),"Not allowed", Toast.LENGTH_SHORT).show();
-                }
             }
 
         }, error -> System.out.println("error"));

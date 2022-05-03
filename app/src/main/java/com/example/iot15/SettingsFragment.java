@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.iot15.classes.Plant;
+import com.example.iot15.classes.User;
 import com.google.android.material.slider.Slider;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -34,6 +36,9 @@ import java.io.UnsupportedEncodingException;
 
 public class SettingsFragment extends Fragment {
     public static final String TAG = "SettingsFragment";
+
+    User user;
+    Plant plant;
 
     private TextView textAutomationState;
     private TextView textWatering;
@@ -64,6 +69,13 @@ public class SettingsFragment extends Fragment {
         textLightAutomationState = (TextView) view.findViewById(R.id.textLightAutomationState);
         lightLevelControlSlider = (Slider) view.findViewById(R.id.lightLevelControlSlider);
         manualModeContainer = (ConstraintLayout) view.findViewById(R.id.manualModeContainer);
+
+        // get User and Plant from mainactivity
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            plant = (Plant) bundle.getSerializable("PLANT");
+            user = (User) bundle.getSerializable("USER");
+        }
 
         wifiBtn.setOnClickListener((view1) -> {
             Intent goToEspTouch = new Intent(getActivity(), EspTouchActivity.class);

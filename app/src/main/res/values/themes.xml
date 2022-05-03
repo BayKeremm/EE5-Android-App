@@ -14,4 +14,10 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/background3</item>
     </style>
+    <style name="Theme.IoT15.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.IoT15.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.IoT15.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

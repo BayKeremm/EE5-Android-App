@@ -4,8 +4,12 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +30,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iot15.classes.Plant;
+import com.example.iot15.classes.PlantType;
+import com.example.iot15.classes.SensorData;
+import com.example.iot15.classes.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,67 +48,68 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
 
+    private User user;
+    private Plant plant;
+    private List<PlantType> plantTypeList= new ArrayList<PlantType>();
 
-    private TextView textWater;
     private ProgressBar progressWater;
     private int waterProgressValue = 10;
-    private TextView textTemperature;
     private ProgressBar progressTemperature;
     private int temperatureProgressValue = 50;
-    private TextView textLight;
     private ProgressBar progressLight;
     private int lightProgressValue = 90;
-    private TextView plantName;
+    private TextView plantNameText;
     private ImageButton editButton;
     private TextView textLastModified;
     private ImageView savedPlantPicture;
 
+    // plant edit dialog
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private EditText editTextName;
     private Button cancelEditBtn, applyEditBtn;
-    private TextView plantTypeList;
-    private ExpandableListView plantTypes;
-    private TextView chosenType;
+    //private TextView plantTypeList;
+    private ExpandableListView plantTypesListView;
+    private TextView chosenTypeText;
     private String type;
-    // One Button
     private Button BSelectImage;
-    // One Preview Image
     private ImageView IVPreviewImage;
-    // constant to compare the activity result code
-    private int SELECT_PICTURE = 200;
+    private int SELECT_PICTURE = 200; // constant to compare the activity result code
     private Uri selectedImageUri;
-
-    private List<SensorData> sensorDataList =new ArrayList<>();
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 
+    private List<SensorData> sensorDataList =new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        textWater = (TextView) view.findViewById(R.id.textWater);
         progressWater = (ProgressBar) view.findViewById(R.id.progressWater);
         progressWater.setProgress(waterProgressValue);
-        textTemperature = (TextView) view.findViewById(R.id.textTemperature);
         progressTemperature = (ProgressBar) view.findViewById(R.id.progressTemperature);
         progressTemperature.setProgress(temperatureProgressValue);
-        textLight = (TextView) view.findViewById(R.id.textLight);
         progressLight = (ProgressBar) view.findViewById(R.id.progressLight);
         progressLight.setProgress(lightProgressValue);
-        chosenType = (TextView) view.findViewById(R.id.chosenType);
-        plantName = (TextView) view.findViewById(R.id.plantName);
+        chosenTypeText = (TextView) view.findViewById(R.id.chosenType);
+        plantNameText = (TextView) view.findViewById(R.id.plantName);
         editButton = (ImageButton) view.findViewById(R.id.editButton);
         savedPlantPicture = (ImageView) view.findViewById(R.id.savedPlantPicture);
+        textLastModified = (TextView) view.findViewById(R.id.textLastModified);
 
-        double BromeliaValues[] = new double[]{1.8,1.5,2.2}; //moisture, temperature, LDR
-        double PineappleValues[] = new double[]{1.9,1.5,2.2};
-        double CactusValues[] = new double[]{2.2,2.5,2.8};
-        double AloeVeraValues[] = new double[]{2.1,1.8,2.2};
+        // get User and Plant from mainactivity
+        // TODO this doesn't always work
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            plant = (Plant) bundle.getSerializable("PLANT");
+            user = (User) bundle.getSerializable("USER");
+            System.out.println("\n\n\n user = " + user + "\n\n\n");
+            plantNameText.setText(plant.getPlantName());
+        }
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,10 +118,23 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        textLastModified = (TextView) view.findViewById(R.id.textLastModified);
+        if(bundle != null){
+            retrieveData();
+        }
 
-        retrieveData();
         return view;
+    }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try{
+            byte [] encodeByte = Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        }
+        catch(Exception e){
+            e.getMessage();
+            return null;
+        }
     }
 
     public void createEditDialog(){
@@ -119,10 +144,11 @@ public class HomeFragment extends Fragment {
         editTextName = (EditText) editDialogView.findViewById(R.id.editTextName);
         cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
         applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
-        plantTypes = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
-        chosenType = (TextView) editDialogView.findViewById(R.id.chosenType);
+        plantTypesListView = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
+        chosenTypeText = (TextView) editDialogView.findViewById(R.id.chosenType);
         BSelectImage = editDialogView.findViewById(R.id.BSelectImage);
         IVPreviewImage = editDialogView.findViewById(R.id.IVPreviewImage);
+        IVPreviewImage.setImageBitmap(StringToBitMap(plant.getImgBlob()));
 
         dialogBuilder.setView(editDialogView);
         dialog = dialogBuilder.create();
@@ -138,10 +164,21 @@ public class HomeFragment extends Fragment {
         applyEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                savedPlantPicture.setImageURI(selectedImageUri);
-                String editTextNameString = editTextName.getText().toString();
-                plantName.setText(editTextNameString);
+                // TEMP
+                // TODO
+                try {
+                    savedPlantPicture.setImageBitmap(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImageUri));
+                    System.out.println(MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), selectedImageUri));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                // TEMP
+
+
+                //savedPlantPicture.setImageURI(selectedImageUri);
                 dialog.dismiss();
+                updatePlantInfo(editTextName.getText().toString(), plant.getPlantType(), String.valueOf(imageUriToBlob(selectedImageUri)));
             }
         });
 
@@ -154,7 +191,7 @@ public class HomeFragment extends Fragment {
         });
 
 
-        expListView = plantTypes;
+        expListView = plantTypesListView;
         prepareListData();
         listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
@@ -176,7 +213,7 @@ public class HomeFragment extends Fragment {
                 // TODO Auto-generated method stub
                 //chosenType.setText("here database info");
                 type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
-                chosenType.setText("Type: " + type);
+                chosenTypeText.setText("Type: " + type);
                 //send data to database
                 expListView.collapseGroup(groupPosition);
                 return false;
@@ -186,7 +223,6 @@ public class HomeFragment extends Fragment {
 
     // this function is triggered when the Select Image Button is clicked
     void imageChooser() {
-
         // create an instance of the intent of the type image
         Intent i = new Intent();
         i.setType("image/*");
@@ -199,14 +235,12 @@ public class HomeFragment extends Fragment {
     // this function is triggered when user selects the image from the imageChooser
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK) {
-
             // compare the resultCode with the SELECT_PICTURE constant
             if (requestCode == SELECT_PICTURE) {
                 // Get the url of the image from data
                 selectedImageUri = data.getData();
-                if (null != selectedImageUri) {
+                if (selectedImageUri != null) {
                     // update the preview image in the layout
                     IVPreviewImage.setImageURI(selectedImageUri);
                 }
@@ -214,7 +248,40 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void addToArray(String response){
+
+    private void updatePlantInfo(String plantName, int plantTypeId, String imgBlob){
+       // /updateOwnedPlant/plantId/plantTypeId/imgBinary/nickname?token=logintoken
+        RequestQueue queue= Volley.newRequestQueue(getContext());
+        String url="https://a21iot15.studev.groept.be/index.php/api/updateOwnedPlant/" + plant.getId() +"/" + plantTypeId + "/" + imgBlob + "/" + plantName +"?token=" + user.getToken();
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            plant.setPlantType(plantTypeId);
+            plant.setPlantName(plantName);
+            plant.setImgBlob(imgBlob);
+
+            String editTextNameString = editTextName.getText().toString();
+            plantNameText.setText(editTextNameString);
+        }, error -> System.out.println("Error: " + error));
+
+        queue.add(stringRequest);
+    }
+
+    private byte[] imageUriToBlob(Uri uri){
+        // turn image URI into a bitmap for database
+        byte[] bArray = null;
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+            bArray = bos.toByteArray();
+
+            System.out.println("\n\n bit array for image:\n" + bArray + "\n\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bArray;
+    }
+
+    private void addToMeasurementArray(String response){
         try {
             JSONArray jsonArray = new JSONArray(response);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -233,7 +300,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void addRecentData(){
+    private void displayRecentMeasurements(){
         SensorData dataWater = new SensorData();
         SensorData dataTemperature = new SensorData();
         SensorData dataLight = new SensorData();
@@ -261,21 +328,56 @@ public class HomeFragment extends Fragment {
         }
 
         // modify progress bars and last modified according to recieved data
-        textLastModified.setText("Last Modified: " + dataWater.getTimestamp());
+        if(dataWater.getTimestamp() != 0){
+            textLastModified.setText("Last Modified: " + dataWater.getTimestamp());
+        } else {
+            textLastModified.setText("No new data");
+        }
         progressWater.setProgress((int)dataWater.getValue());
         progressTemperature.setProgress((int) dataTemperature.getValue());
         progressLight.setProgress((int) dataLight.getValue());
-
     }
 
-    private void retrieveData() {
-        RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url="https://studev.groept.be/api/a21iot15/select_top100/";
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
-            addToArray(response);
-            addRecentData();
+    private void retrieveData(){
+        retrievePlantTypes();
+        retrieveMeasurements();
+    }
 
-        }, error -> plantName.setText("Make new profile:"));
+    private void retrieveMeasurements() {
+        RequestQueue queue= Volley.newRequestQueue(getContext());
+        String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurements/" + 12 +"/" + plant.getId() + "?token=" + user.getToken();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+            addToMeasurementArray(response);
+            displayRecentMeasurements();
+
+        }, error -> System.out.println("Error: " + error));
+
+        queue.add(stringRequest);
+    }
+
+    private void retrievePlantTypes(){
+        RequestQueue queue= Volley.newRequestQueue(getContext());
+        String url="https://a21iot15.studev.groept.be/index.php/api/listPlants?token=" + user.getToken();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject tempObject = jsonArray.getJSONObject(i);
+
+                    PlantType plantType = new PlantType();
+                    plantType.setId(tempObject.getInt("id"));
+                    plantType.setName(tempObject.getString("name"));
+                    plantType.setIdealMoisture(tempObject.getDouble("idealMoisture"));
+                    plantType.setIdealTemperature(tempObject.getDouble("idealTemperature"));
+                    plantType.setIdealLight(tempObject.getDouble("idealLight"));
+                    System.out.println(plantType.toString());
+                    plantTypeList.add(plantType);
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }, error -> System.out.println("Error: " + error));
 
         queue.add(stringRequest);
     }
@@ -288,12 +390,11 @@ public class HomeFragment extends Fragment {
         listDataHeader.add("Choose");
 
         // Adding child data
-        List<String> plant_types = new ArrayList<String>();
-        plant_types.add("Bromelia");
-        plant_types.add("Pineapple");
-        plant_types.add("Cactus");
-        plant_types.add("Aloë Vera");
+        List<String> plantTypeNames = new ArrayList<String>();
+        for(int i = 0; i<plantTypeList.size();i++){
+            plantTypeNames.add(plantTypeList.get(i).getName());
+        }
 
-        listDataChild.put(listDataHeader.get(0), plant_types); // Header, Child data
+        listDataChild.put(listDataHeader.get(0), plantTypeNames); // Header, Child data
     }
 }

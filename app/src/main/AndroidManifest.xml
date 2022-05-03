@@ -19,6 +19,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IoT15">
+        <activity
+            android:name=".SelectPlantActivity"
+            android:exported="false" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SignupActivity" />
         <activity
@@ -35,6 +38,7 @@
             android:exported="true"
             android:label="@string/esptouch1_title"
             android:screenOrientation="portrait" />
+
         <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 

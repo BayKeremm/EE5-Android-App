@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.classes;
 
 public class SensorData {
 /*    private enum SensorDataType {
