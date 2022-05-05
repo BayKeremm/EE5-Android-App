@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class SelectPlantActivity extends AppCompatActivity {
     ListView listView;
     List<Plant> listPlants;
     ArrayAdapter adapter;
+    Button refreshButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class SelectPlantActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("USER");
 
+        refreshButton = findViewById(R.id.refreshButton);
         listView = findViewById(R.id.plant_listview);
         listPlants = new ArrayList<>();
         retrievePlants();
@@ -60,6 +63,13 @@ public class SelectPlantActivity extends AppCompatActivity {
                 startActivity(goToMainActivity);
             }
         });
+
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrievePlants();
+            }
+        });
     }
 
     private void retrievePlants() {
@@ -72,6 +82,11 @@ public class SelectPlantActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
+    private String addSlashesToUri(String wrongUri){
+        String uri = wrongUri.replace('_', '/');
+        return uri;
+    }
+
     private void addJSONtoPlantList(String response){
         try {
             JSONArray jsonArray = new JSONArray(response);
@@ -82,7 +97,7 @@ public class SelectPlantActivity extends AppCompatActivity {
                 plant.setUserId(tempObject.getInt("userId"));
                 plant.setPlantType(tempObject.getInt("plantId"));
                 plant.setPlantName(tempObject.getString("nickName"));
-                plant.setImgBlob(tempObject.getString("img"));
+                plant.setImgBlob(addSlashesToUri(tempObject.getString("img")));
                 listPlants.add(plant);
                 System.out.println(plant);
             }
