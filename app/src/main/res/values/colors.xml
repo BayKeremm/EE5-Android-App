@@ -11,4 +11,8 @@
     <color name="colorPrimaryDark">#ce2e32</color>
     <color name="colorAccent">#ff5983</color>
     <color name="colorBackground">#A2E49B</color>
+    <color name="colorText">#403F3F</color>
+    <color name="colorWater">#03A9F4</color>
+    <color name="colorTemperature">#F44336</color>
+    <color name="colorLight">#FFC107</color>
 </resources>
