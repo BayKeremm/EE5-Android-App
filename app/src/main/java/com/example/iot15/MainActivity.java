@@ -1,15 +1,13 @@
 package com.example.iot15;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.WindowManager;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.User;
@@ -57,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case R.id.home:
                         fragment= new HomeFragment();
+                        fragment.setArguments(bundle);
+                        break;
+
+                    case R.id.graphs:
+                        fragment= new GraphsFragment();
                         fragment.setArguments(bundle);
                         break;
 

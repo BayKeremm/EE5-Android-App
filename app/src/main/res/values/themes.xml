@@ -12,7 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <item name="android:windowBackground">@drawable/background5</item>
+        <item name="android:windowBackground">@drawable/background6</item>
     </style>
     <style name="Theme.IoT15.NoActionBar">
         <item name="windowActionBar">false</item>

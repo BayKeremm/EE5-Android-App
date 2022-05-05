@@ -45,4 +45,5 @@ dependencies {
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
     implementation 'com.github.EspressifApp:lib-esptouch-android:1.0.0'
     implementation 'com.github.EspressifApp:lib-esptouch-v2-android:2.1.0'
+    implementation 'com.jjoe64:graphview:4.2.2'
 }
