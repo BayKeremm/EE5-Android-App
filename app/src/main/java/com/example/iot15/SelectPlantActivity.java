@@ -29,6 +29,7 @@ public class SelectPlantActivity extends AppCompatActivity {
     List<Plant> listPlants;
     List<String>listNamePlants;
     ArrayAdapter adapter;
+    Plant selectedPlantObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +45,22 @@ public class SelectPlantActivity extends AppCompatActivity {
         listNamePlants = new ArrayList<>();
         retrievePlants();
 
-        adapter = new ArrayAdapter(SelectPlantActivity.this, android.R.layout.simple_list_item_1, listPlants);
+        adapter = new ArrayAdapter(SelectPlantActivity.this, android.R.layout.simple_list_item_1, listNamePlants);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Plant selectedPlant = (Plant) adapter.getItem(position);
+                String selectedPlantName = adapter.getItem(position).toString();
+                for (int i = 0; i < listPlants.size(); i++) {
+                    if( selectedPlantName == listPlants.get(i).getPlantName()){
+                        selectedPlantObject = listPlants.get(i);
+                    }
+                }
 
                 Intent goToMainActivity = new Intent(getApplicationContext(), MainActivity.class);
                 goToMainActivity.putExtra("USER", user);
-                goToMainActivity.putExtra("PLANT", selectedPlant);
+                goToMainActivity.putExtra("PLANT", selectedPlantObject);
                 startActivity(goToMainActivity);
             }
         });
