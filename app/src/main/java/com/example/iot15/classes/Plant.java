@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Plant implements Serializable {
     private int id;
     private int userId;
+    private int deviceId;
     private String plantName;
     private int plantType;
     private String imgBlob;
@@ -23,6 +24,14 @@ public class Plant implements Serializable {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(int deviceId) {
+        this.deviceId = deviceId;
     }
 
     public String getPlantName() {

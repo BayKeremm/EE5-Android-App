@@ -40,10 +40,11 @@ public class SettingsFragment extends Fragment {
     private TextView textAutomationState;
     private TextView textWatering;
     private TextView textLightLevelControl;
+    private TextView plantNameTextView;
     private Switch switchAutomation;
     private Switch switchWatering;
     private Switch switchLightLevelControl;
-    private StringBuilder mqttMessage = new StringBuilder("00000");
+    private StringBuilder mqttMessage = new StringBuilder("00000/");
     private Button wifiBtn;
     private Slider lightLevelControlSlider;
     private ConstraintLayout manualModeContainer;
@@ -55,6 +56,7 @@ public class SettingsFragment extends Fragment {
 
         textWatering = (TextView) view.findViewById(R.id.textWatering);
         textLightLevelControl = (TextView) view.findViewById(R.id.textLightLevelControl);
+        plantNameTextView = (TextView) view.findViewById(R.id.plantNameTextView);
         switchAutomation = (Switch) view.findViewById(R.id.switchAutomation);
         switchWatering = (Switch) view.findViewById(R.id.switchWatering);
         switchLightLevelControl = (Switch) view.findViewById(R.id.switchLightLevelControl);
@@ -69,7 +71,9 @@ public class SettingsFragment extends Fragment {
         if (bundle != null) {
             plant = (Plant) bundle.getSerializable("PLANT");
             user = (User) bundle.getSerializable("USER");
-            System.out.println("\n\n\n user = " + user + "\n\n\n");
+            plantNameTextView.setText(plant.getPlantName());
+            //change MQTT message with right device ID
+            mqttMessage.append(plant.getDeviceId());
         }
 
         wifiBtn.setOnClickListener(v -> {
@@ -114,7 +118,7 @@ public class SettingsFragment extends Fragment {
                     textAutomationState.setText("Automatic");
                     fadeManualScreen();
                 }
-                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
+                mqttConnectAndPublish("/EE5iot15/commands/" + plant.getDeviceId(), mqttMessage.toString());
             }
         });
         switchWatering.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -127,7 +131,7 @@ public class SettingsFragment extends Fragment {
                     // Water off
                     changeMqttMessage(2, '0');
                 }
-                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
+                mqttConnectAndPublish("/EE5iot15/commands/" + plant.getDeviceId(), mqttMessage.toString());
             }
         });
         switchLightLevelControl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -142,7 +146,7 @@ public class SettingsFragment extends Fragment {
                     changeMqttMessage(1, '0');
                     lightLevelControlSlider.setVisibility(View.GONE);
                 }
-                mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
+                mqttConnectAndPublish("/EE5iot15/commands/" + plant.getDeviceId(), mqttMessage.toString());
             }
         });
 
@@ -167,7 +171,7 @@ public class SettingsFragment extends Fragment {
             changeMqttMessage(3, valueString.charAt(0));
             changeMqttMessage(4, valueString.charAt(1));
         }
-        mqttConnectAndPublish("/EE5iot15/commands", mqttMessage.toString());
+        mqttConnectAndPublish("/EE5iot15/commands/" + plant.getDeviceId(), mqttMessage.toString());
     };
 
     public void changeMqttMessage(int index, char status){
@@ -246,8 +250,8 @@ public class SettingsFragment extends Fragment {
     public void mqttSubscribe(MqttAndroidClient client) {
         int qos = 1;
         try {
-            client.subscribe("/EE5iot15/warnings", qos);
-            client.subscribe("/EE5iot15/commands",qos);
+            client.subscribe("/EE5iot15/warnings/" + plant.getDeviceId(), qos);
+            client.subscribe("/EE5iot15/commands/" +plant.getDeviceId(),qos);
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
@@ -256,10 +260,10 @@ public class SettingsFragment extends Fragment {
 
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    if(topic.compareTo("/EE5iot15/warnings") == 0){
+                    if(topic.compareTo("/EE5iot15/warnings/" + plant.getDeviceId()) == 0){
                         // show warnings somewhere
                     }
-                    else if(topic.compareTo("/EE5iot15/commands") == 0){
+                    else if(topic.compareTo("/EE5iot15/commands/" +plant.getDeviceId()) == 0){
                         String response = new String(message.getPayload());
                         mqttMessage = new StringBuilder(response);
                         if(response.charAt(0) == '0'){

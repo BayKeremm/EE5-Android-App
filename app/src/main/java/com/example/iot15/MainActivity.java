@@ -9,9 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private User user;
@@ -39,6 +47,26 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("USER");
         plant = (Plant) intent.getSerializableExtra("PLANT");
+
+        retrieveDeviceId();
+    }
+
+    //TODO a bit ridiculous that we have to fetch for deviceId here
+    private void retrieveDeviceId() {
+        RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
+        String url="https://a21iot15.studev.groept.be/index.php/api/getDeviceId/" + plant.getId() + "?token=" + user.getToken();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(response);
+                plant.setDeviceId(jsonObject.getInt("deviceId"));
+                System.out.println("\n\n\n device id:" + plant.getDeviceId() + "\n\n\n");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> System.out.println("error retrieveDeviceId"));
+
+        queue.add(stringRequest);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod=new BottomNavigationView.OnNavigationItemSelectedListener() {
