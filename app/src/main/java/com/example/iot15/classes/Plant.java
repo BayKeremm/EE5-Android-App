@@ -10,6 +10,8 @@ public class Plant implements Serializable {
     private int plantType;
     private String imgBlob;
 
+
+
     public int getId() {
         return id;
     }

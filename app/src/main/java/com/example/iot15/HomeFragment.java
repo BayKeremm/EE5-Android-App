@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
     //private TextView plantTypeList;
     private ExpandableListView plantTypesListView;
     private TextView chosenTypeText;
-    private String type;
+    private int chosenPlantTypeId;
     private Button BSelectImage;
     private ImageView IVPreviewImage;
     private int SELECT_PICTURE = 200; // constant to compare the activity result code
@@ -86,6 +86,8 @@ public class HomeFragment extends Fragment {
     HashMap<String, List<String>> listDataChild;
 
     private List<SensorData> sensorDataList =new ArrayList<>();
+    private Bundle bundle = null;
+    private Boolean newImageSelected = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
@@ -106,7 +108,7 @@ public class HomeFragment extends Fragment {
 
         // get User and Plant from mainactivity
         // TODO this doesn't always work
-        Bundle bundle = this.getArguments();
+        bundle = this.getArguments();
         if (bundle != null) {
             plant = (Plant) bundle.getSerializable("PLANT");
             user = (User) bundle.getSerializable("USER");
@@ -156,6 +158,13 @@ public class HomeFragment extends Fragment {
         IVPreviewImage = editDialogView.findViewById(R.id.IVPreviewImage);
         IVPreviewImage.setImageURI(Uri.parse(plant.getImgBlob()));
 
+        //add previous data that can be edited
+        if(bundle != null) {
+            editTextName.setText(plant.getPlantName());
+            editTextName.setAlpha(0.50F);
+            chosenPlantTypeId = plant.getId();
+            // set plant type
+        }
         dialogBuilder.setView(editDialogView);
         dialog = dialogBuilder.create();
         dialog.show();
@@ -163,6 +172,7 @@ public class HomeFragment extends Fragment {
         cancelEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                newImageSelected = false;
                 dialog.dismiss();
             }
         });
@@ -170,13 +180,18 @@ public class HomeFragment extends Fragment {
         applyEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                savedPlantPicture.setImageURI(selectedImageUri);
-                System.out.println("\n\n" + selectedImageUri.toString() + "\n\n");
+                // only update img uri if new image was selected
+                if(newImageSelected == true){
+                    savedPlantPicture.setImageURI(selectedImageUri);
+                    System.out.println("\n\n" + selectedImageUri.toString() + "\n\n");
+                    updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, selectedImageUri.toString());
+                } else{
+                    updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgBlob());
+                }
+                newImageSelected = false;
                 dialog.dismiss();
-                updatePlantInfo(editTextName.getText().toString(), plant.getPlantType(), selectedImageUri.toString());
             }
         });
-
         // handle the Choose Image button to trigger the image chooser function
         BSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +199,6 @@ public class HomeFragment extends Fragment {
                 imageChooser();
             }
         });
-
 
         expListView = plantTypesListView;
         prepareListData();
@@ -206,10 +220,11 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
                 // TODO Auto-generated method stub
-                //chosenType.setText("here database info");
-                type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
-                chosenTypeText.setText("Type: " + type);
-                //send data to database
+                // childPosition also corresponds to the position in the plantTypeList
+                chosenPlantTypeId = plantTypeList.get(childPosition).getId();
+                // change header of expandable list
+                listDataHeader.set(0, plantTypeList.get(childPosition).getName());
+                //chosenTypeText.setText("Type: ");
                 expListView.collapseGroup(groupPosition);
                 return false;
             }
@@ -255,7 +270,7 @@ public class HomeFragment extends Fragment {
                 if (selectedImageUri != null) {
                     // update the preview image in the layout
                     IVPreviewImage.setImageURI(selectedImageUri);
-                    savedPlantPicture.setImageURI(selectedImageUri);
+                    newImageSelected = true;
 
                 }
         }
@@ -430,7 +445,7 @@ public class HomeFragment extends Fragment {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        listDataHeader.add("Choose");
+        listDataHeader.add(getPlantTypeFromId(plant.getPlantType()).getName());
 
         // Adding child data
         List<String> plantTypeNames = new ArrayList<String>();
@@ -439,5 +454,15 @@ public class HomeFragment extends Fragment {
         }
 
         listDataChild.put(listDataHeader.get(0), plantTypeNames); // Header, Child data
+    }
+
+    private PlantType getPlantTypeFromId(int plantTypeId){
+        PlantType plant = new PlantType();
+        for(int i = 0; i<plantTypeList.size(); i++){
+            if(plantTypeList.get(i).getId() == plantTypeId){
+                return plantTypeList.get(i);
+            }
+        }
+        return plant;
     }
 }
