@@ -1,12 +1,11 @@
 package com.example.iot15;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -17,7 +16,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.iot15.classes.User;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private User user;
 
     EditText etUsername, etPassword;
+    SharedPreferences onBoardingScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +75,24 @@ public class LoginActivity extends AppCompatActivity {
 
     public void goSignup(View v) {
         // Open your SignUp Activity if the user wants to signup
-        Intent goToSignup = new Intent(this, SignupActivity.class);
-        startActivity(goToSignup);
-        overridePendingTransition(0, 0);
+        onBoardingScreen = getSharedPreferences("onBoardingScreen", MODE_PRIVATE);
+
+        boolean isFirst = onBoardingScreen.getBoolean("firstTimeUser", true);
+
+        if(isFirst){
+            SharedPreferences.Editor editor = onBoardingScreen.edit();
+            editor.putBoolean("firstTimeUser", false);
+            editor.commit();
+
+            Intent goToOnBoarding = new Intent(this,OnBoardingActivity.class);
+            startActivity(goToOnBoarding);
+            finish();
+        }else {
+
+            Intent goToSignup = new Intent(this, SignupActivity.class);
+            startActivity(goToSignup);
+            overridePendingTransition(0, 0);
+        }
     }
 
     private void checkPassword(String username, String password) {

@@ -15,4 +15,6 @@
     <color name="colorWater">#03A9F4</color>
     <color name="colorTemperature">#F44336</color>
     <color name="colorLight">#FFC107</color>
+    <color name="artBackground">#e0f1ca</color>
+    <color name="artBackground2">#02162a</color>
 </resources>

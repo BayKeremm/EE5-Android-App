@@ -154,4 +154,15 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="slider_title1">Meet your new plant buddy!</string>
+    <string name="slider_title2">Let him do the job!</string>
+    <string name="slider_title3">Forget about plant care!</string>
+
+    <string name="slider_text1">Use the plant buddy to take care of your plant 24/7!</string>
+    <string name="slider_text2">Light intensity control for day and night with available presettings!</string>
+    <string name="slider_text3">Prepare a power bank, fill the water tank and you are ready to go!</string>
+
+    <string name="get_started_button">Let\'s get started!</string>
+    <string name="skip_btn">SKIP</string>
+
 </resources>
