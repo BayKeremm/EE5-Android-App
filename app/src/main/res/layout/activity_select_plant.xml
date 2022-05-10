@@ -13,7 +13,7 @@
     </ListView>
 
     <Button
-        android:id="@+id/refreshButton"
+        android:id="@+id/addPlantButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/plant_listview"
