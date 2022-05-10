@@ -2,12 +2,42 @@ package com.example.iot15;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.app.AlertDialog.Builder;
+
+
+import androidx.fragment.app.Fragment;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.iot15.classes.Plant;
+import com.example.iot15.classes.PlantType;
+import com.example.iot15.classes.SensorData;
+import com.example.iot15.classes.User;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,6 +60,22 @@ public class SelectPlantActivity extends AppCompatActivity {
     List<String>listNamePlants;
     ArrayAdapter adapter;
     Plant selectedPlantObject;
+    private Button addPlantButton;
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
+    private EditText editTextName;
+    private EditText editDeviceID;
+    private Button cancelEditBtn, applyEditBtn;
+    private ExpandableListView plantTypesListView;
+    private TextView chosenTypeText;
+    private String type;
+    ExpandableListAdapter listAdapter;
+    ExpandableListView expListView;
+    List<String> listDataHeader;
+    HashMap<String, List<String>> listDataChild;
+    private List<PlantType> plantTypeList= new ArrayList<PlantType>();
+    private Plant plant;
+    private TextView plantNameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +87,11 @@ public class SelectPlantActivity extends AppCompatActivity {
         user = (User) intent.getSerializableExtra("USER");
 
         listView = findViewById(R.id.plant_listview);
+        addPlantButton = findViewById(R.id.addPlantButton);
         listPlants = new ArrayList<>();
         listNamePlants = new ArrayList<>();
         retrievePlants();
+        retrievePlantTypes();
 
         adapter = new ArrayAdapter(SelectPlantActivity.this, android.R.layout.simple_list_item_1, listNamePlants);
         listView.setAdapter(adapter);
@@ -62,6 +110,74 @@ public class SelectPlantActivity extends AppCompatActivity {
                 goToMainActivity.putExtra("USER", user);
                 goToMainActivity.putExtra("PLANT", selectedPlantObject);
                 startActivity(goToMainActivity);
+            }
+        });
+
+        addPlantButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createEditDialog();
+            }
+        });
+    }
+
+    public void createEditDialog(){
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View editDialogView = getLayoutInflater().inflate(R.layout.add_plant_popup, null);
+
+        editTextName = (EditText) editDialogView.findViewById(R.id.editTextName);
+        cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
+        applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
+        plantTypesListView = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
+        chosenTypeText = (TextView) editDialogView.findViewById(R.id.chosenType);
+        editDeviceID = (EditText) editDialogView.findViewById(R.id.editDeviceID);
+
+        dialogBuilder.setView(editDialogView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
+        cancelEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        applyEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO
+                updatePlantInfo(editTextName.getText().toString(), plant.getPlantType(), Integer.parseInt(editDeviceID.getText().toString()));
+                dialog.dismiss();
+            }
+        });
+
+        expListView = plantTypesListView;
+        prepareListData();
+        listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+        expListView.setAdapter(listAdapter);
+
+        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {}
+        });
+
+        expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+            @Override
+            public void onGroupCollapse(int groupPosition) {}
+        });
+
+        // Listview on child click listener
+        expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
+                // TODO Auto-generated method stub
+                //chosenType.setText("here database info");
+                type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                chosenTypeText.setText("Type: " + type);
+                //send data to database
+                expListView.collapseGroup(groupPosition);
+                return false;
             }
         });
     }
@@ -95,5 +211,64 @@ public class SelectPlantActivity extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void prepareListData() {
+        listDataHeader = new ArrayList<String>();
+        listDataChild = new HashMap<String, List<String>>();
+
+        // Adding child data
+        listDataHeader.add("Choose");
+
+        // Adding child data
+        List<String> plantTypeNames = new ArrayList<String>();
+        for(int i = 0; i<plantTypeList.size();i++){
+            plantTypeNames.add(plantTypeList.get(i).getName());
+        }
+
+        listDataChild.put(listDataHeader.get(0), plantTypeNames); // Header, Child data
+    }
+
+    private void retrievePlantTypes(){
+        RequestQueue queue= Volley.newRequestQueue(this);
+        String url="https://a21iot15.studev.groept.be/index.php/api/listPlants?token=" + user.getToken();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+            try {
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject tempObject = jsonArray.getJSONObject(i);
+
+                    PlantType plantType = new PlantType();
+                    plantType.setId(tempObject.getInt("id"));
+                    plantType.setName(tempObject.getString("name"));
+                    plantType.setIdealMoisture(tempObject.getDouble("idealMoisture"));
+                    plantType.setIdealTemperature(tempObject.getDouble("idealTemperature"));
+                    plantType.setIdealLight(tempObject.getDouble("idealLight"));
+                    System.out.println(plantType.toString());
+                    plantTypeList.add(plantType);
+                }
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }, error -> System.out.println("Error: " + error));
+
+        queue.add(stringRequest);
+    }
+
+    private void updatePlantInfo(String plantName, int plantTypeId, int deviceID){
+        // /updateOwnedPlant/plantId/plantTypeId/imgBinary/nickname?token=logintoken
+        RequestQueue queue= Volley.newRequestQueue(this);
+        String url="https://a21iot15.studev.groept.be/index.php/api/insertOwnedPlant/" + user.getId() +"/" + plantTypeId +"/" + deviceID + "/" + plantName +"?token=" + user.getToken();
+        StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
+            /*plant.setPlantType(plantTypeId);
+            plant.setPlantName(plantName);
+            plant.setDeviceId(deviceID);
+
+            String editTextNameString = editTextName.getText().toString();
+            plantNameText.setText(editTextNameString);*/
+        }, error -> System.out.println("Error: " + error));
+
+        queue.add(stringRequest);
     }
 }

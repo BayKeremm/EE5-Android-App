@@ -7,11 +7,11 @@
     android:background="@color/colorBackground">
 
     <TextView
-        android:id="@+id/textSettings"
+        android:id="@+id/addPlant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/edit_plant2"
+        android:text="@string/add_plant"
         android:textColor="@color/colorText"
         android:textSize="26sp"
         android:textStyle="bold"
@@ -33,6 +33,38 @@
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/deviceID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/device_id"
+        android:textColor="@color/colorText"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textName" />
+
+    <EditText
+        android:id="@+id/editDeviceID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/rounded_corners_input"
+        android:backgroundTint="@android:color/transparent"
+        android:hint="@string/type_here"
+        android:importantForAutofill="no"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/colorText"
+        android:textSize="21sp"
+        app:layout_constraintStart_toEndOf="@+id/deviceID"
+        app:layout_constraintTop_toBottomOf="@+id/editTextName"
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+
+
     <EditText
         android:id="@+id/editTextName"
         android:layout_width="wrap_content"
@@ -47,7 +79,7 @@
         android:textColor="@color/colorText"
         android:textSize="21sp"
         app:layout_constraintStart_toEndOf="@+id/textName"
-        app:layout_constraintTop_toBottomOf="@+id/textSettings"
+        app:layout_constraintTop_toBottomOf="@+id/addPlant"
         tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
     <ExpandableListView
@@ -56,6 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
         android:divider="@null"
         android:textColor="@color/colorText"
         android:textSize="21sp"
@@ -76,7 +109,7 @@
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IVPreviewImage"
+        app:layout_constraintTop_toBottomOf="@+id/plant_types"
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
@@ -91,7 +124,7 @@
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/IVPreviewImage"
+        app:layout_constraintTop_toBottomOf="@+id/plant_types"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -106,37 +139,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
-
-    <!--Button to open the image selector-->
-
-    <!--ImageView to preview the selected image-->
-
-    <Button
-        android:id="@+id/BSelectImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/rounded_corners_button"
-        android:text="@string/select_picture"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/plant_types" />
-
-    <ImageView
-        android:id="@+id/IVPreviewImage"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_below="@id/BSelectImage"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:contentDescription="@string/plant_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BSelectImage" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/editDeviceID" />
 </androidx.constraintlayout.widget.ConstraintLayout>
