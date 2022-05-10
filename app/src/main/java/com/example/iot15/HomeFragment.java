@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
         progressLight = (ProgressBar) view.findViewById(R.id.progressLight);
         progressLight.setProgress(lightProgressValue);
         chosenTypeText = (TextView) view.findViewById(R.id.chosenType);
-        plantNameText = (TextView) view.findViewById(R.id.plantName);
+        plantNameText = (TextView) view.findViewById(R.id.plantNameHome);
         editButton = (ImageButton) view.findViewById(R.id.editButton);
         savedPlantPicture = (ImageView) view.findViewById(R.id.savedPlantPicture);
         textLastModified = (TextView) view.findViewById(R.id.textLastModified);

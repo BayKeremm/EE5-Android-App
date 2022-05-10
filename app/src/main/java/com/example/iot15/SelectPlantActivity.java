@@ -1,10 +1,7 @@
 package com.example.iot15;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,13 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.app.AlertDialog.Builder;
 
-
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,30 +20,13 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.PlantType;
-import com.example.iot15.classes.SensorData;
 import com.example.iot15.classes.User;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.iot15.classes.Plant;
-import com.example.iot15.classes.User;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class SelectPlantActivity extends AppCompatActivity {
@@ -110,6 +87,7 @@ public class SelectPlantActivity extends AppCompatActivity {
                 goToMainActivity.putExtra("USER", user);
                 goToMainActivity.putExtra("PLANT", selectedPlantObject);
                 startActivity(goToMainActivity);
+                overridePendingTransition(0, 0);
             }
         });
 

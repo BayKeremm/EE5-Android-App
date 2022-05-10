@@ -25,6 +25,8 @@ import com.espressif.iot.esptouch.IEsptouchResult;
 import com.espressif.iot.esptouch.IEsptouchTask;
 import com.espressif.iot.esptouch.util.ByteUtil;
 import com.espressif.iot.esptouch.util.TouchNetUtil;
+import com.example.iot15.classes.Plant;
+import com.example.iot15.classes.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.lang.ref.WeakReference;
@@ -39,7 +41,11 @@ public class EspTouchActivity extends EspTouchActivityAbs {
 
     private EsptouchAsyncTask4 mTask;
 
-    private Button confirmBtn;
+    private User user;
+    private Plant plant;
+
+    private Button confirmButton;
+    private Button cancelButton;
     private Button cancelButton2;
     private ConstraintLayout content;
     private ConstraintLayout progressView;
@@ -65,8 +71,22 @@ public class EspTouchActivity extends EspTouchActivityAbs {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_esptouch);
 
-        confirmBtn = findViewById(R.id.confirmBtn);
-        confirmBtn.setOnClickListener(v -> executeEsptouch());
+        // retrieve user from Login activity
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("USER");
+        plant = (Plant) intent.getSerializableExtra("PLANT");
+
+        confirmButton = findViewById(R.id.confirmBtn);
+        confirmButton.setOnClickListener(v -> executeEsptouch());
+
+        cancelButton = findViewById(R.id.cancelBtn);
+        cancelButton.setOnClickListener(v -> {
+            Intent goToFragmentHome = new Intent(getApplicationContext(), MainActivity.class);
+            goToFragmentHome.putExtra("USER", user);
+            goToFragmentHome.putExtra("PLANT", plant);
+            startActivity(goToFragmentHome);
+            overridePendingTransition(0, 0);
+        });
 
         cancelButton2 = findViewById(R.id.cancelBtn2);
         cancelButton2.setOnClickListener(v -> {
@@ -181,7 +201,7 @@ public class EspTouchActivity extends EspTouchActivityAbs {
         apSsidText.setText(mSsid);
         apBssidText.setText(mBssid);
         messageView.setText(message);
-        confirmBtn.setEnabled(confirmEnable);
+        confirmButton.setEnabled(confirmEnable);
     }
 
     private void executeEsptouch() {
@@ -316,11 +336,5 @@ public class EspTouchActivity extends EspTouchActivityAbs {
                     .show();
             mResultDialog.setCanceledOnTouchOutside(false);
         }
-    }
-
-    public void goFragmentHome(View v) {
-        Intent goToFragmentHome = new Intent(this, MainActivity.class);
-        startActivity(goToFragmentHome);
-        overridePendingTransition(0, 0);
     }
 }

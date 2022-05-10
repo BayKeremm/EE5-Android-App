@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/plantName"
+                android:id="@+id/plantNameHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
@@ -38,9 +38,9 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/edit_plant"
                 android:src="@drawable/ic_baseline_edit_24"
-                app:layout_constraintBottom_toBottomOf="@+id/plantName"
-                app:layout_constraintStart_toEndOf="@+id/plantName"
-                app:layout_constraintTop_toTopOf="@+id/plantName"
+                app:layout_constraintBottom_toBottomOf="@+id/plantNameHome"
+                app:layout_constraintStart_toEndOf="@+id/plantNameHome"
+                app:layout_constraintTop_toTopOf="@+id/plantNameHome"
                 tools:ignore="TouchTargetSizeCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

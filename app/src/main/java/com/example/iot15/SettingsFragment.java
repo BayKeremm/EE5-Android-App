@@ -56,7 +56,7 @@ public class SettingsFragment extends Fragment {
 
         textWatering = (TextView) view.findViewById(R.id.textWatering);
         textLightLevelControl = (TextView) view.findViewById(R.id.textLightLevelControl);
-        plantNameTextView = (TextView) view.findViewById(R.id.plantNameTextView);
+        plantNameTextView = (TextView) view.findViewById(R.id.plantNameSettings);
         switchAutomation = (Switch) view.findViewById(R.id.switchAutomation);
         switchWatering = (Switch) view.findViewById(R.id.switchWatering);
         switchLightLevelControl = (Switch) view.findViewById(R.id.switchLightLevelControl);
@@ -78,6 +78,8 @@ public class SettingsFragment extends Fragment {
 
         wifiBtn.setOnClickListener(v -> {
             Intent goToEspTouch = new Intent(getActivity(), EspTouchActivity.class);
+            goToEspTouch.putExtra("USER", user);
+            goToEspTouch.putExtra("PLANT", plant);
             startActivity(goToEspTouch);
             requireActivity().overridePendingTransition(0, 0);
         });

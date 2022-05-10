@@ -173,8 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:background="@drawable/rounded_corners_button"
-            android:onClick="goFragmentHome"
-            android:text="@string/cancel"
+            android:text="@string/back"
             android:textSize="21sp"
             app:layout_constraintBottom_toBottomOf="@+id/confirmBtn"
             app:layout_constraintStart_toStartOf="parent"
@@ -194,7 +193,11 @@
         <TextView
             android:id="@+id/testResult"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -213,8 +216,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_corners_button"
-            android:text="@android:string/cancel"
-            android:textSize="17sp"
+            android:text="@string/cancel"
+            android:textSize="21sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/progressBar" />
