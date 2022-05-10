@@ -64,6 +64,7 @@ public class SelectPlantActivity extends AppCompatActivity {
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
     private EditText editTextName;
+    private EditText editDeviceID;
     private Button cancelEditBtn, applyEditBtn;
     private ExpandableListView plantTypesListView;
     private TextView chosenTypeText;
@@ -129,6 +130,7 @@ public class SelectPlantActivity extends AppCompatActivity {
         applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
         plantTypesListView = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
         chosenTypeText = (TextView) editDialogView.findViewById(R.id.chosenType);
+        editDeviceID = (EditText) editDialogView.findViewById(R.id.editDeviceID);
 
         dialogBuilder.setView(editDialogView);
         dialog = dialogBuilder.create();
@@ -144,7 +146,8 @@ public class SelectPlantActivity extends AppCompatActivity {
         applyEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updatePlantInfo(editTextName.getText().toString(), plant.getPlantType());
+                //TODO
+                updatePlantInfo(editTextName.getText().toString(), plant.getPlantType(), Integer.parseInt(editDeviceID.getText().toString()));
                 dialog.dismiss();
             }
         });
@@ -253,16 +256,17 @@ public class SelectPlantActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-    private void updatePlantInfo(String plantName, int plantTypeId){
+    private void updatePlantInfo(String plantName, int plantTypeId, int deviceID){
         // /updateOwnedPlant/plantId/plantTypeId/imgBinary/nickname?token=logintoken
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url="https://a21iot15.studev.groept.be/index.php/api/updateOwnedPlant/" + plant.getId() +"/" + plantTypeId + "/" + plantName +"?token=" + user.getToken();
+        String url="https://a21iot15.studev.groept.be/index.php/api/insertOwnedPlant/" + user.getId() +"/" + plantTypeId +"/" + deviceID + "/" + plantName +"?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            plant.setPlantType(plantTypeId);
+            /*plant.setPlantType(plantTypeId);
             plant.setPlantName(plantName);
+            plant.setDeviceId(deviceID);
 
             String editTextNameString = editTextName.getText().toString();
-            plantNameText.setText(editTextNameString);
+            plantNameText.setText(editTextNameString);*/
         }, error -> System.out.println("Error: " + error));
 
         queue.add(stringRequest);

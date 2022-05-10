@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/add_plant"
+        android:text="@string/edit_plant2"
         android:textColor="@color/colorText"
         android:textSize="26sp"
         android:textStyle="bold"

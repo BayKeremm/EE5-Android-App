@@ -155,4 +155,5 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="device_id">device ID:</string>
+    <string name="edit_plant2">Edit Plant</string>
 </resources>
