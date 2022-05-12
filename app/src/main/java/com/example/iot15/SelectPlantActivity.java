@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SelectPlantActivity extends AppCompatActivity {
-    private User user;
+    User user;
 
     ListView listView;
     List<Plant> listPlants;
@@ -51,7 +52,8 @@ public class SelectPlantActivity extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     private List<PlantType> plantTypeList= new ArrayList<PlantType>();
-    private Plant plant;
+    int planttypenumber;
+    private Plant newPlant;
     private TextView plantNameText;
 
     @Override
@@ -125,10 +127,17 @@ public class SelectPlantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO
-                updatePlantInfo(editTextName.getText().toString(), plant.getPlantType(), Integer.parseInt(editDeviceID.getText().toString()));
+                updatePlantInfo(editTextName.getText().toString(), planttypenumber+1 , Integer.parseInt(editDeviceID.getText().toString()));
+                retrievePlants();
+                retrievePlantTypes();
                 dialog.dismiss();
+                Intent goSelectPlantActivity = new Intent(getApplicationContext(), SelectPlantActivity.class);
+                goSelectPlantActivity.putExtra("USER", user);
+                startActivity(goSelectPlantActivity);
+                overridePendingTransition(0, 0);
             }
         });
+
 
         expListView = plantTypesListView;
         prepareListData();
@@ -152,6 +161,7 @@ public class SelectPlantActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 //chosenType.setText("here database info");
                 type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+                planttypenumber = childPosition ;
                 chosenTypeText.setText("Type: " + type);
                 //send data to database
                 expListView.collapseGroup(groupPosition);
@@ -239,12 +249,6 @@ public class SelectPlantActivity extends AppCompatActivity {
         RequestQueue queue= Volley.newRequestQueue(this);
         String url="https://a21iot15.studev.groept.be/index.php/api/insertOwnedPlant/" + user.getId() +"/" + plantTypeId +"/" + deviceID + "/" + plantName +"?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-            /*plant.setPlantType(plantTypeId);
-            plant.setPlantName(plantName);
-            plant.setDeviceId(deviceID);
-
-            String editTextNameString = editTextName.getText().toString();
-            plantNameText.setText(editTextNameString);*/
         }, error -> System.out.println("Error: " + error));
 
         queue.add(stringRequest);
