@@ -17,7 +17,6 @@ import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.User;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,14 +40,20 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView=findViewById(R.id.bottomMenu);
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
 
-        // retrieve user from Login activity
+        // retrieve user and plant
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("USER");
         plant = (Plant) intent.getSerializableExtra("PLANT");
 
         retrieveDeviceId();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("USER", user);
+        bundle.putSerializable("PLANT", plant);
+        Fragment initialHomeFragment = new HomeFragment();
+        initialHomeFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, initialHomeFragment).commit();
     }
 
     //TODO a bit ridiculous that we have to fetch for deviceId here
@@ -75,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Fragment fragment = null;
                 Bundle bundle = new Bundle();
-                bundle.putString("TEST", "test");
                 bundle.putSerializable("USER", user);
                 bundle.putSerializable("PLANT", plant);
 

@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +38,6 @@ import com.example.iot15.classes.User;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,13 +53,11 @@ public class HomeFragment extends Fragment {
     private List<PlantType> plantTypeList= new ArrayList<PlantType>();
 
     private ProgressBar progressWater;
-    private int waterProgressValue = 10;
     private ProgressBar progressTemperature;
-    private int temperatureProgressValue = 50;
     private ProgressBar progressLight;
-    private int lightProgressValue = 90;
     private TextView plantNameText;
     private ImageButton editButton;
+    private ImageButton refreshHomeData;
     private TextView textLastModified;
     private ImageView savedPlantPicture;
 
@@ -95,14 +90,12 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         progressWater = (ProgressBar) view.findViewById(R.id.progressWater);
-        progressWater.setProgress(waterProgressValue);
         progressTemperature = (ProgressBar) view.findViewById(R.id.progressTemperature);
-        progressTemperature.setProgress(temperatureProgressValue);
         progressLight = (ProgressBar) view.findViewById(R.id.progressLight);
-        progressLight.setProgress(lightProgressValue);
         chosenTypeText = (TextView) view.findViewById(R.id.chosenType);
         plantNameText = (TextView) view.findViewById(R.id.plantNameHome);
         editButton = (ImageButton) view.findViewById(R.id.editButton);
+        refreshHomeData = (ImageButton) view.findViewById(R.id.refreshHomeData);
         savedPlantPicture = (ImageView) view.findViewById(R.id.savedPlantPicture);
         textLastModified = (TextView) view.findViewById(R.id.textLastModified);
 
@@ -119,6 +112,15 @@ public class HomeFragment extends Fragment {
             }
             //setImageFromUri();
         }
+        refreshHomeData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrieveMeasurementsMoisture();
+                retrieveMeasurementsLight();
+                retrieveMeasurementsTemperature();
+            }
+        });
+
         if(bundle != null){
             retrieveData();
         }
