@@ -446,7 +446,7 @@ public class HomeFragment extends Fragment {
     boolean validateNewName() {
 
         if (editTextName.getText().toString().equals("")) {
-            editTextName.setError("New Name should have at least 1 character");
+            editTextName.setError("Not Allowed");
             return false;
         }
         return true;
