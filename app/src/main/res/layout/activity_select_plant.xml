@@ -7,19 +7,16 @@
     tools:context=".SelectPlantActivity">
 
     <ListView
+        android:id="@+id/plant_listview"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:id="@+id/plant_listview">
-    </ListView>
+        android:layout_height="500dp"></ListView>
 
     <Button
         android:id="@+id/addPlantButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/plant_listview"
-        android:text="@string/add_plant"
-        >
-    </Button>
+        android:text="@string/add_plant"></Button>
 
 
 </RelativeLayout>

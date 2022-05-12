@@ -59,7 +59,6 @@ public class EspTouchActivity extends EspTouchActivityAbs {
     private RadioGroup packageModeGroup;
     private TextView testResult;
 
-
     private String mSsid;
     private byte[] mSsidBytes;
     private String mBssid;
