@@ -31,8 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SelectPlantActivity extends AppCompatActivity {
-    User user;
 
+    User user;
     ListView listView;
     List<Plant> listPlants;
     List<String>listNamePlants;
@@ -52,9 +52,7 @@ public class SelectPlantActivity extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     private List<PlantType> plantTypeList= new ArrayList<PlantType>();
-    int planttypenumber;
-    private Plant newPlant;
-    private TextView plantNameText;
+    int planttypenumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +125,7 @@ public class SelectPlantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO
+                if (validateInput()){
                 updatePlantInfo(editTextName.getText().toString(), planttypenumber+1 , Integer.parseInt(editDeviceID.getText().toString()));
                 retrievePlants();
                 retrievePlantTypes();
@@ -135,9 +134,10 @@ public class SelectPlantActivity extends AppCompatActivity {
                 goSelectPlantActivity.putExtra("USER", user);
                 startActivity(goSelectPlantActivity);
                 overridePendingTransition(0, 0);
+                }
+                else {}
             }
         });
-
 
         expListView = plantTypesListView;
         prepareListData();
@@ -252,5 +252,23 @@ public class SelectPlantActivity extends AppCompatActivity {
         }, error -> System.out.println("Error: " + error));
 
         queue.add(stringRequest);
+    }
+
+    // Checking if the input in form is valid
+    boolean validateInput() {
+
+        if (editTextName.getText().toString().equals("")) {
+            editTextName.setError("Please Enter The Plant's Name");
+            return false;
+        }
+        if (editDeviceID.getText().toString().equals("")) {
+            editDeviceID.setError("Please Enter The device's ID");
+            return false;
+        }
+        if (planttypenumber==0 ) {
+            chosenTypeText.setError("Please Choose A Plant Type");
+            return false;
+        }
+        return true;
     }
 }
