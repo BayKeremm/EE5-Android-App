@@ -237,6 +237,15 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    boolean validateNewName() {
+
+        if (editTextName.getText().toString().equals("")) {
+            editTextName.setError("Not Allowed");
+            return false;
+        }
+        return true;
+    }
+
     // this function is triggered when the Select Image Button is clicked
     void imageChooser() {
         // create an instance of the intent of the type image
@@ -461,14 +470,5 @@ public class HomeFragment extends Fragment {
             }
         }
         return plant;
-    }
-
-    boolean validateNewName() {
-
-        if (editTextName.getText().toString().equals("")) {
-            editTextName.setError("Not Allowed");
-            return false;
-        }
-        return true;
     }
 }
