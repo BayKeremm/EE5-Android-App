@@ -100,7 +100,6 @@ public class HomeFragment extends Fragment {
         textLastModified = (TextView) view.findViewById(R.id.textLastModified);
 
         // get User and Plant from mainactivity
-        // TODO this doesn't always work
         bundle = this.getArguments();
         if (bundle != null) {
             plant = (Plant) bundle.getSerializable("PLANT");
@@ -111,7 +110,9 @@ public class HomeFragment extends Fragment {
                 savedPlantPicture.setImageURI(Uri.parse(plant.getImgBlob()));
             }
             //setImageFromUri();
+            retrieveData();
         }
+
         refreshHomeData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,10 +121,6 @@ public class HomeFragment extends Fragment {
                 retrieveMeasurementsTemperature();
             }
         });
-
-        if(bundle != null){
-            retrieveData();
-        }
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -397,26 +394,6 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
         return sensorData;
-    }
-
-    // parse multiple SensorData
-    private void addToMeasurementArray(String response){
-        try {
-            JSONArray jsonArray = new JSONArray(response);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject tempObject = jsonArray.getJSONObject(i);
-                SensorData sensorData = new SensorData();
-                sensorData.setId(tempObject.getInt("id"));
-                sensorData.setType(tempObject.getString("type"));
-                sensorData.setTimestamp(tempObject.getString("timestamp"));
-                sensorData.setValue(tempObject.getDouble("value"));
-                System.out.println(sensorData.toString());
-                sensorDataList.add(sensorData);
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
     }
 
     private void retrievePlantTypes(){

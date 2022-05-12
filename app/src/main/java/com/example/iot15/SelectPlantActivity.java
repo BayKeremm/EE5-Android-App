@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,9 +30,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SelectPlantActivity extends AppCompatActivity {
-
     User user;
-    ListView listView;
+
+    ListView plantListView;
     List<Plant> listPlants;
     List<String>listNamePlants;
     ArrayAdapter adapter;
@@ -52,7 +51,9 @@ public class SelectPlantActivity extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     private List<PlantType> plantTypeList= new ArrayList<PlantType>();
-    int planttypenumber = 0;
+    int plantTypeNumber = -1;
+    private Plant newPlant;
+    private TextView plantNameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +64,14 @@ public class SelectPlantActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("USER");
 
-        listView = findViewById(R.id.plant_listview);
+        plantListView = findViewById(R.id.plant_listview);
         addPlantButton = findViewById(R.id.addPlantButton);
         listPlants = new ArrayList<>();
         listNamePlants = new ArrayList<>();
         retrievePlants();
         retrievePlantTypes();
 
-        adapter = new ArrayAdapter(SelectPlantActivity.this, android.R.layout.simple_list_item_1, listNamePlants);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        plantListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String selectedPlantName = adapter.getItem(position).toString();
@@ -124,18 +122,15 @@ public class SelectPlantActivity extends AppCompatActivity {
         applyEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                if (validateInput()){
-                updatePlantInfo(editTextName.getText().toString(), planttypenumber+1 , Integer.parseInt(editDeviceID.getText().toString()));
-                retrievePlants();
-                retrievePlantTypes();
-                dialog.dismiss();
-                Intent goSelectPlantActivity = new Intent(getApplicationContext(), SelectPlantActivity.class);
-                goSelectPlantActivity.putExtra("USER", user);
-                startActivity(goSelectPlantActivity);
-                overridePendingTransition(0, 0);
+                if (validateInput()) {
+                    updatePlantInfo(editTextName.getText().toString(), plantTypeNumber + 1, Integer.parseInt(editDeviceID.getText().toString()));
+                    retrievePlants();
+                    dialog.dismiss();
+                    Intent goSelectPlantActivity = new Intent(getApplicationContext(), SelectPlantActivity.class);
+                    goSelectPlantActivity.putExtra("USER", user);
+                    startActivity(goSelectPlantActivity);
+                    overridePendingTransition(0, 0);
                 }
-                else {}
             }
         });
 
@@ -161,7 +156,7 @@ public class SelectPlantActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
                 //chosenType.setText("here database info");
                 type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
-                planttypenumber = childPosition ;
+                plantTypeNumber = childPosition;
                 chosenTypeText.setText("Type: " + type);
                 //send data to database
                 expListView.collapseGroup(groupPosition);
@@ -175,7 +170,10 @@ public class SelectPlantActivity extends AppCompatActivity {
         String url="https://a21iot15.studev.groept.be/index.php/api/listOwnedPlants/" + user.getId() + "?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             addJSONtoPlantList(response);
-        }, error -> listPlants.add(new Plant()));
+
+            adapter = new ArrayAdapter(SelectPlantActivity.this, android.R.layout.simple_list_item_1, listNamePlants);
+            plantListView.setAdapter(adapter);
+        }, error -> System.out.println("Error: " + error));
 
         queue.add(stringRequest);
     }
@@ -265,7 +263,7 @@ public class SelectPlantActivity extends AppCompatActivity {
             editDeviceID.setError("Please Enter The device's ID");
             return false;
         }
-        if (planttypenumber==0 ) {
+        if (plantTypeNumber == -1) {
             chosenTypeText.setError("Please Choose A Plant Type");
             return false;
         }
