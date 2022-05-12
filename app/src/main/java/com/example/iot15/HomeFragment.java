@@ -187,9 +187,12 @@ public class HomeFragment extends Fragment {
                 if(newImageSelected == true){
                     savedPlantPicture.setImageURI(selectedImageUri);
                     System.out.println("\n\n" + selectedImageUri.toString() + "\n\n");
-                    updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, selectedImageUri.toString());
-                } else{
-                    updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgBlob());
+                    if(validateNewName()){
+                    updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, selectedImageUri.toString());}
+                }
+                else{
+                    if(validateNewName()){
+                        updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgBlob());}
                 }
                 newImageSelected = false;
                 dialog.dismiss();
@@ -458,5 +461,14 @@ public class HomeFragment extends Fragment {
             }
         }
         return plant;
+    }
+
+    boolean validateNewName() {
+
+        if (editTextName.getText().toString().equals("")) {
+            editTextName.setError("New Name should have at least 1 character");
+            return false;
+        }
+        return true;
     }
 }
