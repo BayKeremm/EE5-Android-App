@@ -185,14 +185,19 @@ public class HomeFragment extends Fragment {
                     savedPlantPicture.setImageURI(selectedImageUri);
                     System.out.println("\n\n" + selectedImageUri.toString() + "\n\n");
                     if(validateNewName()){
-                    updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, selectedImageUri.toString());}
+                        updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, selectedImageUri.toString());
+                        newImageSelected = false;
+                        dialog.dismiss();
+                    }
+
                 }
                 else{
                     if(validateNewName()){
-                        updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgBlob());}
+                        updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgBlob());
+                        newImageSelected = false;
+                        dialog.dismiss();
+                    }
                 }
-                newImageSelected = false;
-                dialog.dismiss();
             }
         });
         // handle the Choose Image button to trigger the image chooser function
