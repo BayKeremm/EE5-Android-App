@@ -111,12 +111,16 @@ public class HomeFragment extends Fragment {
         bundle = this.getArguments();
         if (bundle != null) {
             plant = (Plant) bundle.getSerializable("PLANT");
+            System.out.println("\n\n\n" + plant.toString() + "\n\n\n");
             user = (User) bundle.getSerializable("USER");
             plantNameText.setText(plant.getPlantName());
             if(plant.getImgBlob() != null){
                 savedPlantPicture.setImageURI(Uri.parse(plant.getImgBlob()));
             }
             //setImageFromUri();
+        }
+        if(bundle != null){
+            retrieveData();
         }
 
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -126,9 +130,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        if(bundle != null){
-            retrieveData();
-        }
 
         return view;
     }
@@ -162,7 +163,7 @@ public class HomeFragment extends Fragment {
         if(bundle != null) {
             editTextName.setText(plant.getPlantName());
             editTextName.setAlpha(0.50F);
-            chosenPlantTypeId = plant.getId();
+            chosenPlantTypeId = plant.getPlantType(); //TODO just changed
             // set plant type
         }
         dialogBuilder.setView(editDialogView);
@@ -317,28 +318,74 @@ public class HomeFragment extends Fragment {
         return newUri;
     }
 
-    private String addSlashesToUri(String wrongUri){
-        String uri = wrongUri.replace('_', '/');
-        return uri;
+    private void retrieveData(){
+        retrievePlantTypes();
+        retrieveMeasurementsMoisture();
+        retrieveMeasurementsLight();
+        retrieveMeasurementsTemperature();
     }
 
-    // might save for later
-    private byte[] imageUriToBlob(Uri uri){
-        // turn image URI into a bitmap for database
-        byte[] bArray = null;
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-            bArray = bos.toByteArray();
+    private void retrieveMeasurementsMoisture() {
+        RequestQueue queue= Volley.newRequestQueue(getContext());
+        String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurementsMoisture/" + 1 +"/" + plant.getId() + "?token=" + user.getToken();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+            // parse response to SensorData
+            SensorData dataWater = parseToSensorData(response);
+            // update last timestamp
+            textLastModified.setText("Last Modified: " + dataWater.getTimestamp());
+            // display this SensorData on progressBar
+            progressWater.setProgress((int)dataWater.getValue());
+        }, error -> System.out.println("Error: " + error));
+        queue.add(stringRequest);
+    }
 
-            System.out.println("\n\n from: " +  uri +"to bit array for image:\n" + bArray + "\n\n");
-        } catch (IOException e) {
+    private void retrieveMeasurementsLight() {
+        RequestQueue queue= Volley.newRequestQueue(getContext());
+        String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurementsLight/" + 1 +"/" + plant.getId() + "?token=" + user.getToken();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+            // parse response to SensorData
+            SensorData dataLight = parseToSensorData(response);
+
+            // display this SensorData on progressBar
+            progressLight.setProgress((int)dataLight.getValue());
+        }, error -> System.out.println("Error: " + error));
+        queue.add(stringRequest);
+    }
+
+    private void retrieveMeasurementsTemperature() {
+        RequestQueue queue= Volley.newRequestQueue(getContext());
+        String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurementsTemperature/" + 1 +"/" + plant.getId() + "?token=" + user.getToken();
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+            // parse response to SensorData
+            SensorData dataTemperature = parseToSensorData(response);
+
+            // display this SensorData on progressBar
+            progressTemperature.setProgress((int)dataTemperature.getValue());
+        }, error -> System.out.println("Error: " + error));
+        queue.add(stringRequest);
+    }
+
+    // parse and return 1 SensorData
+    private SensorData parseToSensorData(String response){
+        SensorData sensorData = new SensorData();
+        try {
+            JSONArray jsonArray = new JSONArray(response);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject tempObject = jsonArray.getJSONObject(i);
+                sensorData.setId(tempObject.getInt("id"));
+                sensorData.setType(tempObject.getString("type"));
+                sensorData.setTimestamp(tempObject.getString("timestamp"));
+                sensorData.setValue(tempObject.getDouble("value"));
+                System.out.println(sensorData.toString());
+            }
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
-        return bArray;
+        return sensorData;
     }
 
+    // parse multiple SensorData
     private void addToMeasurementArray(String response){
         try {
             JSONArray jsonArray = new JSONArray(response);
@@ -347,7 +394,7 @@ public class HomeFragment extends Fragment {
                 SensorData sensorData = new SensorData();
                 sensorData.setId(tempObject.getInt("id"));
                 sensorData.setType(tempObject.getString("type"));
-                sensorData.setTimestamp(tempObject.getInt("timestamp"));
+                sensorData.setTimestamp(tempObject.getString("timestamp"));
                 sensorData.setValue(tempObject.getDouble("value"));
                 System.out.println(sensorData.toString());
                 sensorDataList.add(sensorData);
@@ -356,61 +403,6 @@ public class HomeFragment extends Fragment {
         catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    private void displayRecentMeasurements(){
-        SensorData dataWater = new SensorData();
-        SensorData dataTemperature = new SensorData();
-        SensorData dataLight = new SensorData();
-        // check for most recent data for each sensor
-        for(int i = 0; i<sensorDataList.size();i++){
-            if(sensorDataList.get(i).getType().equals("Moisture")){
-                if(sensorDataList.get(i).getId() > dataWater.getId()){
-                    dataWater = sensorDataList.get(i);
-                }
-            }
-        }
-        for(int i = 0; i<sensorDataList.size();i++){
-            if(sensorDataList.get(i).getType().equals("Temperature")){
-                if(sensorDataList.get(i).getId() > dataTemperature.getId()){
-                    dataTemperature = sensorDataList.get(i);
-                }
-            }
-        }
-        for(int i = 0; i<sensorDataList.size();i++){
-            if(sensorDataList.get(i).getType().equals("Light")){
-                if(sensorDataList.get(i).getId() > dataLight.getId()){
-                    dataLight = sensorDataList.get(i);
-                }
-            }
-        }
-
-        // modify progress bars and last modified according to recieved data
-        if(dataWater.getTimestamp() != 0){
-            textLastModified.setText("Last Modified: " + dataWater.getTimestamp());
-        } else {
-            textLastModified.setText("No new data");
-        }
-        progressWater.setProgress((int)dataWater.getValue());
-        progressTemperature.setProgress((int) dataTemperature.getValue());
-        progressLight.setProgress((int) dataLight.getValue());
-    }
-
-    private void retrieveData(){
-        retrievePlantTypes();
-        retrieveMeasurements();
-    }
-
-    private void retrieveMeasurements() {
-        RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurements/" + 12 +"/" + plant.getId() + "?token=" + user.getToken();
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
-            addToMeasurementArray(response);
-            displayRecentMeasurements();
-
-        }, error -> System.out.println("Error: " + error));
-
-        queue.add(stringRequest);
     }
 
     private void retrievePlantTypes(){

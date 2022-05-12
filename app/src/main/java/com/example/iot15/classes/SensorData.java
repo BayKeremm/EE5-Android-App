@@ -18,13 +18,13 @@ public class SensorData {
 
     private int id;
     private String type;
-    private int timestamp;
+    private String timestamp;
     private double value;
 
     public SensorData() {
         this.id = 0;
         this.type = null;
-        this.timestamp = 0;
+        this.timestamp = "No data";
         this.value = 0.0;
     }
 
@@ -45,11 +45,11 @@ public class SensorData {
         this.type = type;
     }
 
-    public int getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

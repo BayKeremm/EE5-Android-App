@@ -38,7 +38,7 @@ public class SelectPlantActivity extends AppCompatActivity {
     ArrayAdapter adapter;
     Plant selectedPlantObject;
     private Button addPlantButton;
-    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog.Builder addNewPlantDialogBuilder;
     private AlertDialog dialog;
     private EditText editTextName;
     private EditText editDeviceID;
@@ -94,13 +94,13 @@ public class SelectPlantActivity extends AppCompatActivity {
         addPlantButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createEditDialog();
+                createAddNewPlantDialog();
             }
         });
     }
 
-    public void createEditDialog(){
-        dialogBuilder = new AlertDialog.Builder(this);
+    public void createAddNewPlantDialog(){
+        addNewPlantDialogBuilder = new AlertDialog.Builder(this);
         final View editDialogView = getLayoutInflater().inflate(R.layout.add_plant_popup, null);
 
         editTextName = (EditText) editDialogView.findViewById(R.id.editTextName);
@@ -110,8 +110,8 @@ public class SelectPlantActivity extends AppCompatActivity {
         chosenTypeText = (TextView) editDialogView.findViewById(R.id.chosenType);
         editDeviceID = (EditText) editDialogView.findViewById(R.id.editDeviceID);
 
-        dialogBuilder.setView(editDialogView);
-        dialog = dialogBuilder.create();
+        addNewPlantDialogBuilder.setView(editDialogView);
+        dialog = addNewPlantDialogBuilder.create();
         dialog.show();
 
         cancelEditBtn.setOnClickListener(new View.OnClickListener() {
