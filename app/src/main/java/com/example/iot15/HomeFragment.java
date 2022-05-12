@@ -390,26 +390,6 @@ public class HomeFragment extends Fragment {
         return sensorData;
     }
 
-    // parse multiple SensorData
-    private void addToMeasurementArray(String response){
-        try {
-            JSONArray jsonArray = new JSONArray(response);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject tempObject = jsonArray.getJSONObject(i);
-                SensorData sensorData = new SensorData();
-                sensorData.setId(tempObject.getInt("id"));
-                sensorData.setType(tempObject.getString("type"));
-                sensorData.setTimestamp(tempObject.getString("timestamp"));
-                sensorData.setValue(tempObject.getDouble("value"));
-                System.out.println(sensorData.toString());
-                sensorDataList.add(sensorData);
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     private void retrievePlantTypes(){
         RequestQueue queue= Volley.newRequestQueue(getContext());
         String url="https://a21iot15.studev.groept.be/index.php/api/listPlants?token=" + user.getToken();
