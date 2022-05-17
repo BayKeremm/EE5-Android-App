@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,7 @@ public class GraphsFragment extends Fragment {
     private GraphView graphWater;
     private GraphView graphTemperature;
     private GraphView graphLight;
+    private ImageButton refreshBtn;
 
     private List<SensorData> sensorDataListWater =new ArrayList<>();
     private List<SensorData> sensorDataListTemperature =new ArrayList<>();
@@ -59,6 +61,14 @@ public class GraphsFragment extends Fragment {
         graphWater = (GraphView) view.findViewById(R.id.GraphView1);
         graphTemperature = (GraphView) view.findViewById(R.id.GraphView2);
         graphLight = (GraphView) view.findViewById(R.id.GraphView3);
+        refreshBtn = (ImageButton) view.findViewById(R.id.refreshBtn);
+
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrieveData();
+            }
+        });
 
         // get User and Plant from mainactivity
         Bundle bundle = this.getArguments();

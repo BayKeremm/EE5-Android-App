@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/refreshGraphsData"
+            android:id="@+id/refreshBtn"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginTop="45dp"

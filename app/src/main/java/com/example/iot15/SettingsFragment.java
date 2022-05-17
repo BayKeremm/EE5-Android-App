@@ -108,6 +108,8 @@ public class SettingsFragment extends Fragment {
                 if(isChecked==true){
                     // Manual mode
                     changeMqttMessage(0, '1');
+                    changeMqttMessage(1, '0');
+                    changeMqttMessage(2, '0');
                     textAutomationState.setText("Manual");
                     manualModeContainer.setAlpha(1.0F);
                     switchWatering.setEnabled(true);
@@ -115,6 +117,8 @@ public class SettingsFragment extends Fragment {
                 } else {
                     // Automatic mode
                     changeMqttMessage(0, '0');
+                    changeMqttMessage(1, '0');
+                    changeMqttMessage(2, '0');
                     textAutomationState.setText("Automatic");
                     fadeManualScreen();
                 }
