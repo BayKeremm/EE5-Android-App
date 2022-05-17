@@ -76,6 +76,9 @@ public class GraphsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(bundle != null){
+                    sensorDataListLight.clear();
+                    sensorDataListWater.clear();
+                    sensorDataListTemperature.clear();
                     retrieveData();
                 }
             }
@@ -138,6 +141,7 @@ public class GraphsFragment extends Fragment {
         graphView.setTitleColor(textColor);
         graphView.setTitleTextSize(50);
         graphView.removeAllSeries();
+        graphView.
         graphView.addSeries(graphData);
     }
 }
