@@ -186,6 +186,7 @@ public class HomeFragment extends Fragment {
                     System.out.println("\n\n" + selectedImageUri.toString() + "\n\n");
                     if(validateNewName()){
                         updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, selectedImageUri.toString());
+                        changeProgressBar();
                         newImageSelected = false;
                         dialog.dismiss();
                     }
@@ -194,6 +195,7 @@ public class HomeFragment extends Fragment {
                 else{
                     if(validateNewName()){
                         updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgBlob());
+                        changeProgressBar();
                         newImageSelected = false;
                         dialog.dismiss();
                     }
@@ -240,13 +242,14 @@ public class HomeFragment extends Fragment {
     }
 
     boolean validateNewName() {
-
         if (editTextName.getText().toString().equals("")) {
             editTextName.setError("Not Allowed");
             return false;
         }
         return true;
     }
+
+
 
     // this function is triggered when the Select Image Button is clicked
     void imageChooser() {
@@ -401,6 +404,12 @@ public class HomeFragment extends Fragment {
         return sensorData;
     }
 
+    private void changeProgressBar(){
+        progressTemperature.setMax((int) (getPlantTypeFromId(plant.getPlantType()).getIdealTemperature() * 2.0));
+        progressWater.setMax((int) (getPlantTypeFromId(plant.getPlantType()).getIdealMoisture() * 2.0));
+        progressLight.setMax((int) (getPlantTypeFromId(plant.getPlantType()).getIdealLight() * 2.0));
+    }
+
     private void retrievePlantTypes(){
         RequestQueue queue= Volley.newRequestQueue(getContext());
         String url="https://a21iot15.studev.groept.be/index.php/api/listPlants?token=" + user.getToken();
@@ -419,6 +428,9 @@ public class HomeFragment extends Fragment {
                     System.out.println(plantType.toString());
                     plantTypeList.add(plantType);
                 }
+                // TODO maybe change this to another location
+                // now it is needed here because it needs the different plantypes
+                changeProgressBar();
             }
             catch (Exception e){
                 e.printStackTrace();
