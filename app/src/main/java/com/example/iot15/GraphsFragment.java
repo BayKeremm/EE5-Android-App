@@ -63,13 +63,6 @@ public class GraphsFragment extends Fragment {
         graphLight = (GraphView) view.findViewById(R.id.GraphView3);
         refreshBtn = (ImageButton) view.findViewById(R.id.refreshBtn);
 
-        refreshBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                retrieveData();
-            }
-        });
-
         // get User and Plant from mainactivity
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -78,6 +71,15 @@ public class GraphsFragment extends Fragment {
             plantNameText.setText(plant.getPlantName());
             retrieveData();
         }
+
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(bundle != null){
+                    retrieveData();
+                }
+            }
+        });
         return view;
     }
 
