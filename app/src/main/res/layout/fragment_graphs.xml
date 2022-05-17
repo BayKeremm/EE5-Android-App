@@ -51,26 +51,38 @@
                 android:textStyle="bold"
                 tools:ignore="TextContrastCheck" />
 
-            <com.jjoe64.graphview.GraphView
-                android:id="@+id/GraphView1"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp">
 
-            <com.jjoe64.graphview.GraphView
-                android:id="@+id/GraphView2"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp" />
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/GraphView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <com.jjoe64.graphview.GraphView
-                android:id="@+id/GraphView3"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp" />
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/GraphView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/GraphView1" />
+
+                <com.jjoe64.graphview.GraphView
+                    android:id="@+id/GraphView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/GraphView2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

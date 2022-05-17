@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -33,6 +34,7 @@ public class GraphsFragment extends Fragment {
     public static final int NUMBER_OF_MEASUREMENT_TO_DISPLAY = 10;
 
     private TextView plantNameText;
+    private ImageButton refreshGraphsData;
     private GraphView graphWater;
     private GraphView graphTemperature;
     private GraphView graphLight;
@@ -43,11 +45,11 @@ public class GraphsFragment extends Fragment {
 
     int textColor = Color.parseColor("#403F3F");
     int waterColor = Color.parseColor("#03A9F4");
-    int waterBackColor = Color.parseColor("#8003A9F4");
+    int waterBackColor = Color.parseColor("#3003A9F4");
     int temperatureColor = Color.parseColor("#F44336");
-    int temperatureBackColor = Color.parseColor("#80F44336");
+    int temperatureBackColor = Color.parseColor("#30F44336");
     int lightColor = Color.parseColor("#FFC107");
-    int lightBackColor = Color.parseColor("#80FFC107");
+    int lightBackColor = Color.parseColor("#30FFC107");
 
 
     @Override
@@ -56,6 +58,7 @@ public class GraphsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_graphs, container, false);
 
         plantNameText = (TextView) view.findViewById(R.id.plantNameGraphs);
+        refreshGraphsData = (ImageButton) view.findViewById(R.id.refreshGraphsData);
         graphWater = (GraphView) view.findViewById(R.id.GraphView1);
         graphTemperature = (GraphView) view.findViewById(R.id.GraphView2);
         graphLight = (GraphView) view.findViewById(R.id.GraphView3);
@@ -68,6 +71,14 @@ public class GraphsFragment extends Fragment {
             plantNameText.setText(plant.getPlantName());
             retrieveData();
         }
+
+        refreshGraphsData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                retrieveData();
+            }
+        });
+
         return view;
     }
 
@@ -101,7 +112,7 @@ public class GraphsFragment extends Fragment {
                 sensorDataList.add(sensorData);
                 System.out.println(sensorData);
             }
-            displayGraph(sensorDataList,graphView, title, graphColor, backgroundColor);
+            displayGraph(sensorDataList, graphView, title, graphColor, backgroundColor);
         }
         catch (Exception e){
             e.printStackTrace();
