@@ -1,5 +1,6 @@
 package com.example.iot15;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -92,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent goToSignup = new Intent(this, SignupActivity.class);
             startActivity(goToSignup);
             overridePendingTransition(0, 0);
+            finish();
         }
     }
 
@@ -108,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     goSelectPlantActivity.putExtra("USER", user);
                     startActivity(goSelectPlantActivity);
                     overridePendingTransition(0, 0);
+                    finish();
                 }
             }
             catch (JSONException e) {
