@@ -6,17 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".SelectPlantActivity">
 
-    <ListView
-        android:id="@+id/plant_listview"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"></ListView>
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/addPlantButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/plant_listview"
-        android:text="@string/add_plant"></Button>
+        <ListView
+            android:id="@+id/plant_listview"
+            android:layout_width="0dp"
+            android:layout_height="350dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rounded_corners_input"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.7"></ListView>
+
+        <Button
+            android:id="@+id/addPlantButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rounded_corners_button"
+            android:text="@string/add_plant"
+            android:textSize="21sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plant_listview"
+            app:layout_constraintWidth_percent="0.7"></Button>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </RelativeLayout>

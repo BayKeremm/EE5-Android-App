@@ -45,11 +45,11 @@ public class GraphsFragment extends Fragment {
 
     int textColor = Color.parseColor("#403F3F");
     int waterColor = Color.parseColor("#03A9F4");
-    int waterBackColor = Color.parseColor("#8003A9F4");
+    int waterBackColor = Color.parseColor("#3003A9F4");
     int temperatureColor = Color.parseColor("#F44336");
-    int temperatureBackColor = Color.parseColor("#80F44336");
+    int temperatureBackColor = Color.parseColor("#30F44336");
     int lightColor = Color.parseColor("#FFC107");
-    int lightBackColor = Color.parseColor("#80FFC107");
+    int lightBackColor = Color.parseColor("#30FFC107");
 
 
     @Override
