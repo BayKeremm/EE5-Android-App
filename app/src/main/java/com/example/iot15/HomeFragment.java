@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,14 @@ import com.example.iot15.classes.PlantType;
 import com.example.iot15.classes.SensorData;
 import com.example.iot15.classes.User;
 
+import org.eclipse.paho.android.service.MqttAndroidClient;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -60,6 +69,7 @@ public class HomeFragment extends Fragment {
     private ImageButton refreshHomeData;
     private TextView textLastModified;
     private ImageView savedPlantPicture;
+    private TextView textWarning;
 
     // plant edit dialog
     private AlertDialog.Builder dialogBuilder;
@@ -98,6 +108,8 @@ public class HomeFragment extends Fragment {
         refreshHomeData = (ImageButton) view.findViewById(R.id.refreshHomeData);
         savedPlantPicture = (ImageView) view.findViewById(R.id.savedPlantPicture);
         textLastModified = (TextView) view.findViewById(R.id.textLastModified);
+        textWarning = (TextView) view.findViewById(R.id.textWarning);
+
 
         // get User and Plant from mainactivity
         bundle = this.getArguments();
@@ -112,6 +124,7 @@ public class HomeFragment extends Fragment {
             //setImageFromUri();
             retrievePlantTypes();
             retrieveData();
+            mqttConnectAndSubscribe();
         }
 
         refreshHomeData.setOnClickListener(new View.OnClickListener() {
@@ -457,5 +470,63 @@ public class HomeFragment extends Fragment {
             }
         }
         return plant;
+    }
+
+    public void mqttConnectAndSubscribe(){
+        String clientId = MqttClient.generateClientId();
+        MqttAndroidClient client =
+                new MqttAndroidClient(getContext(), "tcp://broker.hivemq.com:1883",
+                        clientId);
+        Log.d(TAG, "starts try");
+        try {
+            IMqttToken token = client.connect();
+            token.setActionCallback(new IMqttActionListener() {
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    // We are connected
+                    Log.d(TAG, "onSuccess");
+                    mqttSubscribe(client);
+                }
+
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    // Something went wrong e.g. connection timeout or firewall problems.
+                    Log.d(TAG, "onFailure");
+
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void mqttSubscribe(MqttAndroidClient client) {
+        int qos = 1;
+        try {
+            client.subscribe("/EE5iot15/warnings/" + plant.getDeviceId(), qos);
+            client.setCallback(new MqttCallback() {
+                @Override
+                public void connectionLost(Throwable cause) {
+
+                }
+
+                @Override
+                public void messageArrived(String topic, MqttMessage message) throws Exception {
+                    if(topic.compareTo("/EE5iot15/warnings/" + plant.getDeviceId()) == 0){
+                        String response = new String(message.getPayload());
+                        // show warnings somewhere
+                        textWarning.setText("WARNING: " + response);
+                    }
+                }
+
+                @Override
+                public void deliveryComplete(IMqttDeliveryToken token) {
+
+                }
+            });
+
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 }
