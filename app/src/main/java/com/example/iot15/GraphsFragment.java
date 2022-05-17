@@ -76,9 +76,6 @@ public class GraphsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(bundle != null){
-                    sensorDataListLight.clear();
-                    sensorDataListWater.clear();
-                    sensorDataListTemperature.clear();
                     retrieveData();
                 }
             }
@@ -105,6 +102,7 @@ public class GraphsFragment extends Fragment {
     // parse multiple SensorData and add to specified list
     private void addToMeasurementList(String response, List<SensorData> sensorDataList, GraphView graphView, String title, int graphColor, int backgroundColor){
         try {
+            sensorDataList.clear();
             JSONArray jsonArray = new JSONArray(response);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject tempObject = jsonArray.getJSONObject(i);
@@ -141,7 +139,6 @@ public class GraphsFragment extends Fragment {
         graphView.setTitleColor(textColor);
         graphView.setTitleTextSize(50);
         graphView.removeAllSeries();
-        graphView.
         graphView.addSeries(graphData);
     }
 }
