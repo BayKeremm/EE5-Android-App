@@ -242,9 +242,22 @@
             android:layout_below="@+id/relativeChild4"
             android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="25dp"
             android:text="@string/last_modified"
             android:textColor="@color/colorText"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/textWarning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textLastModified"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="15sp"
             android:textStyle="bold"
             tools:ignore="TextContrastCheck" />
