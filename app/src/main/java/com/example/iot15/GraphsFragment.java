@@ -66,31 +66,29 @@ public class GraphsFragment extends Fragment {
             plant = (Plant) bundle.getSerializable("PLANT");
             user = (User) bundle.getSerializable("USER");
             plantNameText.setText(plant.getPlantName());
-        }
-        if(bundle != null){
             retrieveData();
         }
         return view;
     }
 
     private void retrieveData(){
-        retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Moisture", sensorDataListWater);
-        retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Temperature", sensorDataListTemperature);
-        retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Light", sensorDataListLight);
+        retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Moisture", sensorDataListWater, graphWater, waterColor, waterBackColor);
+        retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Temperature", sensorDataListTemperature, graphTemperature, temperatureColor, temperatureBackColor);
+        retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Light", sensorDataListLight, graphLight, lightColor, lightBackColor);
     }
 
     // measurementType = "Temperature", "Light" or "Moisture"
-    private void retrieveMeasurements(int numberOfMeasurements, String measurementType, List<SensorData> sensorDataList) {
+    private void retrieveMeasurements(int numberOfMeasurements, String measurementType, List<SensorData> sensorDataList,GraphView graphView, int graphColor, int backgroundColor) {
         RequestQueue queue= Volley.newRequestQueue(getContext());
         String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurements" + measurementType + "/" + numberOfMeasurements +"/" + plant.getId() + "?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
-            addToMeasurementArray(response, sensorDataList);
+            addToMeasurementList(response, sensorDataList, graphView, measurementType, graphColor, backgroundColor);
         }, error -> System.out.println("Error: " + error));
         queue.add(stringRequest);
     }
 
     // parse multiple SensorData and add to specified list
-    private void addToMeasurementArray(String response, List<SensorData> sensorDataList){
+    private void addToMeasurementList(String response, List<SensorData> sensorDataList, GraphView graphView, String title, int graphColor, int backgroundColor){
         try {
             JSONArray jsonArray = new JSONArray(response);
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -103,64 +101,30 @@ public class GraphsFragment extends Fragment {
                 sensorDataList.add(sensorData);
                 System.out.println(sensorData);
             }
-
+            displayGraph(sensorDataList,graphView, title, graphColor, backgroundColor);
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        displayGraphs();
     }
 
-    private void displayGraphs(){
+    private void displayGraph(List<SensorData> sensorDataList, GraphView graphView, String title, int graphColor, int backgroundColor) {
         // add water data to graph view
-        DataPoint[] dataPointsWater = new DataPoint[sensorDataListWater.size()]; // declare an array of DataPoint objects with the same size as your list
-        for (int i = 0; i < sensorDataListWater.size(); i++) {
+        DataPoint[] dataPoints = new DataPoint[sensorDataList.size()]; // declare an array of DataPoint objects with the same size as your list
+        for (int i = 0; i < sensorDataList.size(); i++) {
             // add new DataPoint object to the array for each of your list entries
-            dataPointsWater[i] = new DataPoint(i, (double) sensorDataListWater.get(i).getValue());
-            System.out.println(dataPointsWater[i].toString());
+            dataPoints[i] = new DataPoint(i, (double) sensorDataList.get(i).getValue());
+            System.out.println(dataPoints[i].toString());
         }
-        LineGraphSeries<DataPoint> graphDataWater = new LineGraphSeries<DataPoint>(dataPointsWater);
+        LineGraphSeries<DataPoint> graphData = new LineGraphSeries<DataPoint>(dataPoints);
         // set layout for water graph
-        graphDataWater.setColor(waterColor);
-        graphDataWater.setDrawBackground(true);
-        graphDataWater.setBackgroundColor(waterBackColor);
-        graphDataWater.setDrawDataPoints(true);
-        graphWater.setTitle("Water");
-        graphWater.setTitleColor(textColor);
-        graphWater.setTitleTextSize(50);
-        graphWater.addSeries(graphDataWater);
-
-        // add temperature data to graph view
-        DataPoint[] dataPointsTemperature = new DataPoint[sensorDataListTemperature.size()];
-        for (int i = 0; i < sensorDataListTemperature.size(); i++) {
-            dataPointsTemperature[i] = new DataPoint(i, sensorDataListTemperature.get(i).getValue());
-        }
-        LineGraphSeries<DataPoint> graphDataTemperature = new LineGraphSeries<DataPoint>(dataPointsTemperature);
-        // set layout for temperature graph
-        graphDataTemperature.setColor(temperatureColor);
-        graphDataTemperature.setDrawBackground(true);
-        graphDataTemperature.setBackgroundColor(temperatureBackColor);
-        graphDataTemperature.setDrawDataPoints(true);
-        graphTemperature.setTitle("Temperature");
-        graphTemperature.setTitleColor(textColor);
-        graphTemperature.setTitleTextSize(50);
-        graphTemperature.addSeries(graphDataTemperature);
-
-        // add light data to graph view
-        DataPoint[] dataPointsLight = new DataPoint[sensorDataListLight.size()];
-        for (int i = 0; i < sensorDataListLight.size(); i++) {
-            dataPointsLight[i] = new DataPoint(i, sensorDataListLight.get(i).getValue());
-        }
-        LineGraphSeries<DataPoint> graphDataLight = new LineGraphSeries<DataPoint>(dataPointsLight);
-        // set layout for light graph
-        graphDataLight.setColor(lightColor);
-        graphDataLight.setDrawBackground(true);
-        graphDataLight.setBackgroundColor(lightBackColor);
-        graphDataLight.setDrawDataPoints(true);
-        graphLight.setTitle("Light");
-        graphLight.setTitleColor(textColor);
-        graphLight.setTitleTextSize(50);
-        graphLight.addSeries(graphDataLight);
-
+        graphData.setColor(graphColor);
+        graphData.setDrawBackground(true);
+        graphData.setBackgroundColor(backgroundColor);
+        graphData.setDrawDataPoints(true);
+        graphView.setTitle(title);
+        graphView.setTitleColor(textColor);
+        graphView.setTitleTextSize(50);
+        graphView.addSeries(graphData);
     }
 }
