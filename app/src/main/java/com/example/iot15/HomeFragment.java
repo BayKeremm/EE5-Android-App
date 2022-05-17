@@ -122,6 +122,7 @@ public class HomeFragment extends Fragment {
                 savedPlantPicture.setImageURI(Uri.parse(plant.getImgBlob()));
             }
             //setImageFromUri();
+            retrievePlantTypes();
             retrieveData();
             mqttConnectAndSubscribe();
         }
@@ -129,9 +130,7 @@ public class HomeFragment extends Fragment {
         refreshHomeData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                retrieveMeasurementsMoisture();
-                retrieveMeasurementsLight();
-                retrieveMeasurementsTemperature();
+                retrieveData();
             }
         });
 
@@ -209,6 +208,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+
         // handle the Choose Image button to trigger the image chooser function
         BSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -345,7 +345,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void retrieveData(){
-        retrievePlantTypes();
         retrieveMeasurementsMoisture();
         retrieveMeasurementsLight();
         retrieveMeasurementsTemperature();
