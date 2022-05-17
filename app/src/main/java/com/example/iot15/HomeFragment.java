@@ -181,24 +181,18 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // only update img uri if new image was selected
-                if(newImageSelected == true){
-                    savedPlantPicture.setImageURI(selectedImageUri);
-                    System.out.println("\n\n" + selectedImageUri.toString() + "\n\n");
-                    if(validateNewName()){
+                if(validateNewName()){
+                    if(newImageSelected == true){
+                        savedPlantPicture.setImageURI(selectedImageUri);
+                        System.out.println("\n\n" + selectedImageUri.toString() + "\n\n");
                         updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, selectedImageUri.toString());
-                        changeProgressBar();
-                        newImageSelected = false;
-                        dialog.dismiss();
                     }
-
-                }
-                else{
-                    if(validateNewName()){
+                    else{
                         updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgBlob());
-                        changeProgressBar();
-                        newImageSelected = false;
-                        dialog.dismiss();
                     }
+                    changeProgressBar();
+                    newImageSelected = false;
+                    dialog.dismiss();
                 }
             }
         });
