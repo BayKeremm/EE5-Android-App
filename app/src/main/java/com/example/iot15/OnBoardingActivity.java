@@ -60,7 +60,7 @@ public class OnBoardingActivity extends AppCompatActivity {
         if (position == 1){
             View view = this.getWindow().getDecorView();
             view.setBackgroundColor(getResources().getColor(R.color.artBackground2));
-            //constraintLayout.setBackground();
+
         }else{
             View view = this.getWindow().getDecorView();
             view.setBackgroundColor(getResources().getColor(R.color.artBackground));
@@ -110,7 +110,6 @@ public class OnBoardingActivity extends AppCompatActivity {
             }
 
             if(position == 1){
-                //View view = this.getWindow().getDecorView();
                 constraintLayout.setBackgroundColor(getResources().getColor(R.color.artBackground2));
             }else{
                 constraintLayout.setBackgroundColor(getResources().getColor(R.color.artBackground));

@@ -84,6 +84,8 @@ public class SignupActivity extends AppCompatActivity {
                     Intent goToLoginScreen = new Intent(this, LoginActivity.class);
                     startActivity(goToLoginScreen);
                     overridePendingTransition(0, 0);
+                    finish();
+
                 }
             catch (Exception e){
                 e.printStackTrace();
