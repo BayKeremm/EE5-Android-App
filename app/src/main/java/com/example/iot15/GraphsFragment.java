@@ -121,7 +121,7 @@ public class GraphsFragment extends Fragment {
     }
 
     private void displayGraph(List<SensorData> sensorDataList, GraphView graphView, String title, int graphColor, int backgroundColor) {
-        // add water data to graph view
+        // add data to graph view
         DataPoint[] dataPoints = new DataPoint[sensorDataList.size()]; // declare an array of DataPoint objects with the same size as your list
         for (int i = 0; i < sensorDataList.size(); i++) {
             // add new DataPoint object to the array for each of your list entries
@@ -137,6 +137,7 @@ public class GraphsFragment extends Fragment {
         graphView.setTitle(title);
         graphView.setTitleColor(textColor);
         graphView.setTitleTextSize(50);
+        graphView.removeAllSeries();
         graphView.addSeries(graphData);
     }
 }
