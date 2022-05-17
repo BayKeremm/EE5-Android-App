@@ -44,7 +44,7 @@ public class SettingsFragment extends Fragment {
     private Switch switchAutomation;
     private Switch switchWatering;
     private Switch switchLightLevelControl;
-    private StringBuilder mqttMessage = new StringBuilder("00000/");
+    private StringBuilder mqttMessage = new StringBuilder("00000");
     private Button wifiBtn;
     private Slider lightLevelControlSlider;
     private ConstraintLayout manualModeContainer;
@@ -72,8 +72,6 @@ public class SettingsFragment extends Fragment {
             plant = (Plant) bundle.getSerializable("PLANT");
             user = (User) bundle.getSerializable("USER");
             plantNameTextView.setText(plant.getPlantName());
-            //change MQTT message with right device ID
-            mqttMessage.append(plant.getDeviceId());
         }
 
         wifiBtn.setOnClickListener(v -> {
