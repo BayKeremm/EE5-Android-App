@@ -43,6 +43,7 @@
         android:backgroundTint="@android:color/transparent"
         android:hint="@string/type_here"
         android:importantForAutofill="no"
+        android:maxLength="10"
         android:inputType="textNoSuggestions"
         android:textColor="@color/colorText"
         android:textSize="21sp"

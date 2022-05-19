@@ -52,7 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener{
     public static final String TAG = "HomeFragment";
     public static final int GALLERY_INTENT_CALLED = 1;
     public static final int GALLERY_KITKAT_INTENT_CALLED = 2;
@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
     private TextView plantNameText;
     private ImageButton editButton;
     private ImageButton refreshHomeData;
+    private ImageButton returnButton;
     private TextView textLastModified;
     private ImageView savedPlantPicture;
     private TextView textWarning;
@@ -106,6 +107,7 @@ public class HomeFragment extends Fragment {
         plantNameText = view.findViewById(R.id.plantNameHome);
         editButton = view.findViewById(R.id.editButton);
         refreshHomeData = view.findViewById(R.id.refreshHomeData);
+        returnButton = (ImageButton) view.findViewById(R.id.returnToSelectPlant);
         savedPlantPicture = view.findViewById(R.id.savedPlantPicture);
         textLastModified = view.findViewById(R.id.textLastModified);
         textWarning = view.findViewById(R.id.textWarning);
@@ -141,6 +143,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        returnButton.setOnClickListener(this);
 
         return view;
     }
@@ -527,5 +530,12 @@ public class HomeFragment extends Fragment {
         } catch (MqttException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent goToSelectPlantActivity = new Intent(this.getContext(), SelectPlantActivity.class);
+        startActivity(goToSelectPlantActivity);
+        getActivity().overridePendingTransition(0,0);
     }
 }
