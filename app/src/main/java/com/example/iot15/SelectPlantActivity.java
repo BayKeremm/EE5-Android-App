@@ -50,10 +50,8 @@ public class SelectPlantActivity extends AppCompatActivity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    private List<PlantType> plantTypeList= new ArrayList<PlantType>();
+    private List<PlantType> plantTypeList= new ArrayList<>();
     int plantTypeNumber = -1;
-    private Plant newPlant;
-    private TextView plantNameText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +74,7 @@ public class SelectPlantActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String selectedPlantName = adapter.getItem(position).toString();
                 for (int i = 0; i < listPlants.size(); i++) {
-                    if( selectedPlantName == listPlants.get(i).getPlantName()){
+                    if(selectedPlantName.equals(listPlants.get(i).getPlantName())){
                         selectedPlantObject = listPlants.get(i);
                     }
                 }
@@ -99,16 +97,16 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     public void createAddNewPlantDialog(){
         addNewPlantDialogBuilder = new AlertDialog.Builder(this);
-        final View editDialogView = getLayoutInflater().inflate(R.layout.add_plant_popup, null);
+        final View addNewPlantDialogView = getLayoutInflater().inflate(R.layout.add_plant_popup, null);
 
-        editTextName = (EditText) editDialogView.findViewById(R.id.editTextName);
-        cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
-        applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
-        plantTypesListView = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
-        chosenTypeText = (TextView) editDialogView.findViewById(R.id.chosenType);
-        editDeviceID = (EditText) editDialogView.findViewById(R.id.editDeviceID);
+        editTextName = addNewPlantDialogView.findViewById(R.id.editTextName);
+        cancelEditBtn = addNewPlantDialogView.findViewById(R.id.cancelEditBtn);
+        applyEditBtn = addNewPlantDialogView.findViewById(R.id.applyEditBtn);
+        plantTypesListView = addNewPlantDialogView.findViewById(R.id.plant_types);
+        chosenTypeText = addNewPlantDialogView.findViewById(R.id.chosenType);
+        editDeviceID = addNewPlantDialogView.findViewById(R.id.editDeviceID);
 
-        addNewPlantDialogBuilder.setView(editDialogView);
+        addNewPlantDialogBuilder.setView(addNewPlantDialogView);
         dialog = addNewPlantDialogBuilder.create();
         dialog.show();
 
@@ -200,14 +198,14 @@ public class SelectPlantActivity extends AppCompatActivity {
     }
 
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
 
         // Adding child data
         listDataHeader.add("Choose");
 
         // Adding child data
-        List<String> plantTypeNames = new ArrayList<String>();
+        List<String> plantTypeNames = new ArrayList<>();
         for(int i = 0; i<plantTypeList.size();i++){
             plantTypeNames.add(plantTypeList.get(i).getName());
         }

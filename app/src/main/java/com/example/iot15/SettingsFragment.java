@@ -38,8 +38,6 @@ public class SettingsFragment extends Fragment {
     private Plant plant;
 
     private TextView textAutomationState;
-    private TextView textWatering;
-    private TextView textLightLevelControl;
     private TextView plantNameTextView;
     private Switch switchAutomation;
     private Switch switchWatering;
@@ -54,16 +52,14 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        textWatering = (TextView) view.findViewById(R.id.textWatering);
-        textLightLevelControl = (TextView) view.findViewById(R.id.textLightLevelControl);
-        plantNameTextView = (TextView) view.findViewById(R.id.plantNameSettings);
-        switchAutomation = (Switch) view.findViewById(R.id.switchAutomation);
-        switchWatering = (Switch) view.findViewById(R.id.switchWatering);
-        switchLightLevelControl = (Switch) view.findViewById(R.id.switchLightLevelControl);
-        wifiBtn = (Button) view.findViewById(R.id.wifiBtn);
-        textAutomationState = (TextView) view.findViewById(R.id.textAutomationState);
-        lightLevelControlSlider = (Slider) view.findViewById(R.id.lightLevelControlSlider);
-        manualModeContainer = (ConstraintLayout) view.findViewById(R.id.manualModeContainer);
+        plantNameTextView = view.findViewById(R.id.plantNameSettings);
+        switchAutomation = view.findViewById(R.id.switchAutomation);
+        switchWatering = view.findViewById(R.id.switchWatering);
+        switchLightLevelControl = view.findViewById(R.id.switchLightLevelControl);
+        wifiBtn = view.findViewById(R.id.wifiBtn);
+        textAutomationState = view.findViewById(R.id.textAutomationState);
+        lightLevelControlSlider = view.findViewById(R.id.lightLevelControlSlider);
+        manualModeContainer = view.findViewById(R.id.manualModeContainer);
 
         // get User and Plant from mainactivity
         // TODO this doesn't always work
@@ -105,7 +101,7 @@ public class SettingsFragment extends Fragment {
         switchAutomation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked==true){
+                if(isChecked){
                     // Manual mode
                     changeMqttMessage(0, '1');
                     changeMqttMessage(1, '0');
@@ -176,7 +172,7 @@ public class SettingsFragment extends Fragment {
             changeMqttMessage(4, valueString.charAt(1));
         }
         mqttConnectAndPublish("/EE5iot15/commands/" + plant.getDeviceId(), mqttMessage.toString());
-    };
+    }
 
     public void changeMqttMessage(int index, char status){
         mqttMessage.setCharAt(index, status);
@@ -239,10 +235,9 @@ public class SettingsFragment extends Fragment {
     }
 
     public void mqttPublish(MqttAndroidClient client, String topic, String messageString){
-        String payload = messageString;
-        byte[] encodedPayload = new byte[0];
+        byte[] encodedPayload;
         try {
-            encodedPayload = payload.getBytes("UTF-8");
+            encodedPayload = messageString.getBytes("UTF-8");
             MqttMessage message = new MqttMessage(encodedPayload);
             message.setRetained(true);
             client.publish(topic, message);

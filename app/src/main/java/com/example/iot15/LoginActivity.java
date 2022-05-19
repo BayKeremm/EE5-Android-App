@@ -1,6 +1,5 @@
 package com.example.iot15;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -84,21 +83,20 @@ public class LoginActivity extends AppCompatActivity {
 
         boolean isFirst = onBoardingScreen.getBoolean("firstTimeUser", true);
 
-        if(isFirst){
+        if (isFirst) {
             SharedPreferences.Editor editor = onBoardingScreen.edit();
             editor.putBoolean("firstTimeUser", false);
             editor.commit();
 
             Intent goToOnBoarding = new Intent(this,OnBoardingActivity.class);
             startActivity(goToOnBoarding);
-            finish();
-        }else {
+        } else {
 
             Intent goToSignup = new Intent(this, SignupActivity.class);
             startActivity(goToSignup);
-            overridePendingTransition(0, 0);
-            finish();
         }
+        overridePendingTransition(0, 0);
+        finish();
     }
 
     private void checkPassword(String username, String password) {
@@ -126,11 +124,5 @@ public class LoginActivity extends AppCompatActivity {
         }, error -> System.out.println("error"));
 
         queue.add(stringRequest);
-    }
-
-    public void goFragmentHomeTEST(View v) {
-        Intent goToFragmentHomeTEST = new Intent(this, MainActivity.class);
-        startActivity(goToFragmentHomeTEST);
-        overridePendingTransition(0, 0);
     }
 }

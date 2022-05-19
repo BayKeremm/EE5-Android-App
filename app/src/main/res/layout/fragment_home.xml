@@ -64,8 +64,8 @@
 
         <ImageView
             android:id="@+id/savedPlantPicture"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_below="@+id/relativeChild5"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
@@ -125,16 +125,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View
-                    android:id="@+id/divider"
-                    android:layout_width="3dp"
-                    android:layout_height="21dp"
+                    android:id="@+id/divider1"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
                     android:background="?android:attr/listDivider"
+                    android:backgroundTint="#7A7A7A"
+                    android:backgroundTintMode="add"
                     android:foregroundGravity="center_horizontal"
-                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/progressWater" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -192,15 +193,16 @@
 
                 <View
                     android:id="@+id/divider2"
-                    android:layout_width="3dp"
-                    android:layout_height="21dp"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
                     android:background="?android:attr/listDivider"
+                    android:backgroundTint="#7A7A7A"
+                    android:backgroundTintMode="add"
                     android:foregroundGravity="center_horizontal"
-                    android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/progressTemperature" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -242,9 +244,11 @@
 
                 <View
                     android:id="@+id/divider3"
-                    android:layout_width="3dp"
-                    android:layout_height="21dp"
+                    android:layout_width="4dp"
+                    android:layout_height="0dp"
                     android:background="?android:attr/listDivider"
+                    android:backgroundTint="#7A7A7A"
+                    android:backgroundTintMode="add"
                     android:foregroundGravity="center_horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

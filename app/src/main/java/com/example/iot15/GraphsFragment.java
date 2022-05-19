@@ -57,11 +57,11 @@ public class GraphsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_graphs, container, false);
 
-        plantNameText = (TextView) view.findViewById(R.id.plantNameGraphs);
-        graphWater = (GraphView) view.findViewById(R.id.GraphView1);
-        graphTemperature = (GraphView) view.findViewById(R.id.GraphView2);
-        graphLight = (GraphView) view.findViewById(R.id.GraphView3);
-        refreshBtn = (ImageButton) view.findViewById(R.id.refreshBtn);
+        plantNameText = view.findViewById(R.id.plantNameGraphs);
+        graphWater = view.findViewById(R.id.GraphView1);
+        graphTemperature = view.findViewById(R.id.GraphView2);
+        graphLight = view.findViewById(R.id.GraphView3);
+        refreshBtn = view.findViewById(R.id.refreshBtn);
 
         // get User and Plant from mainactivity
         Bundle bundle = this.getArguments();
@@ -126,10 +126,10 @@ public class GraphsFragment extends Fragment {
         DataPoint[] dataPoints = new DataPoint[sensorDataList.size()]; // declare an array of DataPoint objects with the same size as your list
         for (int i = 0; i < sensorDataList.size(); i++) {
             // add new DataPoint object to the array for each of your list entries
-            dataPoints[i] = new DataPoint(i, (double) sensorDataList.get(i).getValue());
+            dataPoints[i] = new DataPoint(i, sensorDataList.get(i).getValue());
             System.out.println(dataPoints[i].toString());
         }
-        LineGraphSeries<DataPoint> graphData = new LineGraphSeries<DataPoint>(dataPoints);
+        LineGraphSeries<DataPoint> graphData = new LineGraphSeries<>(dataPoints);
         // set layout + add data points graph
         graphView.removeAllSeries();
         graphView.setTitle(title);

@@ -12,7 +12,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.iot15.classes.User;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -68,7 +67,6 @@ public class SignupActivity extends AppCompatActivity {
 
             String username = etUsername.getText().toString();
             String password = etPassword.getText().toString();
-            String repeatPassword = etRepeatPassword.getText().toString();
 
             signUpSQL(username, password);
 

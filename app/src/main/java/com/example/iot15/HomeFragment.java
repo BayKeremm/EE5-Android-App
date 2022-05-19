@@ -59,7 +59,7 @@ public class HomeFragment extends Fragment {
 
     private User user;
     private Plant plant;
-    private List<PlantType> plantTypeList= new ArrayList<PlantType>();
+    private List<PlantType> plantTypeList= new ArrayList<>();
 
     private ProgressBar progressWater;
     private ProgressBar progressTemperature;
@@ -99,16 +99,16 @@ public class HomeFragment extends Fragment {
     {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        progressWater = (ProgressBar) view.findViewById(R.id.progressWater);
-        progressTemperature = (ProgressBar) view.findViewById(R.id.progressTemperature);
-        progressLight = (ProgressBar) view.findViewById(R.id.progressLight);
-        chosenTypeText = (TextView) view.findViewById(R.id.chosenType);
-        plantNameText = (TextView) view.findViewById(R.id.plantNameHome);
-        editButton = (ImageButton) view.findViewById(R.id.editButton);
-        refreshHomeData = (ImageButton) view.findViewById(R.id.refreshHomeData);
-        savedPlantPicture = (ImageView) view.findViewById(R.id.savedPlantPicture);
-        textLastModified = (TextView) view.findViewById(R.id.textLastModified);
-        textWarning = (TextView) view.findViewById(R.id.textWarning);
+        progressWater = view.findViewById(R.id.progressWater);
+        progressTemperature = view.findViewById(R.id.progressTemperature);
+        progressLight = view.findViewById(R.id.progressLight);
+        chosenTypeText = view.findViewById(R.id.chosenType);
+        plantNameText = view.findViewById(R.id.plantNameHome);
+        editButton = view.findViewById(R.id.editButton);
+        refreshHomeData = view.findViewById(R.id.refreshHomeData);
+        savedPlantPicture = view.findViewById(R.id.savedPlantPicture);
+        textLastModified = view.findViewById(R.id.textLastModified);
+        textWarning = view.findViewById(R.id.textWarning);
 
 
         // get User and Plant from mainactivity
@@ -161,11 +161,11 @@ public class HomeFragment extends Fragment {
         dialogBuilder = new AlertDialog.Builder(getActivity());
         final View editDialogView = getLayoutInflater().inflate(R.layout.edit_popup, null);
 
-        editTextName = (EditText) editDialogView.findViewById(R.id.editTextName);
-        cancelEditBtn = (Button) editDialogView.findViewById(R.id.cancelEditBtn);
-        applyEditBtn = (Button) editDialogView.findViewById(R.id.applyEditBtn);
-        plantTypesListView = (ExpandableListView) editDialogView.findViewById(R.id.plant_types);
-        chosenTypeText = (TextView) editDialogView.findViewById(R.id.chosenType);
+        editTextName = editDialogView.findViewById(R.id.editTextName);
+        cancelEditBtn = editDialogView.findViewById(R.id.cancelEditBtn);
+        applyEditBtn = editDialogView.findViewById(R.id.applyEditBtn);
+        plantTypesListView = editDialogView.findViewById(R.id.plant_types);
+        chosenTypeText = editDialogView.findViewById(R.id.chosenType);
         BSelectImage = editDialogView.findViewById(R.id.BSelectImage);
         IVPreviewImage = editDialogView.findViewById(R.id.IVPreviewImage);
         IVPreviewImage.setImageURI(Uri.parse(plant.getImgBlob()));
@@ -194,7 +194,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 // only update img uri if new image was selected
                 if(validateNewName()){
-                    if(newImageSelected == true){
+                    if(newImageSelected){
                         savedPlantPicture.setImageURI(selectedImageUri);
                         System.out.println("\n\n" + selectedImageUri.toString() + "\n\n");
                         updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, selectedImageUri.toString());
@@ -340,8 +340,7 @@ public class HomeFragment extends Fragment {
     }
 
     private String removeSlashesFromUri(String uri){
-        String newUri = uri.replace('/', '_');
-        return newUri;
+        return uri.replace('/', '_');
     }
 
     private void retrieveData(){
@@ -447,14 +446,14 @@ public class HomeFragment extends Fragment {
     }
 
     private void prepareListData() {
-        listDataHeader = new ArrayList<String>();
-        listDataChild = new HashMap<String, List<String>>();
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
 
         // Adding child data
         listDataHeader.add(getPlantTypeFromId(plant.getPlantType()).getName());
 
         // Adding child data
-        List<String> plantTypeNames = new ArrayList<String>();
+        List<String> plantTypeNames = new ArrayList<>();
         for(int i = 0; i<plantTypeList.size();i++){
             plantTypeNames.add(plantTypeList.get(i).getName());
         }
