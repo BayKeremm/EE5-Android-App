@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
         String url="https://a21iot15.studev.groept.be/index.php/api/getDeviceId/" + plant.getId() + "?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
-            JSONObject jsonObject = null;
+            JSONObject jsonObject;
             try {
                 jsonObject = new JSONObject(response);
                 plant.setDeviceId(jsonObject.getInt("deviceId"));

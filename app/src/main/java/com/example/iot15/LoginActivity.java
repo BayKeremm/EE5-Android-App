@@ -109,10 +109,10 @@ public class LoginActivity extends AppCompatActivity {
                 if(responseJSON.getString("token") != null){
 
 
-                    Intent goSelectPlantActivity = new Intent(getApplicationContext(), SelectPlantActivity.class);
+                    Intent goToSelectPlantActivity = new Intent(getApplicationContext(), SelectPlantActivity.class);
                     user = new User(responseJSON.getInt("userId"), username, responseJSON.getString("token"));
-                    goSelectPlantActivity.putExtra("USER", user);
-                    startActivity(goSelectPlantActivity);
+                    goToSelectPlantActivity.putExtra("USER", user);
+                    startActivity(goToSelectPlantActivity);
                     overridePendingTransition(0, 0);
                     finish();
                 }

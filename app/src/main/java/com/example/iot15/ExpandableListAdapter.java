@@ -1,15 +1,16 @@
 package com.example.iot15;
 
-import java.util.HashMap;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -55,8 +56,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
+        if (this._listDataHeader == null) {
+            Log.e("Debug", "mListDataHeader is null." );
+            return 0;
+        } else if (groupPosition < 0 || groupPosition >=  this._listDataHeader.size()) {
+            Log.e( "Debug", "position invalid: " + groupPosition);
+            return 0;
+        } else if (this._listDataHeader.get(groupPosition) == null) {
+            Log.e("Debug", "Value of mListDataHeader at position is null: "  + groupPosition);
+            return 0;
+        } else if (this._listDataChild == null) {
+            Log.e("Debug", "mListDataChild is null." );
+            return 0;
+        } else if (!this._listDataChild.containsKey( this._listDataHeader.get(groupPosition))) {
+            Log.e( "Debug", "No key: " + this._listDataHeader.get(groupPosition));
+            return 0;
+        } else if (this._listDataChild.get(this._listDataHeader.get(groupPosition)) == null) {
+            Log.e("Debug", "Value at key is null: "  + this._listDataHeader.get(groupPosition));
+            return 0;
+        } else {
+            return this._listDataChild.get(this._listDataHeader.get(groupPosition))
+                    .size();
+        }
     }
 
     @Override
@@ -83,7 +104,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
+        TextView lblListHeader = convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
