@@ -113,6 +113,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         textWarning = (TextView) view.findViewById(R.id.textWarning);
 
 
+
         // get User and Plant from mainactivity
         bundle = this.getArguments();
         if (bundle != null) {
@@ -147,6 +148,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
         return view;
     }
+
+
 
     public Bitmap StringToBitMap(String encodedString){
         try{
