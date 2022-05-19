@@ -130,15 +130,16 @@ public class GraphsFragment extends Fragment {
             System.out.println(dataPoints[i].toString());
         }
         LineGraphSeries<DataPoint> graphData = new LineGraphSeries<DataPoint>(dataPoints);
-        // set layout for water graph
-        graphData.setColor(graphColor);
-        graphData.setDrawBackground(true);
-        graphData.setBackgroundColor(backgroundColor);
-        graphData.setDrawDataPoints(true);
+        // set layout + add data points graph
+        graphView.removeAllSeries();
         graphView.setTitle(title);
         graphView.setTitleColor(textColor);
         graphView.setTitleTextSize(50);
-        graphView.removeAllSeries();
         graphView.addSeries(graphData);
+        graphData.setColor(graphColor);
+        graphData.setBackgroundColor(backgroundColor);
+        graphData.setDrawBackground(true);
+        graphData.setDrawDataPoints(true);
+
     }
 }
