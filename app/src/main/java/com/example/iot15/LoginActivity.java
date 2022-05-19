@@ -25,7 +25,10 @@ public class LoginActivity extends AppCompatActivity {
     private User user;
 
     EditText etUsername, etPassword;
+
     SharedPreferences onBoardingScreen;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_screen);
 
         viewInitializations();
+
     }
 
     void viewInitializations() {
@@ -105,6 +109,8 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 JSONObject responseJSON = new JSONObject(response);
                 if(responseJSON.getString("token") != null){
+
+
                     Intent goSelectPlantActivity = new Intent(getApplicationContext(), SelectPlantActivity.class);
                     user = new User(responseJSON.getInt("userId"), username, responseJSON.getString("token"));
                     goSelectPlantActivity.putExtra("USER", user);

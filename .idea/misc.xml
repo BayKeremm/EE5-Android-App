@@ -39,6 +39,7 @@
         <entry key="..\:/Users/User/AndroidStudioProjects/EE5-Android-App/app/src/main/res/layout/activity_on_boarding.xml" value="0.2" />
         <entry key="..\:/Users/User/AndroidStudioProjects/EE5-Android-App/app/src/main/res/layout/activity_select_plant.xml" value="0.182518115942029" />
         <entry key="..\:/Users/User/AndroidStudioProjects/EE5-Android-App/app/src/main/res/layout/add_plant_popup.xml" value="0.182518115942029" />
+        <entry key="..\:/Users/User/AndroidStudioProjects/EE5-Android-App/app/src/main/res/layout/fragment_home.xml" value="0.18206521739130435" />
         <entry key="..\:/Users/User/AndroidStudioProjects/EE5-Android-App/app/src/main/res/layout/fragment_settings.xml" value="0.15260416666666668" />
         <entry key="..\:/Users/User/AndroidStudioProjects/EE5-Android-App/app/src/main/res/layout/login_screen.xml" value="0.16032608695652173" />
         <entry key="..\:/Users/User/AndroidStudioProjects/EE5-Android-App/app/src/main/res/layout/onboarding.xml" value="0.16032608695652173" />
@@ -56,9 +57,6 @@
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/rounded_corners.xml" value="0.356" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/rounded_corners_button.xml" value="0.356" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/rounded_corners_input.xml" value="0.356" />
-        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/drawable/sensor_data_bar_back.xml" value="0.356" />
-        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/activity_esptouch.xml" value="0.3546875" />
-        <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/activity_select_plant.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/edit_popup.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_home.xml" value="0.3546875" />
         <entry key="..\:/Users/yanni/Documents/EE5-Android-App/app/src/main/res/layout/fragment_settings.xml" value="0.3546875" />
