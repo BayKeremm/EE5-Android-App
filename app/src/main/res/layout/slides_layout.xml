@@ -12,6 +12,7 @@
         android:layout_height="325dp"
 
         android:layout_marginTop="50dp"
+        android:contentDescription="@string/onboarding_screen_plant"
         android:src="@drawable/onboardingplant2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -22,30 +23,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
         android:text="@string/slider_title1"
+        android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/slider_img"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/slider_img" />
+        tools:ignore="TextContrastCheck" />
 
     <TextView
         android:id="@+id/text_onboarding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/slider_img"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         android:text="@string/slider_text1"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="22sp"
-        android:textColor="@color/white"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slider_img"
+        tools:ignore="TextContrastCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
