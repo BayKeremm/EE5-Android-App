@@ -1,5 +1,7 @@
 package com.example.iot15.fragments;
 
+import static com.example.iot15.classes.Values.GETMEASUREMENTS;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -93,7 +95,7 @@ public class GraphsFragment extends Fragment {
     // measurementType = "Temperature", "Light" or "Moisture"
     private void retrieveMeasurements(int numberOfMeasurements, String measurementType, List<SensorData> sensorDataList,GraphView graphView, int graphColor, int backgroundColor) {
         RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurements" + measurementType + "/" + numberOfMeasurements +"/" + plant.getId() + "?token=" + user.getToken();
+        String url=GETMEASUREMENTS + measurementType + "/" + numberOfMeasurements +"/" + plant.getId() + "?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             addToMeasurementList(response, sensorDataList, graphView, measurementType, graphColor, backgroundColor);
         }, error -> System.out.println("Error: " + error));

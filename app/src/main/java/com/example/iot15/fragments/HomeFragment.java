@@ -2,6 +2,10 @@ package com.example.iot15.fragments;
 
 import static android.app.Activity.RESULT_OK;
 
+import static com.example.iot15.classes.Values.GETMEASUREMENTS;
+import static com.example.iot15.classes.Values.GETPLANTTYPES;
+import static com.example.iot15.classes.Values.UPDATEPLANT;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,8 +63,6 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
-    public static final int GALLERY_INTENT_CALLED = 1;
-    public static final int GALLERY_KITKAT_INTENT_CALLED = 2;
 
     private User user;
     private Plant plant;
@@ -208,7 +210,7 @@ public class HomeFragment extends Fragment {
                     else{
                         updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgRef());
                     }
-                    changeProgressBar();
+                    changeProgressBarScale();
                     newImageSelected = false;
                     dialog.dismiss();
                 }
@@ -292,14 +294,14 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void updatePlantInfo(String plantName, int plantTypeId, String imgBlob){
+    private void updatePlantInfo(String plantName, int plantTypeId, String imgRef){
        // /updateOwnedPlant/plantId/plantTypeId/imgBinary/nickname?token=logintoken
         RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url="https://a21iot15.studev.groept.be/index.php/api/updateOwnedPlant/" + plant.getId() +"/" + plantTypeId + "/" + imgBlob + "/" + plantName +"?token=" + user.getToken();
+        String url=UPDATEPLANT + plant.getId() +"/" + plantTypeId + "/" + imgRef + "/" + plantName +"?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             plant.setPlantType(plantTypeId);
             plant.setPlantName(plantName);
-            plant.setImgRef(imgBlob);
+            plant.setImgRef(imgRef);
 
             String editTextNameString = editTextName.getText().toString();
             plantNameText.setText(editTextNameString);
@@ -319,47 +321,22 @@ public class HomeFragment extends Fragment {
     }
 
     private void retrieveData(){
-        retrieveMeasurementsMoisture();
-        retrieveMeasurementsLight();
-        retrieveMeasurementsTemperature();
+        retrieveMeasurements(1, "Moisture", progressWater);
+        retrieveMeasurements(1, "Temperature",progressTemperature);
+        retrieveMeasurements(1, "Light", progressLight);
     }
 
-    private void retrieveMeasurementsMoisture() {
+    // measurementType = "Temperature", "Light" or "Moisture"
+    private void retrieveMeasurements(int numberOfMeasurements, String measurementType, ProgressBar progressBar) {
         RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurementsMoisture/" + 1 +"/" + plant.getId() + "?token=" + user.getToken();
+        String url=GETMEASUREMENTS + measurementType + "/" + numberOfMeasurements +"/" + plant.getId() + "?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             // parse response to SensorData
-            SensorData dataWater = parseToSensorData(response);
+            SensorData sensorData = parseToSensorData(response);
             // update last timestamp
-            textLastModified.setText("Last Modified: " + dataWater.getTimestamp());
+            textLastModified.setText("Last Modified: " + sensorData.getTimestamp());
             // display this SensorData on progressBar
-            progressWater.setProgress((int)dataWater.getValue());
-        }, error -> System.out.println("Error: " + error));
-        queue.add(stringRequest);
-    }
-
-    private void retrieveMeasurementsLight() {
-        RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurementsLight/" + 1 +"/" + plant.getId() + "?token=" + user.getToken();
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
-            // parse response to SensorData
-            SensorData dataLight = parseToSensorData(response);
-
-            // display this SensorData on progressBar
-            progressLight.setProgress((int)dataLight.getValue());
-        }, error -> System.out.println("Error: " + error));
-        queue.add(stringRequest);
-    }
-
-    private void retrieveMeasurementsTemperature() {
-        RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url="https://a21iot15.studev.groept.be/index.php/api/listMeasurementsTemperature/" + 1 +"/" + plant.getId() + "?token=" + user.getToken();
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
-            // parse response to SensorData
-            SensorData dataTemperature = parseToSensorData(response);
-
-            // display this SensorData on progressBar
-            progressTemperature.setProgress((int)dataTemperature.getValue());
+            progressBar.setProgress((int)sensorData.getValue());
         }, error -> System.out.println("Error: " + error));
         queue.add(stringRequest);
     }
@@ -384,7 +361,7 @@ public class HomeFragment extends Fragment {
         return sensorData;
     }
 
-    private void changeProgressBar(){
+    private void changeProgressBarScale(){
         progressTemperature.setMax((int) (getPlantTypeFromId(plant.getPlantType()).getIdealTemperature() * 2.0));
         progressWater.setMax((int) (getPlantTypeFromId(plant.getPlantType()).getIdealMoisture() * 2.0));
         progressLight.setMax((int) (getPlantTypeFromId(plant.getPlantType()).getIdealLight() * 2.0));
@@ -392,7 +369,7 @@ public class HomeFragment extends Fragment {
 
     private void retrievePlantTypes(){
         RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url="https://a21iot15.studev.groept.be/index.php/api/listPlants?token=" + user.getToken();
+        String url=GETPLANTTYPES + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -408,9 +385,8 @@ public class HomeFragment extends Fragment {
                     System.out.println(plantType.toString());
                     plantTypeList.add(plantType);
                 }
-                // TODO maybe change this to another location
-                // now it is needed here because it needs the different plantypes
-                changeProgressBar();
+                // if plantType is known, so are the ideal values and thus the scale can be set
+                changeProgressBarScale();
             }
             catch (Exception e){
                 e.printStackTrace();

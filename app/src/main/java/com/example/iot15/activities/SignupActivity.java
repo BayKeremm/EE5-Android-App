@@ -1,5 +1,7 @@
 package com.example.iot15.activities;
 
+import static com.example.iot15.classes.Values.SIGNUP;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -79,7 +81,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public void signUpSQL(String username, String password){
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url="https://a21iot15.studev.groept.be/index.php/api/register/" + username + "/" + password;
+        String url= SIGNUP + username + "/" + password;
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             try {
                     System.out.println(url);

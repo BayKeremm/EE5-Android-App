@@ -1,5 +1,9 @@
 package com.example.iot15.activities;
 
+import static com.example.iot15.classes.Values.ADDPLANT;
+import static com.example.iot15.classes.Values.GETPLANTS;
+import static com.example.iot15.classes.Values.GETPLANTTYPES;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -125,7 +129,7 @@ public class SelectPlantActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (validateInput()) {
-                    updatePlantInfo(editTextName.getText().toString(), plantTypeNumber + 1, Integer.parseInt(editDeviceID.getText().toString()));
+                    addPlant(editTextName.getText().toString(), plantTypeNumber + 1, Integer.parseInt(editDeviceID.getText().toString()));
                     retrievePlants();
                     dialog.dismiss();
                     Intent goSelectPlantActivity = new Intent(getApplicationContext(), SelectPlantActivity.class);
@@ -169,7 +173,7 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     private void retrievePlants() {
         RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
-        String url="https://a21iot15.studev.groept.be/index.php/api/listOwnedPlants/" + user.getId() + "?token=" + user.getToken();
+        String url= GETPLANTS + user.getId() + "?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             addJSONtoPlantList(response);
 
@@ -219,7 +223,7 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     private void retrievePlantTypes(){
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url="https://a21iot15.studev.groept.be/index.php/api/listPlants?token=" + user.getToken();
+        String url=GETPLANTTYPES + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -244,10 +248,10 @@ public class SelectPlantActivity extends AppCompatActivity {
         queue.add(stringRequest);
     }
 
-    private void updatePlantInfo(String plantName, int plantTypeId, int deviceID){
+    private void addPlant(String plantName, int plantTypeId, int deviceID){
         // /updateOwnedPlant/plantId/plantTypeId/imgBinary/nickname?token=logintoken
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url="https://a21iot15.studev.groept.be/index.php/api/insertOwnedPlant/" + user.getId() +"/" + plantTypeId +"/" + deviceID + "/" + plantName +"?token=" + user.getToken();
+        String url=ADDPLANT + user.getId() +"/" + plantTypeId +"/" + deviceID + "/" + plantName +"?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
         }, error -> System.out.println("Error: " + error));
 
