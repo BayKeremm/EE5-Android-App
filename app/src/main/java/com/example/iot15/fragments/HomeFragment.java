@@ -93,7 +93,6 @@ public class HomeFragment extends Fragment {
     private ImageView IVPreviewImage;
     private final int SELECT_PICTURE = 200; // constant to compare the activity result code
     private Bitmap selectedImageBitmap;
-    private Uri selectedImageUri;
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
@@ -224,7 +223,7 @@ public class HomeFragment extends Fragment {
         });
 
         expListView = plantTypesListView;
-        prepareListData();
+        preparePlantTypeListData();
         listAdapter = new ExpandableListAdapter(getContext(), listDataHeader, listDataChild);
         expListView.setAdapter(listAdapter);
 
@@ -390,7 +389,7 @@ public class HomeFragment extends Fragment {
         queue.add(stringRequest);
     }
 
-    private void prepareListData() {
+    private void preparePlantTypeListData() {
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
 
