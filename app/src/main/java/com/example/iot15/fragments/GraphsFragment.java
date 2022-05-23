@@ -4,6 +4,7 @@ import static com.example.iot15.classes.Values.GETMEASUREMENTS;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -98,7 +99,7 @@ public class GraphsFragment extends Fragment {
         String url=GETMEASUREMENTS + measurementType + "/" + numberOfMeasurements +"/" + plant.getId() + "?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             addToMeasurementList(response, sensorDataList, graphView, measurementType, graphColor, backgroundColor);
-        }, error -> System.out.println("Error: " + error));
+        }, error -> Log.e("Volley", error.getMessage()));
         queue.add(stringRequest);
     }
 
@@ -115,7 +116,6 @@ public class GraphsFragment extends Fragment {
                 sensorData.setTimestamp(tempObject.getString("timestamp"));
                 sensorData.setValue(tempObject.getDouble("value"));
                 sensorDataList.add(sensorData);
-                System.out.println(sensorData);
             }
             displayGraph(sensorDataList,graphView, title, graphColor, backgroundColor);
         }
@@ -130,7 +130,6 @@ public class GraphsFragment extends Fragment {
         for (int i = 0; i < sensorDataList.size(); i++) {
             // add new DataPoint object to the array for each of your list entries
             dataPoints[i] = new DataPoint(i, sensorDataList.get(i).getValue());
-            System.out.println(dataPoints[i].toString());
         }
         LineGraphSeries<DataPoint> graphData = new LineGraphSeries<>(dataPoints);
         // set layout + add data points graph

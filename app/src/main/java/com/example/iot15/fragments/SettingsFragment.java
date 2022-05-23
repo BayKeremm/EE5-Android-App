@@ -277,7 +277,6 @@ public class SettingsFragment extends Fragment {
                         if(response.charAt(2) == '1'){
                             switchWatering.setChecked(true);
                         }
-                        System.out.println(Integer.valueOf(mqttMessage.substring(3,5)));
                         lightLevelControlSlider.setValue(Integer.valueOf(mqttMessage.substring(3,5)));
                         // once last state of app is fetched, subscribing to this topic is no longer necessary
                     client.unsubscribe("/EE5iot15/commands");

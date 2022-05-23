@@ -4,6 +4,7 @@ import static com.example.iot15.classes.Values.SIGNUP;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -84,7 +85,6 @@ public class SignupActivity extends AppCompatActivity {
         String url= SIGNUP + username + "/" + password;
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             try {
-                    System.out.println(url);
                     Intent goToLoginScreen = new Intent(this, LoginActivity.class);
                     startActivity(goToLoginScreen);
                     overridePendingTransition(0, 0);
@@ -95,7 +95,7 @@ public class SignupActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        }, error -> System.out.println("error"));
+        }, error -> Log.e("Volley", error.getMessage()));
 
         queue.add(stringRequest);
 

@@ -5,6 +5,7 @@ import static com.example.iot15.classes.Values.LOGIN;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -105,7 +106,6 @@ public class LoginActivity extends AppCompatActivity {
     private void checkPassword(String username, String password) {
         RequestQueue queue= Volley.newRequestQueue(this);
         String url= LOGIN + username+ "/" +password;
-        System.out.println(url);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             try {
                 JSONObject responseJSON = new JSONObject(response);
@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        }, error -> System.out.println("error"));
+        }, error -> Log.e("Volley", error.getMessage()));
 
         queue.add(stringRequest);
     }

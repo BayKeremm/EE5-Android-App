@@ -4,6 +4,7 @@ import static com.example.iot15.classes.Values.GETDEVICEID;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -71,11 +72,10 @@ public class MainActivity extends AppCompatActivity {
             try {
                 jsonObject = new JSONObject(response);
                 plant.setDeviceId(jsonObject.getInt("deviceId"));
-                System.out.println("\n\n\n device id:" + plant.getDeviceId() + "\n\n\n");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> System.out.println("error retrieveDeviceId"));
+        }, error -> Log.e("Volley", error.getMessage()));
 
         queue.add(stringRequest);
     }

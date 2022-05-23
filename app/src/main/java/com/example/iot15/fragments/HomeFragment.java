@@ -125,7 +125,6 @@ public class HomeFragment extends Fragment {
         bundle = this.getArguments();
         if (bundle != null) {
             plant = (Plant) bundle.getSerializable("PLANT");
-            System.out.println("\n\n\n" + plant.toString() + "\n\n\n");
             user = (User) bundle.getSerializable("USER");
             plantNameText.setText(plant.getPlantName());
             if(plant.getImgRef() != null){ // TODO ADD THIS AGAIN
@@ -305,7 +304,7 @@ public class HomeFragment extends Fragment {
 
             String editTextNameString = editTextName.getText().toString();
             plantNameText.setText(editTextNameString);
-        }, error -> System.out.println("Error: " + error));
+        }, error -> Log.e("Volley", error.getMessage()));
 
         queue.add(stringRequest);
     }
@@ -337,7 +336,7 @@ public class HomeFragment extends Fragment {
             textLastModified.setText("Last Modified: " + sensorData.getTimestamp());
             // display this SensorData on progressBar
             progressBar.setProgress((int)sensorData.getValue());
-        }, error -> System.out.println("Error: " + error));
+        }, error -> Log.e("Volley", error.getMessage()));
         queue.add(stringRequest);
     }
 
@@ -352,7 +351,6 @@ public class HomeFragment extends Fragment {
                 sensorData.setType(tempObject.getString("type"));
                 sensorData.setTimestamp(tempObject.getString("timestamp"));
                 sensorData.setValue(tempObject.getDouble("value"));
-                System.out.println(sensorData.toString());
             }
         }
         catch (Exception e){
@@ -382,7 +380,6 @@ public class HomeFragment extends Fragment {
                     plantType.setIdealMoisture(tempObject.getDouble("idealMoisture"));
                     plantType.setIdealTemperature(tempObject.getDouble("idealTemperature"));
                     plantType.setIdealLight(tempObject.getDouble("idealLight"));
-                    System.out.println(plantType.toString());
                     plantTypeList.add(plantType);
                 }
                 // if plantType is known, so are the ideal values and thus the scale can be set
@@ -391,7 +388,7 @@ public class HomeFragment extends Fragment {
             catch (Exception e){
                 e.printStackTrace();
             }
-        }, error -> System.out.println("Error: " + error));
+        }, error -> Log.e("Volley", error.getMessage()));
 
         queue.add(stringRequest);
     }

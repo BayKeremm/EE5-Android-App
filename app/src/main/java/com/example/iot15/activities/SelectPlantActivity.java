@@ -7,6 +7,7 @@ import static com.example.iot15.classes.Values.GETPLANTTYPES;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -179,7 +180,7 @@ public class SelectPlantActivity extends AppCompatActivity {
 
             adapter = new ArrayAdapter(SelectPlantActivity.this, android.R.layout.simple_list_item_1, listNamePlants);
             plantListView.setAdapter(adapter);
-        }, error -> System.out.println("Error: " + error));
+        }, error -> Log.e("Volley", error.getMessage()));
 
         queue.add(stringRequest);
     }
@@ -197,7 +198,6 @@ public class SelectPlantActivity extends AppCompatActivity {
                 plant.setImgRef(tempObject.getString("img"));
                 listPlants.add(plant);
                 listNamePlants.add(plant.getPlantName());
-                System.out.println(plant);
             }
         }
         catch (Exception e){
@@ -236,24 +236,22 @@ public class SelectPlantActivity extends AppCompatActivity {
                     plantType.setIdealMoisture(tempObject.getDouble("idealMoisture"));
                     plantType.setIdealTemperature(tempObject.getDouble("idealTemperature"));
                     plantType.setIdealLight(tempObject.getDouble("idealLight"));
-                    System.out.println(plantType.toString());
                     plantTypeList.add(plantType);
                 }
             }
             catch (Exception e){
                 e.printStackTrace();
             }
-        }, error -> System.out.println("Error: " + error));
+        }, error -> Log.e("Volley", error.getMessage()));
 
         queue.add(stringRequest);
     }
 
     private void addPlant(String plantName, int plantTypeId, int deviceID){
-        // /updateOwnedPlant/plantId/plantTypeId/imgBinary/nickname?token=logintoken
         RequestQueue queue= Volley.newRequestQueue(this);
         String url=ADDPLANT + user.getId() +"/" + plantTypeId +"/" + deviceID + "/" + plantName +"?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-        }, error -> System.out.println("Error: " + error));
+        }, error -> Log.e("Volley", error.getMessage()));
 
         queue.add(stringRequest);
     }
