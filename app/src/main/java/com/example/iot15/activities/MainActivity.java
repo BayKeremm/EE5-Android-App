@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, initialHomeFragment).commit();
     }
 
-    //TODO a bit ridiculous that we have to fetch for deviceId here
     private void retrieveDeviceId() {
         RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
         String url= GETDEVICEID + plant.getId() + "?token=" + user.getToken();

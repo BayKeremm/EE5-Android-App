@@ -160,8 +160,6 @@ public class SelectPlantActivity extends AppCompatActivity {
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,int groupPosition, int childPosition, long id) {
-                // TODO Auto-generated method stub
-                //chosenType.setText("here database info");
                 type = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
                 plantTypeNumber = childPosition;
                 chosenTypeText.setText("Type: " + type);

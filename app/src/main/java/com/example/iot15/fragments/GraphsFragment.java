@@ -43,9 +43,9 @@ public class GraphsFragment extends Fragment {
     private GraphView graphLight;
     private ImageButton refreshBtn;
 
-    private List<SensorData> sensorDataListWater =new ArrayList<>();
-    private List<SensorData> sensorDataListTemperature =new ArrayList<>();
-    private List<SensorData> sensorDataListLight =new ArrayList<>();
+    private final List<SensorData> sensorDataListWater = new ArrayList<>();
+    private final List<SensorData> sensorDataListTemperature = new ArrayList<>();
+    private final List<SensorData> sensorDataListLight = new ArrayList<>();
 
     int textColor = Color.parseColor("#403F3F");
     int waterColor = Color.parseColor("#03A9F4");
@@ -79,7 +79,7 @@ public class GraphsFragment extends Fragment {
         refreshBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(bundle != null){
+                if (bundle != null) {
                     retrieveData();
                 }
             }
@@ -87,24 +87,24 @@ public class GraphsFragment extends Fragment {
         return view;
     }
 
-    private void retrieveData(){
+    private void retrieveData() {
         retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Moisture", sensorDataListWater, graphWater, waterColor, waterBackColor);
         retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Temperature", sensorDataListTemperature, graphTemperature, temperatureColor, temperatureBackColor);
         retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Light", sensorDataListLight, graphLight, lightColor, lightBackColor);
     }
 
     // measurementType = "Temperature", "Light" or "Moisture"
-    private void retrieveMeasurements(int numberOfMeasurements, String measurementType, List<SensorData> sensorDataList,GraphView graphView, int graphColor, int backgroundColor) {
-        RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url=GETMEASUREMENTS + measurementType + "/" + numberOfMeasurements +"/" + plant.getId() + "?token=" + user.getToken();
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
+    private void retrieveMeasurements(int numberOfMeasurements, String measurementType, List<SensorData> sensorDataList, GraphView graphView, int graphColor, int backgroundColor) {
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url = GETMEASUREMENTS + measurementType + "/" + numberOfMeasurements + "/" + plant.getId() + "?token=" + user.getToken();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             addToMeasurementList(response, sensorDataList, graphView, measurementType, graphColor, backgroundColor);
         }, error -> Log.e("Volley", error.getMessage()));
         queue.add(stringRequest);
     }
 
     // parse multiple SensorData and add to specified list
-    private void addToMeasurementList(String response, List<SensorData> sensorDataList, GraphView graphView, String title, int graphColor, int backgroundColor){
+    private void addToMeasurementList(String response, List<SensorData> sensorDataList, GraphView graphView, String title, int graphColor, int backgroundColor) {
         try {
             sensorDataList.clear();
             JSONArray jsonArray = new JSONArray(response);
@@ -117,9 +117,8 @@ public class GraphsFragment extends Fragment {
                 sensorData.setValue(tempObject.getDouble("value"));
                 sensorDataList.add(sensorData);
             }
-            displayGraph(sensorDataList,graphView, title, graphColor, backgroundColor);
-        }
-        catch (Exception e){
+            displayGraph(sensorDataList, graphView, title, graphColor, backgroundColor);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
