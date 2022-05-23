@@ -62,7 +62,6 @@ public class SettingsFragment extends Fragment {
         manualModeContainer = view.findViewById(R.id.manualModeContainer);
 
         // get User and Plant from mainactivity
-        // TODO this doesn't always work
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             plant = (Plant) bundle.getSerializable("PLANT");
@@ -80,13 +79,11 @@ public class SettingsFragment extends Fragment {
 
         mqttConnectAndSubscribe();
 
-        //lightLevelControlSlider.addOnChangeListener((slider, value, fromUser) -> temporarySliderFunction(value));
-
         lightLevelControlSlider.addOnSliderTouchListener(new Slider.OnSliderTouchListener() {
             @Override
             @SuppressLint("RestrictedApi")
             public void onStartTrackingTouch(@NonNull Slider slider) {
-                // nothing has to be done when
+                // nothing has to be done here
             }
 
             @Override
@@ -94,7 +91,7 @@ public class SettingsFragment extends Fragment {
             public void onStopTrackingTouch(@NonNull Slider slider) {
                 // only when slider is released, the mqtt message will be sent. Otherwise there are
                 // too many messages at once.
-                temporarySliderFunction(slider.getValue());
+                changeSliderMqttValue(slider.getValue());
             }
         });
 
@@ -162,7 +159,7 @@ public class SettingsFragment extends Fragment {
         switchLightLevelControl.setEnabled(false);
     }
 
-    public void temporarySliderFunction(float value){
+    public void changeSliderMqttValue(float value){
         StringBuilder valueString = new StringBuilder(String.valueOf(value));
         if(value<10){
             changeMqttMessage(3, valueString.charAt(0));

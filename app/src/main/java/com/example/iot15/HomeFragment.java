@@ -4,12 +4,12 @@ import static android.app.Activity.RESULT_OK;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +31,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iot15.classes.Base64Encoder;
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.PlantType;
 import com.example.iot15.classes.SensorData;
@@ -47,6 +48,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -84,6 +86,7 @@ public class HomeFragment extends Fragment {
     private Button BSelectImage;
     private ImageView IVPreviewImage;
     private int SELECT_PICTURE = 200; // constant to compare the activity result code
+    private Bitmap selectedImageBitmap;
     private Uri selectedImageUri;
 
     ExpandableListAdapter listAdapter;
@@ -120,10 +123,14 @@ public class HomeFragment extends Fragment {
             System.out.println("\n\n\n" + plant.toString() + "\n\n\n");
             user = (User) bundle.getSerializable("USER");
             plantNameText.setText(plant.getPlantName());
-            if(plant.getImgBlob() != null){
-                savedPlantPicture.setImageURI(Uri.parse(plant.getImgBlob()));
+            if(plant.getImgRef() != null){ // TODO ADD THIS AGAIN
+                SharedPreferences shre = PreferenceManager.getDefaultSharedPreferences(getContext());
+                String previouslyEncodedImage = shre.getString(plant.getImgRef(), "");
+                if( !previouslyEncodedImage.equalsIgnoreCase("") ){
+                    Bitmap bitmap = Base64Encoder.decodeImage(previouslyEncodedImage);
+                    savedPlantPicture.setImageBitmap(bitmap);
+                }
             }
-            //setImageFromUri();
             retrievePlantTypes();
             retrieveData();
             mqttConnectAndSubscribe();
@@ -153,18 +160,6 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public Bitmap StringToBitMap(String encodedString){
-        try{
-            byte [] encodeByte = Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        }
-        catch(Exception e){
-            e.getMessage();
-            return null;
-        }
-    }
-
     public void createEditDialog(){
         dialogBuilder = new AlertDialog.Builder(getActivity());
         final View editDialogView = getLayoutInflater().inflate(R.layout.edit_popup, null);
@@ -176,14 +171,13 @@ public class HomeFragment extends Fragment {
         chosenTypeText = editDialogView.findViewById(R.id.chosenType);
         BSelectImage = editDialogView.findViewById(R.id.BSelectImage);
         IVPreviewImage = editDialogView.findViewById(R.id.IVPreviewImage);
-        IVPreviewImage.setImageURI(Uri.parse(plant.getImgBlob()));
+        IVPreviewImage.setImageURI(Uri.parse(plant.getImgRef()));
 
         //add previous data that can be edited
         if(bundle != null) {
             editTextName.setText(plant.getPlantName());
             editTextName.setAlpha(0.50F);
-            chosenPlantTypeId = plant.getPlantType(); //TODO just changed
-            // set plant type
+            chosenPlantTypeId = plant.getPlantType();
         }
         dialogBuilder.setView(editDialogView);
         dialog = dialogBuilder.create();
@@ -203,12 +197,13 @@ public class HomeFragment extends Fragment {
                 // only update img uri if new image was selected
                 if(validateNewName()){
                     if(newImageSelected){
-                        savedPlantPicture.setImageURI(selectedImageUri);
-                        System.out.println("\n\n" + selectedImageUri.toString() + "\n\n");
-                        updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, selectedImageUri.toString());
+                        savedPlantPicture.setImageBitmap(selectedImageBitmap);
+                        String encodedImage = Base64Encoder.encodeImage(selectedImageBitmap);
+                        String imageUri = saveImageToSharedPreferences(encodedImage);
+                        updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, imageUri);
                     }
                     else{
-                        updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgBlob());
+                        updatePlantInfo(editTextName.getText().toString(), chosenPlantTypeId, plant.getImgRef());
                     }
                     changeProgressBar();
                     newImageSelected = false;
@@ -279,66 +274,29 @@ public class HomeFragment extends Fragment {
         startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
     }
 
-
-//    public void setImageFromUri(){
-//        if (Build.VERSION.SDK_INT <19){
-//            Intent intent = new Intent();
-//            intent.setType("*/*");
-//            intent.setAction(Intent.ACTION_GET_CONTENT);
-//            startActivityForResult(intent, GALLERY_INTENT_CALLED);
-//        } else {
-//            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-//            startActivityForResult(intent, GALLERY_KITKAT_INTENT_CALLED);
-//        }
-//    }
-
     // this function is triggered when user selects the image from the imageChooser
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // compare the resultCode with the SELECT_PICTURE constant
         if (resultCode == RESULT_OK && requestCode == SELECT_PICTURE) {
-                // Get the url of the image from data
-                selectedImageUri = data.getData();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                getContext().getContentResolver().takePersistableUriPermission(selectedImageUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            try {
+                selectedImageBitmap = MediaStore.Images.Media.getBitmap(this.getContext().getContentResolver(), data.getData());
+                IVPreviewImage.setImageBitmap(selectedImageBitmap);
+                newImageSelected = true;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-                if (selectedImageUri != null) {
-                    // update the preview image in the layout
-                    IVPreviewImage.setImageURI(selectedImageUri);
-                    newImageSelected = true;
-
-                }
         }
-//        if (resultCode == RESULT_OK && (requestCode == GALLERY_INTENT_CALLED || requestCode == GALLERY_KITKAT_INTENT_CALLED)) {
-//            Uri originalUri = null;
-//            if (Build.VERSION.SDK_INT < 19) {
-//                originalUri = Uri.parse(plant.getImgBlob());
-//            } else {
-//                originalUri = Uri.parse(plant.getImgBlob());
-//                final int takeFlags = data.getFlags()
-//                        & (Intent.FLAG_GRANT_READ_URI_PERMISSION
-//                        | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//
-//                try {
-//                    getActivity().getContentResolver().takePersistableUriPermission(originalUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-//                } catch (SecurityException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            // when permission is given, set plant image
-//            savedPlantPicture.setImageURI(originalUri);
-//    }
     }
-
 
     private void updatePlantInfo(String plantName, int plantTypeId, String imgBlob){
        // /updateOwnedPlant/plantId/plantTypeId/imgBinary/nickname?token=logintoken
         RequestQueue queue= Volley.newRequestQueue(getContext());
-        String url="https://a21iot15.studev.groept.be/index.php/api/updateOwnedPlant/" + plant.getId() +"/" + plantTypeId + "/" + removeSlashesFromUri(imgBlob) + "/" + plantName +"?token=" + user.getToken();
+        String url="https://a21iot15.studev.groept.be/index.php/api/updateOwnedPlant/" + plant.getId() +"/" + plantTypeId + "/" + imgBlob + "/" + plantName +"?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             plant.setPlantType(plantTypeId);
             plant.setPlantName(plantName);
-            plant.setImgBlob(imgBlob);
+            plant.setImgRef(imgBlob);
 
             String editTextNameString = editTextName.getText().toString();
             plantNameText.setText(editTextNameString);
@@ -347,8 +305,14 @@ public class HomeFragment extends Fragment {
         queue.add(stringRequest);
     }
 
-    private String removeSlashesFromUri(String uri){
-        return uri.replace('/', '_');
+    private String saveImageToSharedPreferences(String encodedImage){
+        SharedPreferences shre = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor edit=shre.edit();
+        String key = "image_" + user.getId() + "_" + plant.getId();
+        edit.putString(key,encodedImage);
+        edit.commit();
+
+        return key;
     }
 
     private void retrieveData(){

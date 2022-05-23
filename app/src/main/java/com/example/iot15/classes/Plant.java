@@ -8,7 +8,7 @@ public class Plant implements Serializable {
     private int deviceId;
     private String plantName;
     private int plantType;
-    private String imgBlob;
+    private String imgRef;
 
 
 
@@ -52,12 +52,12 @@ public class Plant implements Serializable {
         this.plantType = plantType;
     }
 
-    public String getImgBlob() {
-        return imgBlob;
+    public String getImgRef() {
+        return imgRef;
     }
 
-    public void setImgBlob(String imgUri) {
-        this.imgBlob = imgUri;
+    public void setImgRef(String imgRef) {
+        this.imgRef = imgRef;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Plant implements Serializable {
                 ", userId=" + userId +
                 ", plantName='" + plantName + '\'' +
                 ", plantType='" + plantType + '\'' +
-                ", imgBlob='" + imgBlob + '\'' +
+                ", imgBlob='" + imgRef + '\'' +
                 '}';
     }
 }

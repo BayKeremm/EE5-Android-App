@@ -188,7 +188,7 @@ public class SelectPlantActivity extends AppCompatActivity {
                 plant.setUserId(tempObject.getInt("userId"));
                 plant.setPlantType(tempObject.getInt("plantId"));
                 plant.setPlantName(tempObject.getString("nickName"));
-                plant.setImgBlob(tempObject.getString("img"));
+                plant.setImgRef(tempObject.getString("img"));
                 listPlants.add(plant);
                 listNamePlants.add(plant.getPlantName());
                 System.out.println(plant);
