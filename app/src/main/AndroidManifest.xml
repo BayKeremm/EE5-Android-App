@@ -24,15 +24,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.IoT15">
         <activity
-            android:name=".OnBoardingActivity"
+            android:name=".activities.OnBoardingActivity"
             android:exported="false" />
         <activity
-            android:name=".SelectPlantActivity"
+            android:name=".activities.SelectPlantActivity"
             android:exported="false" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SignupActivity" />
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.SignupActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EspTouchActivity"
+            android:name=".esptouch.EspTouchActivity"
             android:exported="true"
             android:label="@string/esptouch1_title"
             android:screenOrientation="portrait" />

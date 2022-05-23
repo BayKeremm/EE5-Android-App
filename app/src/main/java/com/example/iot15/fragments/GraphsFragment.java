@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iot15.R;
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.SensorData;
 import com.example.iot15.classes.User;

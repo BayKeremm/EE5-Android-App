@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -14,6 +14,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.iot15.R;
+import com.example.iot15.adapters.SliderAdapter;
 
 public class OnBoardingActivity extends AppCompatActivity {
     ViewPager viewPager;

@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.iot15.esptouch.EspTouchActivity;
+import com.example.iot15.R;
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.User;
 import com.google.android.material.slider.Slider;

@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.esptouch;
 
 import android.Manifest;
 import android.content.pm.PackageInfo;
@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.location.LocationManagerCompat;
 
 import com.espressif.iot.esptouch2.provision.TouchNetUtil;
+import com.example.iot15.R;
 
 import java.net.InetAddress;
 

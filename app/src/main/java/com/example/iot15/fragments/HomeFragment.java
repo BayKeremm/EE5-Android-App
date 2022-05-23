@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.fragments;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -31,6 +31,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iot15.adapters.ExpandableListAdapter;
+import com.example.iot15.R;
+import com.example.iot15.activities.SelectPlantActivity;
 import com.example.iot15.classes.Base64Encoder;
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.PlantType;

@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iot15.R;
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.User;
+import com.example.iot15.fragments.GraphsFragment;
+import com.example.iot15.fragments.HomeFragment;
+import com.example.iot15.fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONException;

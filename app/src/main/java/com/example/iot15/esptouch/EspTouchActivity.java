@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.esptouch;
 
 import android.Manifest;
 import android.content.Context;
@@ -25,6 +25,8 @@ import com.espressif.iot.esptouch.IEsptouchResult;
 import com.espressif.iot.esptouch.IEsptouchTask;
 import com.espressif.iot.esptouch.util.ByteUtil;
 import com.espressif.iot.esptouch.util.TouchNetUtil;
+import com.example.iot15.activities.MainActivity;
+import com.example.iot15.R;
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.User;
 import com.google.android.material.textfield.TextInputEditText;

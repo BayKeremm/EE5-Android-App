@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iot15.R;
+import com.example.iot15.adapters.ExpandableListAdapter;
 import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.PlantType;
 import com.example.iot15.classes.User;

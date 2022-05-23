@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +14,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iot15.R;
 import com.example.iot15.classes.User;
 
 import org.json.JSONException;
@@ -88,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             editor.putBoolean("firstTimeUser", false);
             editor.commit();
 
-            Intent goToOnBoarding = new Intent(this,OnBoardingActivity.class);
+            Intent goToOnBoarding = new Intent(this, OnBoardingActivity.class);
             startActivity(goToOnBoarding);
         } else {
 

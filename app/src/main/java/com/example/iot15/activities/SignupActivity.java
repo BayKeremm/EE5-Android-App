@@ -1,4 +1,4 @@
-package com.example.iot15;
+package com.example.iot15.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.iot15.R;
+import com.example.iot15.activities.LoginActivity;
 
 public class SignupActivity extends AppCompatActivity {
 
