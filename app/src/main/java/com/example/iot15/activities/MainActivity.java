@@ -1,6 +1,6 @@
 package com.example.iot15.activities;
 
-import static com.example.iot15.classes.Values.GETDEVICEID;
+import static com.example.iot15.classes.Values.API_GETDEVICEID;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void retrieveDeviceId() {
         RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
-        String url= GETDEVICEID + plant.getId() + "?token=" + user.getToken();
+        String url= API_GETDEVICEID + plant.getId() + "?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             JSONObject jsonObject;
             try {

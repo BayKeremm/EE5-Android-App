@@ -1,5 +1,8 @@
 package com.example.iot15.fragments;
 
+import static com.example.iot15.classes.Values.MQTT_COMMANDS;
+import static com.example.iot15.classes.Values.MQTT_SERVER_URI;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -118,7 +121,7 @@ public class SettingsFragment extends Fragment {
                     textAutomationState.setText("Automatic");
                     fadeManualScreen();
                 }
-                mqttConnectAndPublish("/EE5iot15/commands/" + plant.getDeviceId(), mqttMessage.toString());
+                mqttConnectAndPublish(MQTT_COMMANDS + plant.getDeviceId(), mqttMessage.toString());
             }
         });
         switchWatering.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -131,7 +134,7 @@ public class SettingsFragment extends Fragment {
                     // Water off
                     changeMqttMessage(2, '0');
                 }
-                mqttConnectAndPublish("/EE5iot15/commands/" + plant.getDeviceId(), mqttMessage.toString());
+                mqttConnectAndPublish(MQTT_COMMANDS + plant.getDeviceId(), mqttMessage.toString());
             }
         });
         switchLightLevelControl.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -146,7 +149,7 @@ public class SettingsFragment extends Fragment {
                     changeMqttMessage(1, '0');
                     lightLevelControlSlider.setVisibility(View.GONE);
                 }
-                mqttConnectAndPublish("/EE5iot15/commands/" + plant.getDeviceId(), mqttMessage.toString());
+                mqttConnectAndPublish(MQTT_COMMANDS + plant.getDeviceId(), mqttMessage.toString());
             }
         });
 
@@ -171,7 +174,7 @@ public class SettingsFragment extends Fragment {
             changeMqttMessage(3, valueString.charAt(0));
             changeMqttMessage(4, valueString.charAt(1));
         }
-        mqttConnectAndPublish("/EE5iot15/commands/" + plant.getDeviceId(), mqttMessage.toString());
+        mqttConnectAndPublish(MQTT_COMMANDS + plant.getDeviceId(), mqttMessage.toString());
     }
 
     public void changeMqttMessage(int index, char status) {
@@ -181,7 +184,7 @@ public class SettingsFragment extends Fragment {
     public void mqttConnectAndPublish(String topic, String message) {
         String clientId = MqttClient.generateClientId();
         MqttAndroidClient client =
-                new MqttAndroidClient(getContext(), "tcp://broker.hivemq.com:1883",
+                new MqttAndroidClient(getContext(), MQTT_SERVER_URI,
                         clientId);
         Log.d(TAG, "starts try");
         try {
@@ -209,7 +212,7 @@ public class SettingsFragment extends Fragment {
     public void mqttConnectAndSubscribe() {
         String clientId = MqttClient.generateClientId();
         MqttAndroidClient client =
-                new MqttAndroidClient(getContext(), "tcp://broker.hivemq.com:1883",
+                new MqttAndroidClient(getContext(), MQTT_SERVER_URI,
                         clientId);
         Log.d(TAG, "starts try");
         try {
@@ -249,8 +252,7 @@ public class SettingsFragment extends Fragment {
     public void mqttSubscribe(MqttAndroidClient client) {
         int qos = 1;
         try {
-            client.subscribe("/EE5iot15/warnings/" + plant.getDeviceId(), qos);
-            client.subscribe("/EE5iot15/commands/" + plant.getDeviceId(), qos);
+            client.subscribe(MQTT_COMMANDS + plant.getDeviceId(), qos);
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
@@ -259,9 +261,7 @@ public class SettingsFragment extends Fragment {
 
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    if (topic.compareTo("/EE5iot15/warnings/" + plant.getDeviceId()) == 0) {
-                        // show warnings somewhere
-                    } else if (topic.compareTo("/EE5iot15/commands/" + plant.getDeviceId()) == 0) {
+                    if (topic.compareTo(MQTT_COMMANDS + plant.getDeviceId()) == 0) {
                         String response = new String(message.getPayload());
                         mqttMessage = new StringBuilder(response);
                         if (response.charAt(0) == '0') {
@@ -279,7 +279,7 @@ public class SettingsFragment extends Fragment {
                         }
                         lightLevelControlSlider.setValue(Integer.valueOf(mqttMessage.substring(3, 5)));
                         // once last state of app is fetched, subscribing to this topic is no longer necessary
-                        client.unsubscribe("/EE5iot15/commands");
+                        client.unsubscribe(MQTT_COMMANDS);
                     }
                 }
 

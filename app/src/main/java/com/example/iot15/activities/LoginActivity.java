@@ -1,6 +1,6 @@
 package com.example.iot15.activities;
 
-import static com.example.iot15.classes.Values.LOGIN;
+import static com.example.iot15.classes.Values.API_LOGIN;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void checkPassword(String username, String password) {
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url= LOGIN + username+ "/" +password;
+        String url= API_LOGIN + username+ "/" +password;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             try {
                 JSONObject responseJSON = new JSONObject(response);

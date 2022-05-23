@@ -1,6 +1,6 @@
 package com.example.iot15.activities;
 
-import static com.example.iot15.classes.Values.SIGNUP;
+import static com.example.iot15.classes.Values.API_SIGNUP;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,7 +16,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.iot15.R;
-import com.example.iot15.activities.LoginActivity;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -82,7 +81,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public void signUpSQL(String username, String password){
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url= SIGNUP + username + "/" + password;
+        String url= API_SIGNUP + username + "/" + password;
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
             try {
                     Intent goToLoginScreen = new Intent(this, LoginActivity.class);

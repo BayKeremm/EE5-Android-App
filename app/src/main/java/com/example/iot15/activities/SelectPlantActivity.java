@@ -1,8 +1,8 @@
 package com.example.iot15.activities;
 
-import static com.example.iot15.classes.Values.ADDPLANT;
-import static com.example.iot15.classes.Values.GETPLANTS;
-import static com.example.iot15.classes.Values.GETPLANTTYPES;
+import static com.example.iot15.classes.Values.API_ADDPLANT;
+import static com.example.iot15.classes.Values.API_GETPLANTS;
+import static com.example.iot15.classes.Values.API_GETPLANTTYPES;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -172,7 +172,7 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     private void retrievePlants() {
         RequestQueue queue= Volley.newRequestQueue(getApplicationContext());
-        String url= GETPLANTS + user.getId() + "?token=" + user.getToken();
+        String url= API_GETPLANTS + user.getId() + "?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             addJSONtoPlantList(response);
 
@@ -221,7 +221,7 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     private void retrievePlantTypes(){
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url=GETPLANTTYPES + user.getToken();
+        String url= API_GETPLANTTYPES + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -247,7 +247,7 @@ public class SelectPlantActivity extends AppCompatActivity {
 
     private void addPlant(String plantName, int plantTypeId, int deviceID){
         RequestQueue queue= Volley.newRequestQueue(this);
-        String url=ADDPLANT + user.getId() +"/" + plantTypeId +"/" + deviceID + "/" + plantName +"?token=" + user.getToken();
+        String url= API_ADDPLANT + user.getId() +"/" + plantTypeId +"/" + deviceID + "/" + plantName +"?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
         }, error -> Log.e("Volley", error.getMessage()));
 

@@ -1,9 +1,11 @@
 package com.example.iot15.fragments;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.iot15.classes.Values.GETMEASUREMENTS;
-import static com.example.iot15.classes.Values.GETPLANTTYPES;
-import static com.example.iot15.classes.Values.UPDATEPLANT;
+import static com.example.iot15.classes.Values.API_GETMEASUREMENTS;
+import static com.example.iot15.classes.Values.API_GETPLANTTYPES;
+import static com.example.iot15.classes.Values.API_UPDATEPLANT;
+import static com.example.iot15.classes.Values.MQTT_SERVER_URI;
+import static com.example.iot15.classes.Values.MQTT_WARNING;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -293,7 +295,7 @@ public class HomeFragment extends Fragment {
     private void updatePlantInfo(String plantName, int plantTypeId, String imgRef) {
         // /updateOwnedPlant/plantId/plantTypeId/imgBinary/nickname?token=logintoken
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = UPDATEPLANT + plant.getId() + "/" + plantTypeId + "/" + imgRef + "/" + plantName + "?token=" + user.getToken();
+        String url = API_UPDATEPLANT + plant.getId() + "/" + plantTypeId + "/" + imgRef + "/" + plantName + "?token=" + user.getToken();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
             plant.setPlantType(plantTypeId);
             plant.setPlantName(plantName);
@@ -325,7 +327,7 @@ public class HomeFragment extends Fragment {
     // measurementType = "Temperature", "Light" or "Moisture"
     private void retrieveMeasurements(int numberOfMeasurements, String measurementType, ProgressBar progressBar) {
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = GETMEASUREMENTS + measurementType + "/" + numberOfMeasurements + "/" + plant.getId() + "?token=" + user.getToken();
+        String url = API_GETMEASUREMENTS + measurementType + "/" + numberOfMeasurements + "/" + plant.getId() + "?token=" + user.getToken();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             // parse response to SensorData
             SensorData sensorData = parseToSensorData(response);
@@ -363,7 +365,7 @@ public class HomeFragment extends Fragment {
 
     private void retrievePlantTypes() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = GETPLANTTYPES + user.getToken();
+        String url = API_GETPLANTTYPES + user.getToken();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             try {
                 JSONArray jsonArray = new JSONArray(response);
@@ -417,7 +419,7 @@ public class HomeFragment extends Fragment {
     public void mqttConnectAndSubscribe() {
         String clientId = MqttClient.generateClientId();
         MqttAndroidClient client =
-                new MqttAndroidClient(getContext(), "tcp://broker.hivemq.com:1883",
+                new MqttAndroidClient(getContext(), MQTT_SERVER_URI,
                         clientId);
         Log.d(TAG, "starts try");
         try {
@@ -445,7 +447,7 @@ public class HomeFragment extends Fragment {
     public void mqttSubscribe(MqttAndroidClient client) {
         int qos = 1;
         try {
-            client.subscribe("/EE5iot15/warnings/" + plant.getDeviceId(), qos);
+            client.subscribe(MQTT_WARNING + plant.getDeviceId(), qos);
             client.setCallback(new MqttCallback() {
                 @Override
                 public void connectionLost(Throwable cause) {
@@ -454,10 +456,14 @@ public class HomeFragment extends Fragment {
 
                 @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    if (topic.compareTo("/EE5iot15/warnings/" + plant.getDeviceId()) == 0) {
+                    if (topic.compareTo(MQTT_WARNING + plant.getDeviceId()) == 0) {
                         String response = new String(message.getPayload());
-                        // show warnings somewhere
-                        textWarning.setText("WARNING: " + response);
+                        // show warning only if there is one
+                        Log.d("MQQT_RESPONSE", response);
+                        System.out.println("\n\n\n\nMQTT = " + response);
+                        if(response.compareTo("none") != 0){
+                            textWarning.setText("WARNING: " + response);
+                        }
                     }
                 }
 
