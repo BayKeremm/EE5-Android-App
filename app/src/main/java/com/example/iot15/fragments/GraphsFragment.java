@@ -101,7 +101,7 @@ public class GraphsFragment extends Fragment {
         String url = API_GETMEASUREMENTS + measurementType + "/" + numberOfMeasurements + "/" + plant.getId() + "?token=" + user.getToken();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             addToMeasurementList(response, sensorDataList, graphView, measurementType, graphColor, backgroundColor);
-        }, error -> Log.e("Volley", error.getMessage()));
+        }, error -> Log.e("Volley", error.toString()));
         queue.add(stringRequest);
     }
 

@@ -178,7 +178,7 @@ public class SelectPlantActivity extends AppCompatActivity {
 
             adapter = new ArrayAdapter(SelectPlantActivity.this, android.R.layout.simple_list_item_1, listNamePlants);
             plantListView.setAdapter(adapter);
-        }, error -> Log.e("Volley", error.getMessage()));
+        }, error -> Log.e("Volley", error.toString()));
 
         queue.add(stringRequest);
     }
@@ -240,7 +240,7 @@ public class SelectPlantActivity extends AppCompatActivity {
             catch (Exception e){
                 e.printStackTrace();
             }
-        }, error -> Log.e("Volley", error.getMessage()));
+        }, error -> Log.e("Volley", error.toString()));
 
         queue.add(stringRequest);
     }
@@ -249,7 +249,7 @@ public class SelectPlantActivity extends AppCompatActivity {
         RequestQueue queue= Volley.newRequestQueue(this);
         String url= API_ADDPLANT + user.getId() +"/" + plantTypeId +"/" + deviceID + "/" + plantName +"?token=" + user.getToken();
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url, response -> {
-        }, error -> Log.e("Volley", error.getMessage()));
+        }, error -> Log.e("Volley", error.toString()));
 
         queue.add(stringRequest);
     }

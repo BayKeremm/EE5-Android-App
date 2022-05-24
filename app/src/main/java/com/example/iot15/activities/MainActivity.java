@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }, error -> Log.e("Volley", error.getMessage()));
+        }, error -> Log.e("Volley", error.toString()));
 
         queue.add(stringRequest);
     }

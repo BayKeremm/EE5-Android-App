@@ -302,7 +302,7 @@ public class HomeFragment extends Fragment {
 
             String editTextNameString = editTextName.getText().toString();
             plantNameText.setText(editTextNameString);
-        }, error -> Log.e("Volley", error.getMessage()));
+        }, error -> Log.e("Volley", error.toString()));
 
         queue.add(stringRequest);
     }
@@ -334,7 +334,7 @@ public class HomeFragment extends Fragment {
             textLastModified.setText("Last Modified: " + sensorData.getTimestamp());
             // display this SensorData on progressBar
             progressBar.setProgress((int) sensorData.getValue());
-        }, error -> Log.e("Volley", error.getMessage()));
+        }, error -> Log.e("Volley", error.toString()));
         queue.add(stringRequest);
     }
 
@@ -384,7 +384,7 @@ public class HomeFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, error -> Log.e("Volley", error.getMessage()));
+        }, error -> Log.e("Volley", error.toString()));
 
         queue.add(stringRequest);
     }
