@@ -36,7 +36,7 @@ public class GraphsFragment extends Fragment {
 
     private User user;
     private Plant plant;
-    public static final int NUMBER_OF_MEASUREMENTS_TO_DISPLAY = 10;
+    public static final int NUMBER_OF_MEASUREMENTS_TO_DISPLAY = 5;
     public static final int TIME_INTERVAL_MEASUREMENTS = 2;
 
     private TextView plantNameText;
@@ -132,7 +132,7 @@ public class GraphsFragment extends Fragment {
             // add new DataPoint object to the array for each of your list entries
             //dataPoints[i] = new DataPoint(i, sensorDataList.get(i).getValue()); // original
             //TODO temp:
-            dataPoints[i] = new DataPoint(-(NUMBER_OF_MEASUREMENTS_TO_DISPLAY-1-i)*TIME_INTERVAL_MEASUREMENTS, sensorDataList.get(i).getValue());
+            dataPoints[i] = new DataPoint(-(sensorDataList.size()-1-i)*TIME_INTERVAL_MEASUREMENTS, sensorDataList.get(i).getValue());
         }
         LineGraphSeries<DataPoint> graphData = new LineGraphSeries<>(dataPoints);
         // set layout + add data points graph

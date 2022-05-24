@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp">
 
         <TextView
             android:id="@+id/select_plant"
@@ -35,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/select_plant"
-            app:layout_constraintWidth_percent="0.7"></ListView>
+            app:layout_constraintWidth_percent="0.7" />
 
         <Button
             android:id="@+id/addPlantButton"
@@ -48,7 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/plant_listview"
-            app:layout_constraintWidth_percent="0.7"></Button>
+            app:layout_constraintWidth_percent="0.7" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
