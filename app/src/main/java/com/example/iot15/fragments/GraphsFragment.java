@@ -22,6 +22,7 @@ import com.example.iot15.classes.Plant;
 import com.example.iot15.classes.SensorData;
 import com.example.iot15.classes.User;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -131,7 +132,7 @@ public class GraphsFragment extends Fragment {
             // add new DataPoint object to the array for each of your list entries
             //dataPoints[i] = new DataPoint(i, sensorDataList.get(i).getValue()); // original
             //TODO temp:
-            dataPoints[i] = new DataPoint(-(NUMBER_OF_MEASUREMENTS_TO_DISPLAY -1-i)*TIME_INTERVAL_MEASUREMENTS, sensorDataList.get(i).getValue());
+            dataPoints[i] = new DataPoint(-(NUMBER_OF_MEASUREMENTS_TO_DISPLAY-1-i)*TIME_INTERVAL_MEASUREMENTS, sensorDataList.get(i).getValue());
         }
         LineGraphSeries<DataPoint> graphData = new LineGraphSeries<>(dataPoints);
         // set layout + add data points graph
@@ -139,7 +140,12 @@ public class GraphsFragment extends Fragment {
         graphView.setTitle(title);
         graphView.setTitleColor(textColor);
         graphView.setTitleTextSize(50);
+
+        GridLabelRenderer gridLabel = graphView.getGridLabelRenderer();
+        gridLabel.setHorizontalAxisTitle( "Minutes");
+
         graphView.addSeries(graphData);
+
         graphData.setColor(graphColor);
         graphData.setBackgroundColor(backgroundColor);
         graphData.setDrawBackground(true);
