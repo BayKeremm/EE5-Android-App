@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-        }, error -> Log.e("Volley", error.getMessage()));
+        }, error -> Log.e("Volley", error.toString()));
 
         queue.add(stringRequest);
     }
