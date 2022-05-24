@@ -90,23 +90,23 @@ public class GraphsFragment extends Fragment {
     }
 
     private void retrieveData() {
-        retrieveMeasurements(NUMBER_OF_MEASUREMENTS_TO_DISPLAY, "Moisture", sensorDataListWater, graphWater, waterColor, waterBackColor);
-        retrieveMeasurements(NUMBER_OF_MEASUREMENTS_TO_DISPLAY, "Temperature", sensorDataListTemperature, graphTemperature, temperatureColor, temperatureBackColor);
-        retrieveMeasurements(NUMBER_OF_MEASUREMENTS_TO_DISPLAY, "Light", sensorDataListLight, graphLight, lightColor, lightBackColor);
+        retrieveMeasurements(NUMBER_OF_MEASUREMENTS_TO_DISPLAY, "Moisture", "%", sensorDataListWater, graphWater, waterColor, waterBackColor);
+        retrieveMeasurements(NUMBER_OF_MEASUREMENTS_TO_DISPLAY, "Temperature", "°C", sensorDataListTemperature, graphTemperature, temperatureColor, temperatureBackColor);
+        retrieveMeasurements(NUMBER_OF_MEASUREMENTS_TO_DISPLAY, "Light", "%", sensorDataListLight, graphLight, lightColor, lightBackColor);
     }
 
     // measurementType = "Temperature", "Light" or "Moisture"
-    private void retrieveMeasurements(int numberOfMeasurements, String measurementType, List<SensorData> sensorDataList, GraphView graphView, int graphColor, int backgroundColor) {
+    private void retrieveMeasurements(int numberOfMeasurements, String measurementType, String unit, List<SensorData> sensorDataList, GraphView graphView, int graphColor, int backgroundColor) {
         RequestQueue queue = Volley.newRequestQueue(getContext());
         String url = API_GETMEASUREMENTS + measurementType + "/" + numberOfMeasurements + "/" + plant.getId() + "?token=" + user.getToken();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
-            addToMeasurementList(response, sensorDataList, graphView, measurementType, graphColor, backgroundColor);
+            addToMeasurementList(response, sensorDataList, graphView, measurementType, unit, graphColor, backgroundColor);
         }, error -> Log.e("Volley", error.toString()));
         queue.add(stringRequest);
     }
 
     // parse multiple SensorData and add to specified list
-    private void addToMeasurementList(String response, List<SensorData> sensorDataList, GraphView graphView, String title, int graphColor, int backgroundColor) {
+    private void addToMeasurementList(String response, List<SensorData> sensorDataList, GraphView graphView, String title, String unit, int graphColor, int backgroundColor) {
         try {
             sensorDataList.clear();
             JSONArray jsonArray = new JSONArray(response);
@@ -119,30 +119,33 @@ public class GraphsFragment extends Fragment {
                 sensorData.setValue(tempObject.getDouble("value"));
                 sensorDataList.add(sensorData);
             }
-            displayGraph(sensorDataList, graphView, title, graphColor, backgroundColor);
+            System.out.println("sensorDataList size: " + sensorDataList.size());
+            displayGraph(sensorDataList, graphView, title, unit, graphColor, backgroundColor);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void displayGraph(List<SensorData> sensorDataList, GraphView graphView, String title, int graphColor, int backgroundColor) {
+    private void displayGraph(List<SensorData> sensorDataList, GraphView graphView, String title, String unit, int graphColor, int backgroundColor) {
         // add data to graph view
         DataPoint[] dataPoints = new DataPoint[sensorDataList.size()]; // declare an array of DataPoint objects with the same size as your list
         for (int i = 0; i < sensorDataList.size(); i++) {
             // add new DataPoint object to the array for each of your list entries
             //dataPoints[i] = new DataPoint(i, sensorDataList.get(i).getValue()); // original
             //TODO temp:
-            dataPoints[i] = new DataPoint(-(NUMBER_OF_MEASUREMENTS_TO_DISPLAY-1-i)*TIME_INTERVAL_MEASUREMENTS, sensorDataList.get(i).getValue());
+            dataPoints[i] = new DataPoint(-(sensorDataList.size()-1-i)*TIME_INTERVAL_MEASUREMENTS, sensorDataList.get(i).getValue());
         }
         LineGraphSeries<DataPoint> graphData = new LineGraphSeries<>(dataPoints);
         // set layout + add data points graph
         graphView.removeAllSeries();
+
+        title += " (" + unit + ")";
         graphView.setTitle(title);
         graphView.setTitleColor(textColor);
         graphView.setTitleTextSize(50);
 
         GridLabelRenderer gridLabel = graphView.getGridLabelRenderer();
-        gridLabel.setHorizontalAxisTitle( "Minutes");
+        gridLabel.setHorizontalAxisTitle("Minutes");
 
         graphView.addSeries(graphData);
 
