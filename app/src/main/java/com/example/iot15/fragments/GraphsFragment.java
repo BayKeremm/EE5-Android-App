@@ -35,7 +35,8 @@ public class GraphsFragment extends Fragment {
 
     private User user;
     private Plant plant;
-    public static final int NUMBER_OF_MEASUREMENT_TO_DISPLAY = 10;
+    public static final int NUMBER_OF_MEASUREMENTS_TO_DISPLAY = 10;
+    public static final int TIME_INTERVAL_MEASUREMENTS = 2;
 
     private TextView plantNameText;
     private GraphView graphWater;
@@ -88,9 +89,9 @@ public class GraphsFragment extends Fragment {
     }
 
     private void retrieveData() {
-        retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Moisture", sensorDataListWater, graphWater, waterColor, waterBackColor);
-        retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Temperature", sensorDataListTemperature, graphTemperature, temperatureColor, temperatureBackColor);
-        retrieveMeasurements(NUMBER_OF_MEASUREMENT_TO_DISPLAY, "Light", sensorDataListLight, graphLight, lightColor, lightBackColor);
+        retrieveMeasurements(NUMBER_OF_MEASUREMENTS_TO_DISPLAY, "Moisture", sensorDataListWater, graphWater, waterColor, waterBackColor);
+        retrieveMeasurements(NUMBER_OF_MEASUREMENTS_TO_DISPLAY, "Temperature", sensorDataListTemperature, graphTemperature, temperatureColor, temperatureBackColor);
+        retrieveMeasurements(NUMBER_OF_MEASUREMENTS_TO_DISPLAY, "Light", sensorDataListLight, graphLight, lightColor, lightBackColor);
     }
 
     // measurementType = "Temperature", "Light" or "Moisture"
@@ -128,7 +129,9 @@ public class GraphsFragment extends Fragment {
         DataPoint[] dataPoints = new DataPoint[sensorDataList.size()]; // declare an array of DataPoint objects with the same size as your list
         for (int i = 0; i < sensorDataList.size(); i++) {
             // add new DataPoint object to the array for each of your list entries
-            dataPoints[i] = new DataPoint(i, sensorDataList.get(i).getValue());
+            //dataPoints[i] = new DataPoint(i, sensorDataList.get(i).getValue()); // original
+            //TODO temp:
+            dataPoints[i] = new DataPoint(-(NUMBER_OF_MEASUREMENTS_TO_DISPLAY -1-i)*TIME_INTERVAL_MEASUREMENTS, sensorDataList.get(i).getValue());
         }
         LineGraphSeries<DataPoint> graphData = new LineGraphSeries<>(dataPoints);
         // set layout + add data points graph

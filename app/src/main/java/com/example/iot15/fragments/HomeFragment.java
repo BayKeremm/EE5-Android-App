@@ -460,8 +460,11 @@ public class HomeFragment extends Fragment {
                         // show warning only if there is one
                         Log.d("MQQT_RESPONSE", response);
                         System.out.println("\n\n\n\nMQTT = " + response);
-                        if(response.compareTo("none") != 0){
+                        if(response.compareTo("None") != 0){
+                            textWarning.setVisibility(View.VISIBLE);
                             textWarning.setText("WARNING: " + response);
+                        } else {
+                            textWarning.setVisibility(View.GONE);
                         }
                     }
                 }
