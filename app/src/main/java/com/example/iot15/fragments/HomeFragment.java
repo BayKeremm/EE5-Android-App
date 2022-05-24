@@ -458,13 +458,11 @@ public class HomeFragment extends Fragment {
                     if (topic.compareTo(MQTT_WARNING + plant.getDeviceId()) == 0) {
                         String response = new String(message.getPayload());
                         // show warning only if there is one
-                        Log.d("MQQT_RESPONSE", response);
-                        System.out.println("\n\n\n\nMQTT = " + response);
                         if(response.equals("None")){
                             textWarning.setVisibility(View.GONE);
                         } else {
                             textWarning.setVisibility(View.VISIBLE);
-                            textWarning.setText("WARNING: " + response);
+                            textWarning.setText("WARNINGS: " + response);
                         }
                     }
                 }

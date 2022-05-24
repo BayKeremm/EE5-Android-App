@@ -119,7 +119,6 @@ public class GraphsFragment extends Fragment {
                 sensorData.setValue(tempObject.getDouble("value"));
                 sensorDataList.add(sensorData);
             }
-            System.out.println("sensorDataList size: " + sensorDataList.size());
             displayGraph(sensorDataList, graphView, title, unit, graphColor, backgroundColor);
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,11 +132,15 @@ public class GraphsFragment extends Fragment {
             // add new DataPoint object to the array for each of your list entries
             //dataPoints[i] = new DataPoint(i, sensorDataList.get(i).getValue()); // original
             //TODO temp:
-            dataPoints[i] = new DataPoint(-(sensorDataList.size()-1-i)*TIME_INTERVAL_MEASUREMENTS, sensorDataList.get(i).getValue());
+            dataPoints[i] = new DataPoint(-(NUMBER_OF_MEASUREMENTS_TO_DISPLAY-1-i)*TIME_INTERVAL_MEASUREMENTS, sensorDataList.get(i).getValue());
         }
         LineGraphSeries<DataPoint> graphData = new LineGraphSeries<>(dataPoints);
         // set layout + add data points graph
         graphView.removeAllSeries();
+
+        for(int i = 0; i<dataPoints.length;i++){
+            System.out.println("Datapoint: " + "test");
+        }
 
         title += " (" + unit + ")";
         graphView.setTitle(title);
